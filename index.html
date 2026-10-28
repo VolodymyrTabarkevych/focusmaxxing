@@ -2955,7 +2955,10 @@ function renderStats(st, now){
   const ds = focusOf(sum);
   $('focusDay').hidden = !ds;
   $('focusSum').hidden = !!ds;
-  $('focusSum').textContent = live && (span === 'day' || !first) ? L('Статистика з’явиться, щойно почнеться урок.', 'Stats will show up once a lesson starts.') : noDataTxt(span);
+  // before the lessons the day may already have a reserve ("Почати зараз"): it shows here until there is a result
+  $('focusSum').textContent = span === 'day' && sum.res >= 30
+    ? L('У резерві ' + durTxt(sum.res) + ': він закриє пропуски на уроках ' + (live ? 'сьогодні' : 'цього дня') + '.', 'In the reserve: ' + durTxt(sum.res) + '. It will cover time away from ' + (live ? 'today’s' : 'that day’s') + ' lessons.')
+    : live && (span === 'day' || !first) ? L('Статистика з’явиться, щойно почнеться урок.', 'Stats will show up once a lesson starts.') : noDataTxt(span);
   if(ds){
     const n = span === 'day' ? 0 : keys.filter(k => dayScore(F.days[k])).length;
     $('fdayWhat').textContent = whatTxt(span);
