@@ -209,6 +209,8 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 .now-right{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
 .now-setup{display:flex;align-items:center;flex-wrap:wrap;gap:10px 24px}
 .today-ctl{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;font-size:14px;color:var(--ink-2)}
+/* work before the first bell or after the last one, counted into the focus reserve */
+.extra{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font-size:13px;color:var(--ink-2)}
 /* focus tracking */
 .focus-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:600;color:var(--ink-2)}
 .fdot{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
@@ -223,6 +225,7 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 .fstack .f,.fstat-l .f{--c:var(--ok)}
 .fstack .d,.fstat-l .d{--c:var(--mid)}
 .fstack .a,.fstat-l .a{--c:var(--bad)}
+.fstack .r,.fstat-l .r{--c:color-mix(in srgb,var(--ok) 45%,var(--track))}
 .fstack i,.fstat-l i{background:var(--c)}
 /* the result: the percentage, what it is and the grade on one row, the details under it */
 .fday{display:flex;flex-direction:column;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:calc(var(--r) * .5)}
@@ -741,6 +744,10 @@ input[type=range]{accent-color:var(--accent);width:100%}
         <div class="now-info">
           <div class="count-sub" id="countSub">до перерви о 10:45</div>
           <div class="next" id="next">Далі перерва 15 хв, потім урок 4 об 11:00</div>
+          <div class="extra" id="extra" hidden>
+            <button class="btn sm primary" id="extraBtn" type="button">Почати зараз</button>
+            <span class="extra-note" id="extraNote"></span>
+          </div>
         </div>
       </div>
       <div class="bar" id="bar"><div class="bar-fill" id="barFill"></div></div>
@@ -837,6 +844,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <div class="fnum"><div class="fstat-v" id="fnumD"></div><div class="fstat-l"><i class="d"></i>відволікання</div></div>
           <div class="fnum"><div class="fstat-v" id="fnumA"></div><div class="fstat-l"><i class="a"></i>не було</div></div>
         </div>
+        <div class="fstat-l fday-line" id="fdayRes" title="Робота поза уроками: на перервах, до першого дзвінка й після уроків. Закриває час, коли тебе не було на уроках того самого дня; телефон не закриває." hidden><i class="r"></i><span id="fdayResT"></span></div>
       </div>
       <p class="focus-sum" id="focusSum"></p>
       <div class="fcharts" id="focusCharts" hidden>
@@ -955,7 +963,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
         <div class="row"><select id="fPhoneSound"></select><button class="btn icon" type="button" id="fPhoneSoundTry" aria-label="Прослухати звук про телефон"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button></div>
         <label class="lbl" for="fStandSound">Звук, коли пора встати на перерві</label>
         <div class="row"><select id="fStandSound"></select><button class="btn icon" type="button" id="fStandSoundTry" aria-label="Прослухати звук нагадування встати"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button></div>
-        <p class="fine">Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Робота за столом на перерві додається до фокусу, а короткі виходи з уроку, до 5 хвилин, у фокусі не рахуються. Час уроку, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено), іде в «не було»; день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.</p>
+        <p class="fine">Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Робота за столом на перервах, а також до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі») іде в резерв: він закриває час, коли тебе не було на уроках того самого дня, але не телефон. Короткі виходи з уроку, до 5 хвилин, у фокусі не рахуються. Час уроку, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено), іде в «не було»; день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.</p>
       </fieldset>
     </form>
   </details>
@@ -1032,7 +1040,8 @@ const EN = {
   'День':'Day', 'Тиждень':'Week', 'Тижд.':'Week', 'Місяць':'Month', 'Міс.':'Month', 'Усе':'All',
   'Раніше':'Earlier', 'Пізніше':'Later', 'Сьогодні':'Today', 'підсумок дня':'day summary',
   'Оцінка за 12-бальною шкалою':'Grade on a 12-point scale', 'за роботою':'working', 'відволікання':'distracted', 'не було':'away',
-  'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today',
+  'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
+  'Робота поза уроками: на перервах, до першого дзвінка й після уроків. Закриває час, коли тебе не було на уроках того самого дня; телефон не закриває.':'Work outside lessons: on breaks, before the first bell and after lessons. It covers lesson time you were away for on the same day; it doesn’t cover the phone.',
   'Подивись на екран і натисни; повтори для кожного екрана':'Look at the screen and press; repeat for each screen',
   'Запам’ятати екран':'Remember screen', 'Забути екрани':'Forget screens',
   'Тіло':'Body', 'Я сиджу рівно':'I’m sitting straight', ': постава й розминка':': posture & stretching',
@@ -1057,7 +1066,7 @@ const EN = {
   'Звук нагадування про поставу':'Posture reminder sound', 'Прослухати звук нагадування про поставу':'Play the posture reminder sound',
   'Звук, коли береш телефон на уроці':'Sound when you pick up your phone in a lesson', 'Прослухати звук про телефон':'Play the phone sound',
   'Звук, коли пора встати на перерві':'Sound when it’s time to get up on a break', 'Прослухати звук нагадування встати':'Play the get-up sound',
-  "Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Робота за столом на перерві додається до фокусу, а короткі виходи з уроку, до 5 хвилин, у фокусі не рахуються. Час уроку, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено), іде в «не було»; день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.":'A distraction is a phone in your hands, or talking while turned away from your screens. Talking in front of a screen is a meeting, and where you look in silence doesn’t matter: thinking is work too. Desk work on a break adds to your focus, while short exits from a lesson, up to 5 minutes, don’t count. Lesson time the app recorded nothing for (the tab closed, the computer asleep, the camera off) counts as away; a day you never opened the app stays without data. Posture and stretching get their own grade in the “Body” card: a stretch counts when you get up for at least 3 minutes on a break or in the lesson before it. Screens are remembered in the “Focus” card. Everything is counted on this computer: no video is sent or saved anywhere, only minutes.',
+  "Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Робота за столом на перервах, а також до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі») іде в резерв: він закриває час, коли тебе не було на уроках того самого дня, але не телефон. Короткі виходи з уроку, до 5 хвилин, у фокусі не рахуються. Час уроку, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено), іде в «не було»; день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.":'A distraction is a phone in your hands, or talking while turned away from your screens. Talking in front of a screen is a meeting, and where you look in silence doesn’t matter: thinking is work too. Desk work on breaks, and before the first bell or after lessons (the “Start now” and “Keep working” buttons), goes into the reserve: it covers lesson time you were away for on the same day, but not the phone. Short exits from a lesson, up to 5 minutes, don’t count. Lesson time the app recorded nothing for (the tab closed, the computer asleep, the camera off) counts as away; a day you never opened the app stays without data. Posture and stretching get their own grade in the “Body” card: a stretch counts when you get up for at least 3 minutes on a break or in the lesson before it. Screens are remembered in the “Focus” card. Everything is counted on this computer: no video is sent or saved anywhere, only minutes.',
 };
 const UI_TEXT = [], UI_ATTR = [];
 {
@@ -2391,6 +2400,7 @@ function loadFocus(){
     for(const b of Object.values(day)) if(b && typeof b === 'object') for(const x in b) if(typeof b[x] === 'number') b[x] = Math.round(b[x]);
   }
   delete base.idle; delete base.base; // options of the first beta, no longer used
+  if(!base.extra || base.extra.day !== today) base.extra = null; // "Почати зараз" lasts only for its day
   return base;
 }
 function saveFocus(){ try{ localStorage.setItem(FKEY, JSON.stringify(F)); }catch(e){} }
@@ -2456,11 +2466,11 @@ function stopCam(){
   pauseCam();
   for(const k of ['face', 'phone']) if(FS[k]){ try{ FS[k].close(); }catch(e){} FS[k] = null; }
 }
-// The camera is only needed on lessons and breaks (a day off counts only with "Дзвінки сьогодні"),
-// while its setup is open, or while "Я сиджу рівно" learns the posture; the rest of the time it is off.
+// The camera is only needed on lessons and breaks (a day off counts only with "Дзвінки сьогодні"), before or after
+// them with "Почати зараз", while its setup is open, or while "Я сиджу рівно" learns the posture; otherwise it is off.
 function syncCam(st){
   if(FS.starting) return;
-  const want = F.cam && (FS.setupOpen || !!FS.postureCap || st.mode === 'lesson' || st.mode === 'break');
+  const want = F.cam && (FS.setupOpen || !!FS.postureCap || st.mode === 'lesson' || st.mode === 'break' || extraOn(st));
   if(want && (!FS.stream || !FS.face)) startCam();
   else if(!want && FS.stream) pauseCam();
 }
@@ -2528,6 +2538,9 @@ function classifyCam(face, now){
   return FS.state || 'focused';
 }
 function periodKey(st){ return st.mode === 'lesson' ? 'L' + st.p.n : st.mode === 'break' ? 'B' + st.p.n : null; }
+// "Почати зараз" before the first bell or "Працювати далі" after the last one: until the lessons start (or the day
+// ends) the camera keeps counting, into the day's reserve (R). It is for that part of that day only.
+const extraOn = (st) => !!F.extra && F.extra.day === dayKey(new Date()) && F.extra.part === st.mode;
 
 // Posture: compared with the moment you pressed "Я сиджу рівно". Slouching = the head drops lower in
 // the frame, comes closer to the screen, or tilts to a side, and stays like that for 20 s (lessons only).
@@ -2640,7 +2653,7 @@ function sampleFocus(){
   // the time since the previous sample belongs to the previous state; a longer gap is the app not running (gapOf),
   // except in a background tab, where the browser may hold the timer back for up to a minute
   if(FS.last && FS.state){
-    const st = stateAt(now), pk = periodKey(st);
+    const st = stateAt(now), pk = periodKey(st) || (extraOn(st) ? 'R' : null);
     if(pk){
       const dk = dayKey(new Date(now)), day = F.days[dk] || (F.days[dk] = {});
       day.plan = lessonTimes(st.plan);
@@ -2679,19 +2692,37 @@ const fTotal = (b) => b.f + b.d + b.a + (b.i || 0) + (b.u || 0);
 // A break and the lesson before it (B3 follows L3) make one stretch: you got up in it after 3 min away from the
 // desk in all, on the break or on the lesson, short exits included (or half the break, if less of it was recorded).
 const STOOD = 180;
+// The reserve is a day's work outside its lessons: at the desk on breaks, and before or after the lessons with
+// "Почати зараз". It covers that day's time away from lessons (long exits and time not recorded; not the phone),
+// lesson by lesson in their order, as far as it goes. res: the reserve, by: how much of each lesson it covered.
+const lessonKeys = (day) => [...new Set([...Object.keys(day.plan || {}), ...Object.keys(day).filter(k => k[0] === 'L')])].sort((x, y) => x.slice(1) - y.slice(1));
+function coverOf(day, now){
+  let res = 0;
+  for(const [k, b] of Object.entries(day)) if((k[0] === 'B' || k === 'R') && b) res += (b.f || 0) + (b.i || 0);
+  const by = {};
+  let left = res;
+  for(const k of lessonKeys(day)){
+    const c = Math.min(left, (day[k] ? day[k].a || 0 : 0) + gapOf(day, k, now));
+    if(c > 0){ by[k] = c; left -= c; }
+  }
+  return {res, cov:res - left, by};
+}
 // Seconds per state over any set of days: lessons (tot, with u for the time nothing was recorded), breaks (brk),
-// posture on lessons (pg/pb), and the stretches with break data (bn) and the ones you got up in (bup).
+// work before or after the lessons (ext), the reserve and how much of it covered time away (res, cov), posture on
+// lessons (pg/pb), and the stretches with break data (bn) and the ones you got up in (bup).
 function sumDays(days, now = Date.now()){
-  const s = {tot:{f:0, d:0, a:0, i:0, x:0, u:0}, brk:{f:0, d:0, a:0, i:0}, pg:0, pb:0, bn:0, bup:0};
+  const s = {tot:{f:0, d:0, a:0, i:0, x:0, u:0}, brk:{f:0, d:0, a:0, i:0}, ext:{f:0, d:0, a:0, i:0}, res:0, cov:0, pg:0, pb:0, bn:0, bup:0};
   for(const day of days){
     if(!day) continue;
     if(day.plan) for(const k in day.plan) s.tot.u += gapOf(day, k, now);
+    const c = coverOf(day, now);
+    s.res += c.res; s.cov += c.cov;
     for(const [k, b] of Object.entries(day)){
-      const into = k[0] === 'L' ? s.tot : k[0] === 'B' ? s.brk : null;
+      const into = k[0] === 'L' ? s.tot : k[0] === 'B' ? s.brk : k === 'R' ? s.ext : null;
       if(!into) continue;
       for(const x in into) into[x] += b[x] || 0;
       if(k[0] === 'L'){ s.pg += b.pg || 0; s.pb += b.pb || 0; }
-      else if(fTotal(b) > 60){
+      else if(k[0] === 'B' && fTotal(b) > 60){
         const l = day['L' + k.slice(1)], out = b.a + (l ? l.a + (l.x || 0) : 0);
         s.bn++;
         if(out >= Math.min(STOOD, fTotal(b) / 2)) s.bup++;
@@ -2701,14 +2732,14 @@ function sumDays(days, now = Date.now()){
   return s;
 }
 // Two results, each with its own grade on the 12-point school scale:
-// the focus is the share of time at work: all of the lessons (phone, talk and long exits pull it down) plus the
-// work done at the desk on breaks, which only adds; a break spent on the phone or away is not held against it.
+// the focus is the share of the lessons' time at work (phone, talk and long exits pull it down), where the day's
+// reserve stands in for time away; a break spent on the phone or away is not held against it.
 // The body is how straight you sat on lessons and how many stretches you got up in, the two weighing the same.
 // Over a week or a month every second (and every break) counts the same, so a full day weighs more than one short lesson.
 const toneOf = (v) => v >= .8 ? 'ok' : v >= .6 ? 'mid' : 'bad';
 const graded = (score) => ({score, grade:Math.max(1, Math.min(12, Math.round(score * 12))), tone:toneOf(score)});
-const workOf = ({tot, brk}) => tot.f + tot.i + brk.f + brk.i;
-const focusOf = (s) => fTotal(s.tot) < 60 ? null : graded(workOf(s) / (fTotal(s.tot) + s.brk.f + s.brk.i));
+const workOf = ({tot, cov}) => tot.f + tot.i + cov;
+const focusOf = (s) => fTotal(s.tot) < 60 ? null : graded(workOf(s) / fTotal(s.tot));
 function bodyOf({pg, pb, bn, bup}){
   const posture = pg + pb > 60 ? pg / (pg + pb) : null, breaks = bn ? bup / bn : null;
   const parts = [posture, breaks].filter(v => v !== null);
@@ -2933,10 +2964,14 @@ function renderStats(st, now){
     $('fdayOut').textContent = L('виходи ', 'exits ') + durTxt(tot.x);
     $('fdayOut').title = L('Короткі виходи з уроків, до 5 хвилин: не рахуються ні за фокус, ні проти', 'Short exits from lessons, up to 5 minutes: they count neither for nor against the focus');
     $('fdayParts').textContent = L('за роботою', 'working') + (n ? ' · ' + daysTxt(n) : '');
-    // the three add up to the result: work on lessons and breaks, distracted and away on lessons only
-    durInto($('fnumF'), workOf(sum)); durInto($('fnumD'), tot.d); durInto($('fnumA'), tot.a + tot.u);
-    $('fnumF').parentElement.title = L('на уроках ', 'in lessons ') + durTxt(tot.f + tot.i) + L(', на перервах ', ', on breaks ') + durTxt(sum.brk.f + sum.brk.i);
-    $('fnumA').parentElement.title = tot.u ? L('камера тебе не бачила ', 'not seen by the camera ') + durTxt(tot.a) + L(', апка не записувала ', ', the app wasn’t recording ') + durTxt(tot.u) : '';
+    // the three add up to the lessons' time: work (with what the reserve covered), distracted, and away (without it)
+    durInto($('fnumF'), workOf(sum)); durInto($('fnumD'), tot.d); durInto($('fnumA'), tot.a + tot.u - sum.cov);
+    $('fnumF').parentElement.title = L('на уроках ', 'in lessons ') + durTxt(tot.f + tot.i) + (sum.cov ? L(', з резерву ', ', from the reserve ') + durTxt(sum.cov) : '');
+    $('fnumA').parentElement.title = [tot.u ? L('камера тебе не бачила ', 'not seen by the camera ') + durTxt(tot.a) + L(', апка не записувала ', ', the app wasn’t recording ') + durTxt(tot.u) : '',
+      sum.cov ? L('резерв закрив ', 'the reserve covered ') + durTxt(sum.cov) + L(', тут їх уже нема', ', left out here') : ''].filter(Boolean).join('; ');
+    // the reserve: work outside the lessons, and how much of it stood in for time away
+    $('fdayRes').hidden = sum.res < 60;
+    $('fdayResT').textContent = L('резерв ', 'reserve ') + durTxt(sum.res) + ' · ' + (sum.cov >= 30 ? L('закрив ', 'covered ') + durTxt(sum.cov) + L(' пропусків', ' of time away') : L('пропусків не було', 'no time away to cover'));
     $('fdayGrade').textContent = ds.grade;
     $('fdayGrade').dataset.tone = ds.tone;
     $('fdayGrade').setAttribute('aria-label', L('Оцінка фокусу: ' + ds.grade + ' з 12', 'Focus grade: ' + ds.grade + ' of 12'));
@@ -2953,13 +2988,15 @@ function renderStats(st, now){
     if(day.plan) for(const k in day.plan) ends[k] = day.plan[k][1];
     else for(const p of plan) if(p.kind === 'lesson') ends['L' + p.n] = p.end;
     const lessons = [...new Set([...Object.keys(ends), ...Object.keys(day).filter(k => k[0] === 'L')])].sort((x, y) => x.slice(1) - y.slice(1));
+    const cover = coverOf(day, now).by;
     for(const k of lessons){
       const bk = day[k] || {f:0, d:0, a:0}, u = gapOf(day, k, now), t = fTotal(bk) + u, name = L('Урок ', 'Lesson ') + k.slice(1);
       if(t <= 20){ cols.push(emptyCol(k.slice(1), ends[k] && now < ends[k] ? 'up' : 'miss', k === curKey, name)); continue; }
-      const f = (bk.f + (bk.i || 0)) / t, away = (bk.a + u) / t, out = bk.x >= 60 ? L(', короткі виходи ', ', short exits ') + durTxt(bk.x) + L(' (не рахуються)', ' (not counted)') : '';
+      // the part of the time away that the reserve covered sits on top of the work, in a paler colour
+      const f = (bk.f + (bk.i || 0)) / t, r = (cover[k] || 0) / t, away = (bk.a + u) / t - r, out = bk.x >= 60 ? L(', короткі виходи ', ', short exits ') + durTxt(bk.x) + L(' (не рахуються)', ' (not counted)') : '';
       const off = u ? L(' (апка не записувала ', ' (the app wasn’t recording for ') + durTxt(u) + ')' : '';
-      cols.push(chartCol(k.slice(1), Math.round(f * 100), [['f', f], ['d', bk.d / t], ['a', away]],
-        {cls:k === curKey ? ' cur' : '', title:name + L(': за роботою ', ': working ') + pctTxt(f) + L(', відволікання ', ', distracted ') + pctTxt(bk.d / t) + L(', не було ', ', away ') + pctTxt(away) + off + out}));
+      cols.push(chartCol(k.slice(1), Math.round((f + r) * 100), [['f', f], ['r', r], ['d', bk.d / t], ['a', away]],
+        {cls:k === curKey ? ' cur' : '', title:name + L(': за роботою ', ': working ') + pctTxt(f) + (r ? L(', з резерву ', ', from the reserve ') + pctTxt(r) : '') + L(', відволікання ', ', distracted ') + pctTxt(bk.d / t) + L(', не було ', ', away ') + pctTxt(away) + off + out}));
     }
     any = cols.length > 0;
   }else if(span === 'week'){
@@ -2999,7 +3036,8 @@ function applyFocusFold(){
 function renderFocusNow(){ FS.renderAt = 0; renderFocus(stateAt(Date.now())); }
 function renderFocus(st){
   syncCam(st);
-  const on = F.cam, now = Date.now(), inDay = st.mode === 'lesson' || st.mode === 'break';
+  // inDay: the camera is counting, on a lesson or break, or before or after them into the reserve
+  const on = F.cam, now = Date.now(), ext = extraOn(st), inDay = st.mode === 'lesson' || st.mode === 'break' || ext;
   $('focusCard').hidden = !on && !FS.err;
   $('bodyCard').hidden = !on;
   $('focusPill').hidden = !on || !inDay || !FS.state;
@@ -3023,6 +3061,18 @@ function renderFocus(st){
       const pct = t > 20 ? ' · ' + Math.round((b.f + (b.i || 0)) / t * 100) + '%' : '';
       $('focusText').textContent = label + pct;
     }
+  }
+  // before the first bell or after the last one, work can go into the reserve; it needs the camera
+  const part = on && (st.mode === 'before' || st.mode === 'after');
+  $('extra').hidden = !part;
+  if(part){
+    const r = day.R, before = st.mode === 'before';
+    $('extraBtn').textContent = ext ? L('Завершити', 'Stop') : before ? L('Почати зараз', 'Start now') : L('Працювати далі', 'Keep working');
+    $('extraBtn').classList.toggle('primary', !ext);
+    $('extraBtn').title = ext ? '' : before
+      ? L('Робота до першого дзвінка піде в резерв фокусу: він закриває час, коли тебе не було на уроках цього дня', 'Work before the first bell goes into the focus reserve: it covers lesson time you were away for, on the same day')
+      : L('Робота після уроків піде в резерв фокусу: він закриває час, коли тебе не було на уроках сьогодні', 'Work after lessons goes into the focus reserve: it covers lesson time you were away for today');
+    $('extraNote').textContent = ext ? L('у резерві ', 'in the reserve ') + durTxt(r ? r.f + (r.i || 0) : 0) : '';
   }
   $('focusSrc').textContent = FS.loading ? L('завантажую розпізнавання…', 'loading detection…') : !on ? '' : FS.stream ? L('камера', 'camera') : L('камера на паузі', 'camera paused');
   const n = F.screens.length;
@@ -3053,6 +3103,11 @@ function initFocus(){
     renderFocusNow();
   });
   $('fPreview').addEventListener('change', () => { F.preview = $('fPreview').checked; applyFocusFold(); saveFocus(); });
+  $('extraBtn').addEventListener('click', () => {
+    const st = stateAt(Date.now());
+    F.extra = extraOn(st) ? null : {day:dayKey(new Date()), part:st.mode};
+    saveFocus(); renderFocusNow();
+  });
   $('fReset').addEventListener('click', () => { FS.out = null; F.days[dayKey(new Date())] = {since:Date.now()}; saveFocus(); renderFocusNow(); });
   // a new span keeps the day being looked at: from 3 October, "Тиждень" opens that week
   for(const card of ['focus', 'body']){
