@@ -37,7 +37,7 @@
   --font-body:"Golos Text","Segoe UI",system-ui,sans-serif;
   --font-hand:"Caveat","Segoe Print","Comic Sans MS",cursive;
   --r:10px;
-  --ok:#86d6a3; --mid:#f1cf5e; --bad:#f19a9a; /* focus states: at work, phone or talk, away; each skin retunes them */
+  --ok:#86d6a3; --mid:#f1cf5e; --bad:#f19a9a; /* focus states: at work, phone, away; each skin retunes them */
   --bg-pattern:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
   --bg-size:22px 22px;
   --card-shadow:none;
@@ -841,7 +841,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <div class="fnum"><div class="fstat-v" id="fnumB"></div><div class="fstat-l"><i class="f"></i>перерви</div></div>
           <div class="fnum" title="До першого дзвінка й після уроків, з кнопками «Почати зараз» і «Працювати далі»"><div class="fstat-v" id="fnumE"></div><div class="fstat-l"><i class="f"></i>до/після</div></div>
         </div>
-        <div class="fstat-l fday-line" id="fdayD" title="Телефон у руках або розмова не до своїх екранів. На перервах не рахується." hidden><i class="d"></i><span id="fdayDT"></span></div>
+        <div class="fstat-l fday-line" id="fdayD" title="Телефон у руках. На перервах не рахується." hidden><i class="d"></i><span id="fdayDT"></span></div>
       </div>
       <p class="focus-sum" id="focusSum"></p>
       <div class="fcharts" id="focusCharts" hidden>
@@ -853,11 +853,6 @@ input[type=range]{accent-color:var(--accent);width:100%}
       <div class="focus-tools" id="camTools" hidden>
         <label class="check"><input type="checkbox" id="fPreview"><span>Показати камеру</span></label>
         <button class="link" id="fReset" type="button">Скинути сьогодні</button>
-      </div>
-      <div class="focus-tools" id="screenTools">
-        <button class="btn sm" id="fScreen" type="button" title="Подивись на екран і натисни; повтори для кожного екрана">Запам’ятати екран</button>
-        <button class="link" id="fScreensReset" type="button" hidden>Забути екрани</button>
-        <span class="focus-src" id="fScreensNote"></span>
       </div>
       </div>
     </section>
@@ -960,7 +955,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
         <div class="row"><select id="fPhoneSound"></select><button class="btn icon" type="button" id="fPhoneSoundTry" aria-label="Прослухати звук про телефон"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button></div>
         <label class="lbl" for="fStandSound">Звук, коли пора встати на перерві</label>
         <div class="row"><select id="fStandSound"></select><button class="btn icon" type="button" id="fStandSoundTry" aria-label="Прослухати звук нагадування встати"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button></div>
-        <p class="fine">Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Фокус — це скільки ти відпрацював за день проти плану, а план — це час уроків у розкладі (поки день триває, та їх частина, що вже минула). Рахується вся робота за столом, де б вона не була: на уроках, на перервах, до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі»). Телефон, розмови й час, коли тебе немає за столом, роботою не рахуються, як і час, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено); день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.</p>
+        <p class="fine">Відволікання — це телефон у руках, а куди ти дивишся, не важливо: думати теж робота. Фокус — це скільки ти відпрацював за день проти плану, а план — це час уроків у розкладі (поки день триває, та їх частина, що вже минула). Рахується вся робота за столом, де б вона не була: на уроках, на перервах, до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі»). Телефон і час, коли тебе немає за столом, роботою не рахуються, як і час, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено); день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.</p>
       </fieldset>
     </form>
   </details>
@@ -1039,9 +1034,7 @@ const EN = {
   'Оцінка за 12-бальною шкалою':'Grade on a 12-point scale', 'уроки':'lessons', 'перерви':'breaks', 'до/після':'before/after',
   'До першого дзвінка й після уроків, з кнопками «Почати зараз» і «Працювати далі»':'Before the first bell and after lessons, with the “Start now” and “Keep working” buttons',
   'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
-  'Телефон у руках або розмова не до своїх екранів. На перервах не рахується.':'A phone in your hands, or talking turned away from your screens. Breaks don’t count.',
-  'Подивись на екран і натисни; повтори для кожного екрана':'Look at the screen and press; repeat for each screen',
-  'Запам’ятати екран':'Remember screen', 'Забути екрани':'Forget screens',
+  'Телефон у руках. На перервах не рахується.':'A phone in your hands. Breaks don’t count.',
   'Тіло':'Body', 'Я сиджу рівно':'I’m sitting straight', ': постава й розминка':': posture & stretching',
   'Скільки разів ти вставав хоча б на 3 хвилини: на перерві або на уроці перед нею':'How many times you got up for at least 3 minutes: on a break or in the lesson before it',
   'Налаштування':'Settings', 'Тема':'Theme', 'Мова':'Language',
@@ -1064,7 +1057,7 @@ const EN = {
   'Звук нагадування про поставу':'Posture reminder sound', 'Прослухати звук нагадування про поставу':'Play the posture reminder sound',
   'Звук, коли береш телефон на уроці':'Sound when you pick up your phone in a lesson', 'Прослухати звук про телефон':'Play the phone sound',
   'Звук, коли пора встати на перерві':'Sound when it’s time to get up on a break', 'Прослухати звук нагадування встати':'Play the get-up sound',
-  "Відволікання — це телефон у руках або розмова, коли ти повернувся не до своїх екранів. Розмова перед екраном — мітинг, а куди ти дивишся мовчки, не важливо: думати теж робота. Фокус — це скільки ти відпрацював за день проти плану, а план — це час уроків у розкладі (поки день триває, та їх частина, що вже минула). Рахується вся робота за столом, де б вона не була: на уроках, на перервах, до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі»). Телефон, розмови й час, коли тебе немає за столом, роботою не рахуються, як і час, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено); день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Екрани запам’ятовуються в картці «Фокус». Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.":'A distraction is a phone in your hands, or talking while turned away from your screens. Talking in front of a screen is a meeting, and where you look in silence doesn’t matter: thinking is work too. Focus is how much you worked in a day against the plan, and the plan is the lessons’ time in the schedule (while the day goes on, the part of it already gone by). All desk work counts, wherever it happens: in lessons, on breaks, before the first bell or after lessons (the “Start now” and “Keep working” buttons). The phone, talking and time away from the desk don’t count as work, and neither does time the app recorded nothing for (the tab closed, the computer asleep, the camera off); a day you never opened the app stays without data. Posture and stretching get their own grade in the “Body” card: a stretch counts when you get up for at least 3 minutes on a break or in the lesson before it. Screens are remembered in the “Focus” card. Everything is counted on this computer: no video is sent or saved anywhere, only minutes.',
+  "Відволікання — це телефон у руках, а куди ти дивишся, не важливо: думати теж робота. Фокус — це скільки ти відпрацював за день проти плану, а план — це час уроків у розкладі (поки день триває, та їх частина, що вже минула). Рахується вся робота за столом, де б вона не була: на уроках, на перервах, до першого дзвінка чи після уроків (кнопки «Почати зараз» і «Працювати далі»). Телефон і час, коли тебе немає за столом, роботою не рахуються, як і час, коли апка нічого не записувала (вкладку закрито, комп спав, камеру вимкнено); день, коли апку взагалі не відкривали, лишається без даних. Постава й розминка мають окрему оцінку в картці «Тіло»: розминка зараховується, коли ти встаєш хоча б на 3 хвилини на перерві або на уроці перед нею. Усе рахується на цьому комп'ютері: відео нікуди не надсилається й не зберігається, лише хвилини.":'A distraction is a phone in your hands, and where you look doesn’t matter: thinking is work too. Focus is how much you worked in a day against the plan, and the plan is the lessons’ time in the schedule (while the day goes on, the part of it already gone by). All desk work counts, wherever it happens: in lessons, on breaks, before the first bell or after lessons (the “Start now” and “Keep working” buttons). The phone and time away from the desk don’t count as work, and neither does time the app recorded nothing for (the tab closed, the computer asleep, the camera off); a day you never opened the app stays without data. Posture and stretching get their own grade in the “Body” card: a stretch counts when you get up for at least 3 minutes on a break or in the lesson before it. Everything is counted on this computer: no video is sent or saved anywhere, only minutes.',
 };
 const UI_TEXT = [], UI_ATTR = [];
 {
@@ -2380,18 +2373,16 @@ $('sShuffle').addEventListener('change', () => {
 /* ---------- focus tracking (opt-in beta) ---------- */
 // Everything stays in this browser: webcam frames are analysed on the spot and only seconds per
 // state are stored, per lesson and break. Where you look does not matter (thinking is work);
-// "distracted" means a phone in your hands, or talking while turned away from your screens
-// (talking at a screen is a meeting).
+// "distracted" means a phone in your hands.
 const FKEY = 'dzvonyk.focus.v1';
 const F = loadFocus();
 function loadFocus(){
-  const base = {cam:false, preview:false, screens:[], posture:false, postureNotify:false, postureSound:'postureRise', phoneSound:'phoneUhOh', stand:true, standSound:'standBirds', postureBase:null, days:{}};
+  const base = {cam:false, preview:false, posture:false, postureNotify:false, postureSound:'postureRise', phoneSound:'phoneUhOh', stand:true, standSound:'standBirds', postureBase:null, days:{}};
   try{
     const o = JSON.parse(localStorage.getItem(FKEY) || 'null');
     if(o && typeof o === 'object') Object.assign(base, o);
   }catch(e){}
   if(!base.days || typeof base.days !== 'object') base.days = {};
-  if(!Array.isArray(base.screens)) base.screens = [];
   // every day is kept for the week, month and all-time totals; finished days only need whole seconds
   const today = dayKey(new Date());
   for(const [k, day] of Object.entries(base.days)) if(k < today && day && typeof day === 'object'){
@@ -2401,17 +2392,18 @@ function loadFocus(){
   for(const day of Object.values(base.days)) if(day && typeof day === 'object') for(const [k, b] of Object.entries(day))
     if(k[0] === 'L' && b && b.x){ b.a = (b.a || 0) + b.x; delete b.x; }
   delete base.idle; delete base.base; // options of the first beta, no longer used
+  delete base.screens; // screens told a meeting from talking, and talking is no longer tracked (since 2026-10-29)
   if(!base.extra || base.extra.day !== today) base.extra = null; // "Почати зараз" lasts only for its day
   return base;
 }
 function saveFocus(){ try{ localStorage.setItem(FKEY, JSON.stringify(F)); }catch(e){} }
 
 const FS = {state:null, reason:'', last:0, savedAt:0, timer:0, n:0, stream:null, camReady:false,
-  face:null, phone:null, loading:false, missSince:0, offSince:0, phoneAt:0, jaw:[], capture:null, err:'', renderAt:0,
+  face:null, phone:null, loading:false, missSince:0, offSince:0, phoneAt:0, err:'', renderAt:0,
   setupOpen:false, slouchSince:0, remindedAt:0, postureCap:null, slouch:false, postureLast:0, phoneSince:0, phoneBeepAt:0, sitSince:0, standAt:0, toast:'',
   seenSince:0, hid:false, views:{focus:{span:'day', at:null}, body:{span:'day', at:null}}};
 const FLABEL = {focused:['Фокус', 'Focus'], away:['Нема на місці', 'Away']};
-const FREASON = {phone:['Телефон', 'Phone'], talk:['Розмова', 'Talking']};
+const FREASON = {phone:['Телефон', 'Phone']};
 const FBUCKET = {focused:'f', distracted:'d', away:'a'};
 const MP = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
 const MP_FACE = 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
@@ -2420,16 +2412,14 @@ const MP_OBJ = 'https://storage.googleapis.com/mediapipe-models/object_detector/
 async function createModels(){
   const vision = await import(MP + '/vision_bundle.mjs');
   const files = await vision.FilesetResolver.forVisionTasks(MP + '/wasm');
-  const make = async (Task, model, extra, gpu) => {
-    const opts = (delegate) => Object.assign({baseOptions:{modelAssetPath:model, delegate}, runningMode:'VIDEO'}, extra);
-    if(gpu){ try{ return await Task.createFromOptions(files, opts('GPU')); }catch(e){} }
-    return Task.createFromOptions(files, opts('CPU'));
-  };
+  // Both run on the CPU. On the GPU delegate the face model shares Chrome's one GPU process with every tab,
+  // and videos in other tabs stutter while it runs; the int8 phone model gives garbage there anyway.
+  const make = (Task, model, extra) =>
+    Task.createFromOptions(files, Object.assign({baseOptions:{modelAssetPath:model, delegate:'CPU'}, runningMode:'VIDEO'}, extra));
   const [face, phone] = await Promise.all([
-    make(vision.FaceLandmarker, MP_FACE, {numFaces:1, outputFaceBlendshapes:true}, true),
-    // the int8 phone model gives garbage on the GPU delegate, so it runs on the CPU (once a second);
-    // it often labels a phone held in a hand as "remote", so both count as a phone
-    make(vision.ObjectDetector, MP_OBJ, {scoreThreshold:.3, maxResults:3, categoryAllowlist:['cell phone', 'remote']}, false),
+    make(vision.FaceLandmarker, MP_FACE, {numFaces:1}),
+    // once a second; it often labels a phone held in a hand as "remote", so both count as a phone
+    make(vision.ObjectDetector, MP_OBJ, {scoreThreshold:.3, maxResults:3, categoryAllowlist:['cell phone', 'remote']}),
   ]);
   return {face, phone};
 }
@@ -2450,7 +2440,7 @@ async function startCam(){
     FS.err = e && e.name === 'NotAllowedError'
       ? L('Браузер не дав доступу до камери. Дозволь її для цього сайту (значок ліворуч від адреси) і ввімкни галочку ще раз.', 'The browser blocked the camera. Allow it for this site (the icon left of the address) and tick the box again.')
       : L('Камера не запустилась: ', 'The camera didn’t start: ') + ((e && e.message) || e);
-    stopCam(); F.cam = false; $('fCam').checked = false; FS.postureCap = null; FS.capture = null; saveFocus();
+    stopCam(); F.cam = false; $('fCam').checked = false; FS.postureCap = null; saveFocus();
   }
   FS.loading = false; FS.starting = false;
   focusLoop(); renderFocusNow();
@@ -2479,32 +2469,15 @@ function syncCam(st){
 function readFace(res, w, h){
   const lm = res && res.faceLandmarks && res.faceLandmarks[0];
   if(!lm) return null;
-  const bs = {};
-  if(res.faceBlendshapes && res.faceBlendshapes[0]) for(const c of res.faceBlendshapes[0].categories) bs[c.categoryName] = c.score;
-  // head direction from the nose against the face edges (left/right) and forehead/chin (up/down)
-  const L = lm[234], R = lm[454], N = lm[1], T = lm[10], C = lm[152];
   // posture: where the eyes sit in the frame, how big the face is (closer = leaning in), head tilt
   const E1 = lm[33], E2 = lm[263], dx = (E2.x - E1.x) * (w || 1), dy = (E2.y - E1.y) * (h || 1);
   return {
-    jaw: bs.jawOpen || 0,
-    yaw: (N.x - (L.x + R.x) / 2) / Math.max(1e-3, Math.abs(R.x - L.x)),
-    pitch: (N.y - T.y) / Math.max(1e-3, C.y - T.y),
     eyeY: (E1.y + E2.y) / 2,
     eyeDist: Math.hypot(dx, dy),
     roll: Math.atan2(dy, dx),
   };
 }
 const median = (a) => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
-// facing one of the screens you showed the camera ("Запам'ятати екран")
-const atScreen = (face) => F.screens.some(z => Math.abs(face.yaw - z.yaw) < .18 && Math.abs(face.pitch - z.pitch) < .12);
-// Talking = the jaw keeps opening and closing for a few seconds; one yawn or a half-open mouth is not talking.
-function isTalking(now){
-  FS.jaw = FS.jaw.filter(j => now - j.t < 3000);
-  if(FS.jaw.length < 6) return false;
-  const v = FS.jaw.map(j => j.v);
-  const open = v.filter(x => x > .14).length, shut = v.filter(x => x < .08).length;
-  return open >= 3 && shut >= 2 && Math.max(...v) - Math.min(...v) > .15;
-}
 // Coming back ends the time away only once the face has stayed for 5 s, so a stray frame (someone passing by,
 // a shadow that looks like a face) does not cut it short; a frame dropped on the way back does not restart the count.
 const BACK = 5000;
@@ -2518,22 +2491,8 @@ function classifyCam(face, now){
       if(now - FS.seenSince < BACK) return 'away';
     }
     FS.seenSince = 0;
-    if(FS.capture){
-      // learning a screen direction: collect ~1.5 s of head pose, then keep the median
-      FS.capture.samples.push(face);
-      if(now > FS.capture.until && FS.capture.samples.length >= 3){
-        const sm = FS.capture.samples;
-        F.screens.push({yaw:median(sm.map(f => f.yaw)), pitch:median(sm.map(f => f.pitch))});
-        if(F.screens.length > 3) F.screens.shift();
-        FS.capture = null; saveFocus(); renderFocusNow();
-      }
-    }
-    FS.jaw.push({t:now, v:face.jaw});
-    // talking counts only when turned away from every known screen; until screens are set, never
-    const talkAway = F.screens.length > 0 && isTalking(now) && !atScreen(face);
-    reason = phone ? 'phone' : talkAway ? 'talk' : '';
+    if(phone) reason = 'phone';
   }else{
-    FS.jaw = [];
     if(phone) reason = 'phone'; // looking down at a phone often hides the face
     else{
       // brief misses happen; only call it "away" after a few seconds without a face
@@ -2645,7 +2604,7 @@ function sampleFocus(){
     const v = $('cam'), t = performance.now();
     try{
       // the phone detector is the heavier model, so it runs once a second
-      if(FS.phone && FS.n++ % 4 === 0){
+      if(FS.phone && FS.n++ % 2 === 0){
         const r = FS.phone.detectForVideo(v, t);
         if(r && r.detections && r.detections.length) FS.phoneAt = now;
       }
@@ -2672,7 +2631,8 @@ function sampleFocus(){
 }
 function focusLoop(){
   const need = F.cam && FS.camReady && FS.face;
-  if(need && !FS.timer) FS.timer = setInterval(sampleFocus, 250);
+  // twice a second is plenty for "away" (4 s without a face) and posture (20 s)
+  if(need && !FS.timer) FS.timer = setInterval(sampleFocus, 500);
   if(!need && FS.timer){ clearInterval(FS.timer); FS.timer = 0; FS.state = null; FS.last = 0; saveFocus(); }
 }
 
@@ -3018,7 +2978,6 @@ function renderFocus(st){
   $('bodyCard').hidden = !on;
   $('focusPill').hidden = !on || !inDay || !FS.state;
   $('camTools').hidden = !on;
-  $('screenTools').hidden = !on;
   $('fPostureSet').hidden = !F.posture;
   if(now - FS.renderAt < 1000) return;
   FS.renderAt = now;
@@ -3051,11 +3010,6 @@ function renderFocus(st){
     $('extraNote').textContent = ext ? L('відпрацьовано поза уроками ', 'worked outside lessons ') + durTxt(r ? r.f + (r.i || 0) : 0) : '';
   }
   $('focusSrc').textContent = FS.loading ? L('завантажую розпізнавання…', 'loading detection…') : !on ? '' : FS.stream ? L('камера', 'camera') : L('камера на паузі', 'camera paused');
-  const n = F.screens.length;
-  $('fScreen').textContent = FS.capture ? L('Дивись на екран…', 'Look at the screen…') : n ? L('Запам’ятати ще екран', 'Remember another screen') : L('Запам’ятати екран', 'Remember screen');
-  $('fScreen').disabled = !!FS.capture || !FS.face;
-  $('fScreensNote').textContent = n ? L('Екранів: ' + n + '. Розмова перед ними — мітинг, не відволікання.', 'Screens: ' + n + '. Talking in front of them is a meeting, not a distraction.') : L('Поки екрани не запам’ятовані, розмови не рахуються.', 'Until a screen is remembered, talking doesn’t count.');
-  $('fScreensReset').hidden = !n;
   // the button turns the camera on by itself when needed; the hint stays until the posture is learned
   const camWait = FS.postureCap && !(FS.camReady && FS.face);
   $('fPostureSet').textContent = FS.postureCap ? L('Сиди рівно…', 'Hold still…') : L('Я сиджу рівно', 'I’m sitting straight');
@@ -3098,7 +3052,6 @@ function initFocus(){
     const [span, k] = g.dataset.go.split(':');
     setView('focus', span, keyDate(k));
   });
-  $('fScreen').addEventListener('click', () => { FS.capture = {until:Date.now() + 1500, samples:[]}; renderFocusNow(); });
   $('fPosture').checked = F.posture;
   $('fPostureNotify').checked = F.postureNotify;
   $('fPosture').addEventListener('change', () => {
@@ -3146,7 +3099,6 @@ function initFocus(){
     try{ ensureCtx(); await A.ctx.resume(); playNow(v); }catch(e){}
   });
   $('toastOk').addEventListener('click', () => { FS.toast = ''; $('toast').hidden = true; });
-  $('fScreensReset').addEventListener('click', () => { F.screens = []; saveFocus(); renderFocusNow(); });
   // after a reload the camera comes back on by itself (once the browser remembers the permission) when a lesson or break is on
   renderFocusNow();
 }
