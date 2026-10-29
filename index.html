@@ -235,6 +235,9 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 .fday-l{flex:1;min-width:0;font-size:12px;color:var(--ink-3)}
 /* in the body card the posture and break dots take the colour of how well that part went */
 .fday-line{color:var(--ink-2)}
+/* what the lessons lost: time away and distraction, side by side, wrapping on a narrow card */
+.fday-losses{flex-wrap:wrap;column-gap:14px}
+.fday-loss{display:inline-flex;align-items:center;gap:6px}
 /* focus: time at work, distracted and away; the dots are the legend for the colours in the bars */
 .fnums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-top:6px;border-top:1px solid var(--line)}
 .fnum{display:flex;flex-direction:column;gap:2px;min-width:0}
@@ -841,7 +844,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <div class="fnum"><div class="fstat-v" id="fnumB"></div><div class="fstat-l"><i class="f"></i>перерви</div></div>
           <div class="fnum" title="До першого дзвінка й після уроків, з кнопками «Почати зараз» і «Працювати далі»"><div class="fstat-v" id="fnumE"></div><div class="fstat-l"><i class="f"></i>до/після</div></div>
         </div>
-        <div class="fstat-l fday-line" id="fdayD" title="Телефон у руках. На перервах не рахується." hidden><i class="d"></i><span id="fdayDT"></span></div>
+        <div class="fstat-l fday-line fday-losses" id="fdayLoss" hidden><span>на уроках:</span><span class="fday-loss" id="fdayA"><i class="a"></i><span id="fdayAT"></span></span><span class="fday-loss" id="fdayD" title="Телефон у руках. На перервах не рахується."><i class="d"></i><span id="fdayDT"></span></span></div>
       </div>
       <p class="focus-sum" id="focusSum"></p>
       <div class="fcharts" id="focusCharts" hidden>
@@ -1034,7 +1037,7 @@ const EN = {
   'Оцінка за 12-бальною шкалою':'Grade on a 12-point scale', 'уроки':'lessons', 'перерви':'breaks', 'до/після':'before/after',
   'До першого дзвінка й після уроків, з кнопками «Почати зараз» і «Працювати далі»':'Before the first bell and after lessons, with the “Start now” and “Keep working” buttons',
   'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
-  'Телефон у руках. На перервах не рахується.':'A phone in your hands. Breaks don’t count.',
+  'Телефон у руках. На перервах не рахується.':'A phone in your hands. Breaks don’t count.', 'на уроках:':'in lessons:',
   'Тіло':'Body', 'Я сиджу рівно':'I’m sitting straight', ': постава й розминка':': posture & stretching',
   'Скільки разів ти вставав хоча б на 3 хвилини: на перерві або на уроці перед нею':'How many times you got up for at least 3 minutes: on a break or in the lesson before it',
   'Налаштування':'Settings', 'Тема':'Theme', 'Мова':'Language',
@@ -2823,6 +2826,8 @@ const whatTxt = (span) => L({day:'підсумок дня', week:'підсумо
 const noDataTxt = (span) => L('За ' + {day:'цей день', week:'цей тиждень', month:'цей місяць', all:'весь час'}[span] + ' даних немає.',
   'No data for ' + {day:'this day', week:'this week', month:'this month', all:'all time'}[span] + '.');
 const durTxt = (s) => durParts(s).map(p => p.join(' ')).join(' ');
+// "5:23 з 6:21 год", "40 з 45 хв": the unit once when both share it
+const ofTxt = (a, b) => { const [x] = durParts(a), [y] = durParts(b); return (x[1] === y[1] ? x[0] : x.join(' ')) + L(' з ', ' of ') + y.join(' '); };
 // A lesson or a school day without data is still ahead ('up') until it ends, then it went by unseen ('miss');
 // a day off has no lessons at all ('off').
 function dayState(d, now){
@@ -2904,12 +2909,17 @@ function renderStats(st, now){
     const day = span === 'day' && live && F.days[keys[0]], full = day && day.plan ? Object.keys(day.plan).reduce((t, k) => t + planOf(day, k, Infinity), 0) : sum.plan;
     $('fdayWhat').textContent = whatTxt(span);
     $('fdayPct').textContent = Math.round(ds.score * 100);
-    $('fdayParts').textContent = durTxt(work) + L(' з ', ' of ') + durTxt(sum.plan) + (full - sum.plan >= 60 ? L(' · план на день ', ' · the day’s plan ') + durTxt(full) : '') + (n ? ' · ' + daysTxt(n) : '');
+    $('fdayParts').textContent = ofTxt(work, sum.plan) + (full - sum.plan >= 60 ? L(' · на день ', ' · full day ') + durTxt(full) : '') + (n ? ' · ' + daysTxt(n) : '');
     // where the work was done; the place doesn't matter for the result, it is only for you to see
     durInto($('fnumL'), tot.f + tot.i); durInto($('fnumB'), sum.brk.f + sum.brk.i); durInto($('fnumE'), sum.ext.f + sum.ext.i);
-    // distraction is only held against lessons: on a break the phone is fine
+    // what the lessons lost, for you to see where the time went: away (with the time nothing was recorded) and
+    // distraction, which counts only in lessons since on a break the phone is fine
+    $('fdayA').hidden = tot.a + tot.u < 30;
+    $('fdayAT').textContent = L('не було ', 'away ') + durTxt(tot.a + tot.u);
+    $('fdayA').title = tot.u >= 30 ? L('камера тебе не бачила ', 'not seen by the camera ') + durTxt(tot.a) + L(', апка не записувала ', ', the app wasn’t recording ') + durTxt(tot.u) : '';
     $('fdayD').hidden = tot.d < 30;
-    $('fdayDT').textContent = L('відволікання на уроках ', 'distracted in lessons ') + durTxt(tot.d);
+    $('fdayDT').textContent = L('відволікання ', 'distracted ') + durTxt(tot.d);
+    $('fdayLoss').hidden = $('fdayA').hidden && $('fdayD').hidden;
     $('fdayGrade').textContent = ds.grade;
     $('fdayGrade').dataset.tone = ds.tone;
     $('fdayGrade').setAttribute('aria-label', L('Оцінка фокусу: ' + ds.grade + ' з 12', 'Focus grade: ' + ds.grade + ' of 12'));
@@ -2929,10 +2939,10 @@ function renderStats(st, now){
     for(const k of lessons){
       const bk = day[k] || {f:0, d:0, a:0}, u = gapOf(day, k, now), t = fTotal(bk) + u, name = L('Урок ', 'Lesson ') + k.slice(1);
       if(t <= 20){ cols.push(emptyCol(k.slice(1), ends[k] && now < ends[k] ? 'up' : 'miss', k === curKey, name)); continue; }
-      const f = (bk.f + (bk.i || 0)) / t, away = (bk.a + u) / t;
+      const w = bk.f + (bk.i || 0), f = w / t, away = (bk.a + u) / t;
       const off = u ? L(' (апка не записувала ', ' (the app wasn’t recording for ') + durTxt(u) + ')' : '';
       cols.push(chartCol(k.slice(1), Math.round(f * 100), [['f', f], ['d', bk.d / t], ['a', away]],
-        {cls:k === curKey ? ' cur' : '', title:name + L(': за роботою ', ': working ') + pctTxt(f) + L(', відволікання ', ', distracted ') + pctTxt(bk.d / t) + L(', не було ', ', away ') + pctTxt(away) + off}));
+        {cls:k === curKey ? ' cur' : '', title:name + L(': за роботою ', ': working ') + durTxt(w) + L(', відволікання ', ', distracted ') + durTxt(bk.d) + L(', не було ', ', away ') + durTxt(bk.a + u) + off}));
     }
     any = cols.length > 0;
   }else if(span === 'week'){
