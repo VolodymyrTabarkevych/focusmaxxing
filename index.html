@@ -342,7 +342,16 @@ button.fcal-d:hover,button.fcal-d:focus-visible{background:color-mix(in srgb,var
 .now[data-kind="break"] .chip{background:var(--rest-soft);border-color:var(--rest-soft);color:var(--rest)}
 .now-range{font-family:var(--font-display);font-size:18px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .count{font-family:var(--font-display);font-weight:var(--count-weight);font-size:var(--count-size);line-height:.9;color:var(--ink);white-space:nowrap;text-shadow:var(--glow)}
-.count .d{display:inline-block;width:var(--digit-w);text-align:center}
+.count .d{display:inline-block;position:relative;width:var(--digit-w);text-align:center}
+/* a changed digit rolls (setCount): the old one slips down and blurs away, the new one drops in from above and settles;
+   when the count goes up (a new lesson or break starts) they roll the other way */
+.count{--roll:.42em;--roll-blur:.07em;--roll-ease:cubic-bezier(.2,1.3,.4,1)}
+.count.up{--roll:-.42em}
+.count .g{display:block}
+.count .g.in{animation:digIn .5s var(--roll-ease) both}
+.count .g.out{position:absolute;left:0;right:0;top:0;animation:digOut .26s cubic-bezier(.3,0,.6,1) both}
+@keyframes digIn{from{opacity:0;transform:translateY(calc(-1 * var(--roll))) scale(.82);filter:blur(var(--roll-blur))}45%{opacity:1}}
+@keyframes digOut{60%{opacity:0}to{opacity:0;transform:translateY(var(--roll)) scale(.82);filter:blur(var(--roll-blur))}}
 .count .c{display:inline-block;width:var(--colon-w);text-align:center;position:relative;top:-.06em}
 .now[data-kind="break"] .count{color:var(--rest)}
 .count-sub{font-size:16px;color:var(--ink-2)}
@@ -601,9 +610,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
 :root[data-skin="synth"] h2,:root[data-skin="synth"] .settings summary{font-family:var(--font-hand);font-weight:400;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:.06em;color:var(--rest);text-shadow:0 0 12px rgba(54,226,240,.45)}
 :root[data-skin="synth"] .chip{font-style:italic}
 :root[data-skin="synth"] .count{font-style:italic;filter:drop-shadow(0 0 10px rgba(255,41,117,.5))}
-:root[data-skin="synth"] .count .d,:root[data-skin="synth"] .count .c{color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(#ffe36e 12%,#ff8c42 45%,#ff2975 75%,#b026ff 100%);-webkit-background-clip:text;background-clip:text}
+:root[data-skin="synth"] .count .g,:root[data-skin="synth"] .count .c{color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(#ffe36e 12%,#ff8c42 45%,#ff2975 75%,#b026ff 100%);-webkit-background-clip:text;background-clip:text}
 :root[data-skin="synth"] .now[data-kind="break"] .count{filter:drop-shadow(0 0 10px rgba(54,226,240,.45))}
-:root[data-skin="synth"] .now[data-kind="break"] .count .d,:root[data-skin="synth"] .now[data-kind="break"] .count .c{background-image:linear-gradient(#d8fcff 12%,#36e2f0 50%,#7a5cff 100%)}
+:root[data-skin="synth"] .now[data-kind="break"] .count .g,:root[data-skin="synth"] .now[data-kind="break"] .count .c{background-image:linear-gradient(#d8fcff 12%,#36e2f0 50%,#7a5cff 100%)}
 :root[data-skin="synth"] .bar-fill{background:linear-gradient(90deg,#ff2975,#ff8c42)}
 :root[data-skin="synth"] .now[data-kind="break"] .bar-fill{background:linear-gradient(90deg,#36e2f0,#7a5cff)}
 :root[data-skin="synth"] .btn.primary{background:linear-gradient(90deg,#ff2975,#ff8c42);border-color:transparent;color:#1a0526}
@@ -624,7 +633,8 @@ input[type=range]{accent-color:var(--accent);width:100%}
 :root[data-skin="pixel"] .now[data-kind="lesson"] .chip{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 :root[data-skin="pixel"] .now[data-kind="break"] .chip{background:var(--rest);border-color:var(--rest);color:#0f0524}
 :root[data-skin="pixel"] .now-range{font-family:var(--font-body);font-size:18px}
-:root[data-skin="pixel"] .count{text-shadow:4px 4px 0 #5b1fa8;line-height:1.1}
+:root[data-skin="pixel"] .count{text-shadow:4px 4px 0 #5b1fa8;line-height:1.1;--roll-blur:0px;--roll-ease:steps(4,end)}
+:root[data-skin="pixel"] .count .g.out{animation-timing-function:steps(3,end)}
 :root[data-skin="pixel"] .now[data-kind="break"] .count{color:var(--rest);text-shadow:4px 4px 0 #1d4f8a}
 :root[data-skin="pixel"] .now[data-kind="lesson"] .count{color:var(--accent)}
 :root[data-skin="pixel"] .count-sub{font-size:17px}
@@ -2004,15 +2014,43 @@ function fmtLeft(ms){
   return h ? h + ':' + pad(m) + ':' + pad(x) : pad(m) + ':' + pad(x);
 }
 let lastCount = '';
+const calmMotion = matchMedia('(prefers-reduced-motion: reduce)');
+function glyph(ch, cls){
+  const g = document.createElement('span');
+  g.className = cls; g.textContent = ch;
+  return g;
+}
+// each digit holds one glyph; when it changes, the old glyph rolls out (.out) and a new one rolls in (.in),
+// the rightmost first and the rest a beat later, like an odometer carrying; the new glyph starts 60 ms after the old one,
+// so the two barely overlap
 function setCount(str){
   if(str === lastCount) return;
+  const el = $('count'), prev = lastCount;
   lastCount = str;
-  const el = $('count'); el.textContent = '';
-  for(const ch of str){
-    const s = document.createElement('span');
-    s.className = ch === ':' ? 'c' : 'd';
-    s.textContent = ch;
-    el.append(s);
+  const move = !document.hidden && !calmMotion.matches && prev !== '';
+  el.classList.toggle('up', +str.replace(/\D/g, '') > +prev.replace(/\D/g, ''));
+  const same = prev.length === str.length && [...str].every((ch, i) => (ch === ':') === (prev[i] === ':'));
+  if(!same || !move){
+    el.textContent = '';
+    for(const ch of str){
+      const s = document.createElement('span');
+      if(ch === ':'){ s.className = 'c'; s.textContent = ch; }
+      else { s.className = 'd'; s.append(glyph(ch, move ? 'g in' : 'g')); }
+      el.append(s);
+    }
+    return;
+  }
+  let k = 0;
+  for(let i = str.length - 1; i >= 0; i--){
+    if(str[i] === prev[i] || str[i] === ':') continue;
+    const d = el.children[i];
+    d.querySelectorAll('.out').forEach(o => o.remove());
+    const old = d.firstChild, g = glyph(str[i], 'g in');
+    old.className = 'g out';
+    old.style.animationDelay = k * 55 + 'ms';
+    g.style.animationDelay = k++ * 55 + 60 + 'ms';
+    old.addEventListener('animationend', () => old.remove());
+    d.append(g);
   }
 }
 
