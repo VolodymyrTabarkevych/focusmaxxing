@@ -2404,7 +2404,7 @@ function saveFocus(){ try{ localStorage.setItem(FKEY, JSON.stringify(F)); }catch
 const FS = {state:null, reason:'', last:0, savedAt:0, timer:0, n:0, stream:null, camReady:false,
   face:null, phone:null, loading:false, missSince:0, offSince:0, phoneAt:0, err:'', renderAt:0,
   setupOpen:false, slouchSince:0, remindedAt:0, postureCap:null, slouch:false, postureLast:0, phoneSince:0, phoneBeepAt:0, sitSince:0, standAt:0, toast:'',
-  seenSince:0, hid:false, views:{focus:{span:'day', at:null}, body:{span:'day', at:null}}};
+  seenSince:0, hid:false, personAt:0, personW:0, frameW:640, recent:[], views:{focus:{span:'day', at:null}, body:{span:'day', at:null}}};
 const FLABEL = {focused:['Фокус', 'Focus'], away:['Нема на місці', 'Away']};
 const FREASON = {phone:['Телефон', 'Phone']};
 const FBUCKET = {focused:'f', distracted:'d', away:'a'};
@@ -2420,9 +2420,11 @@ async function createModels(){
   const make = (Task, model, extra) =>
     Task.createFromOptions(files, Object.assign({baseOptions:{modelAssetPath:model, delegate:'CPU'}, runningMode:'VIDEO'}, extra));
   const [face, phone] = await Promise.all([
-    make(vision.FaceLandmarker, MP_FACE, {numFaces:1}),
-    // once a second; it often labels a phone held in a hand as "remote", so both count as a phone
-    make(vision.ObjectDetector, MP_OBJ, {scoreThreshold:.3, maxResults:3, categoryAllowlist:['cell phone', 'remote']}),
+    // the head's pose (how far it is bent down) comes from the transformation matrix
+    make(vision.FaceLandmarker, MP_FACE, {numFaces:1, outputFacialTransformationMatrixes:true}),
+    // once a second; it often labels a phone held in a hand as "remote", so both count as a phone.
+    // It also looks for a person: a "face" with nobody at the desk is a chair or a shadow.
+    make(vision.ObjectDetector, MP_OBJ, {scoreThreshold:.3, maxResults:5, categoryAllowlist:['cell phone', 'remote', 'person']}),
   ]);
   return {face, phone};
 }
@@ -2472,13 +2474,41 @@ function syncCam(st){
 function readFace(res, w, h){
   const lm = res && res.faceLandmarks && res.faceLandmarks[0];
   if(!lm) return null;
-  // posture: where the eyes sit in the frame, how big the face is (closer = leaning in), head tilt
+  // posture: where the eyes sit in the frame, how big the face is (closer = leaning in), head tilt;
+  // pitch: how far the head is bent down towards the camera, in radians (null if the model gave no matrix)
   const E1 = lm[33], E2 = lm[263], dx = (E2.x - E1.x) * (w || 1), dy = (E2.y - E1.y) * (h || 1);
+  const m = res.facialTransformationMatrixes && res.facialTransformationMatrixes[0];
   return {
     eyeY: (E1.y + E2.y) / 2,
     eyeDist: Math.hypot(dx, dy),
     roll: Math.atan2(dy, dx),
+    pitch: m ? Math.atan2(m.data[6], m.data[10]) : null,
   };
+}
+// A face counts as you at the desk only while the detector sees a person (a chair's headrest can pass for a face)
+// and, once the posture is learned, while it is not much smaller than then: leaning back in the chair takes off about
+// a fifth, and further away than that is you across the room (a face at half the size is too small to find at all).
+const PERSON_FRESH = 5000;
+function deskFace(face, now){
+  if(!face) return null;
+  if(FS.phone && now - FS.personAt > PERSON_FRESH) return null;
+  const b = F.postureBase;
+  return b && face.eyeDist < b.eyeDist * .7 ? null : face;
+}
+// With the face hidden, a phone counts only while the detector's last look (a second ago at most) found a person that
+// big: someone across the room is narrower. A person is about 4.5 eye distances wide; without the learned posture,
+// a fifth of the frame.
+function personAtDesk(){
+  const b = F.postureBase;
+  return FS.personW >= (b ? b.eyeDist * 2.7 : FS.frameW * .2);
+}
+// Looking at a phone in your hands bends the head down by 30° and more; looking at the screen, arms crossed, does not.
+// Measured against the learned posture (15° more than then), or 30° to the camera without one (or with one learned
+// before the pitch was kept): a camera above the eyes already sees the head bent by 10-20° at the screen.
+function looksDown(face){
+  if(face.pitch === null) return true;
+  const b = F.postureBase;
+  return b && typeof b.pitch === 'number' ? face.pitch - b.pitch > .26 : face.pitch > .52;
 }
 const median = (a) => { const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
 // Coming back ends the time away only once the face has stayed for 5 s, so a stray frame (someone passing by,
@@ -2494,12 +2524,16 @@ function classifyCam(face, now){
       if(now - FS.seenSince < BACK) return 'away';
     }
     FS.seenSince = 0;
-    if(phone) reason = 'phone';
+    // a "phone" by your folded arms while you look at the screen is not one
+    if(phone && looksDown(face)) reason = 'phone';
   }else{
-    if(phone) reason = 'phone'; // looking down at a phone often hides the face
+    // looking down at a phone often hides the face; that keeps you at the desk, but a phone never brings you
+    // back to it, so a phone (or something like one) left on the desk does not count while you are gone
+    if(phone && FS.state && FS.state !== 'away' && personAtDesk()) reason = 'phone';
     else{
       // brief misses happen; only call it "away" after a few seconds without a face
       if(!FS.missSince) FS.missSince = now;
+      FS.offSince = 0;
       if(now - FS.missSince > 1000) FS.seenSince = 0;
       return now - FS.missSince > 4000 ? 'away' : (FS.state || 'away');
     }
@@ -2523,15 +2557,20 @@ function checkPosture(face, now){
     if(!FS.postureCap.samples.length) FS.postureCap.until = now + 1500;
     FS.postureCap.samples.push(face);
     if(now > FS.postureCap.until && FS.postureCap.samples.length >= 3){
-      const sm = FS.postureCap.samples;
-      F.postureBase = {eyeY:median(sm.map(f => f.eyeY)), eyeDist:median(sm.map(f => f.eyeDist)), roll:median(sm.map(f => f.roll))};
+      const sm = FS.postureCap.samples, ps = sm.map(f => f.pitch).filter(p => p !== null);
+      F.postureBase = {eyeY:median(sm.map(f => f.eyeY)), eyeDist:median(sm.map(f => f.eyeDist)), roll:median(sm.map(f => f.roll)), pitch:ps.length ? median(ps) : null};
       FS.postureCap = null; saveFocus(); renderFocusNow();
     }
     return;
   }
+  // learning takes any face; judging only you at the desk, on the last 3 s, so one shaky frame of a small face
+  // does not count as slouching
+  face = deskFace(face, now);
+  FS.recent = face ? FS.recent.filter(f => now - f.t < 3000).concat(Object.assign({t:now}, face)) : [];
   const st = stateAt(now), b = F.postureBase;
   if(!F.posture || !b || !face || st.mode !== 'lesson'){ FS.slouchSince = 0; setSlouch(false); return; }
-  const bad = face.eyeY - b.eyeY > .06 || face.eyeDist / b.eyeDist > 1.18 || Math.abs(face.roll - b.roll) > .17;
+  const at = (k) => median(FS.recent.map(f => f[k]));
+  const bad = at('eyeY') - b.eyeY > .06 || at('eyeDist') / b.eyeDist > 1.18 || Math.abs(at('roll') - b.roll) > .17;
   if(prev){
     const day = F.days[dayKey(new Date(now))] || (F.days[dayKey(new Date(now))] = {});
     const bucket = day[periodKey(st)] || (day[periodKey(st)] = {f:0, d:0, a:0, i:0});
@@ -2609,10 +2648,17 @@ function sampleFocus(){
       // the phone detector is the heavier model, so it runs once a second
       if(FS.phone && FS.n++ % 2 === 0){
         const r = FS.phone.detectForVideo(v, t);
-        if(r && r.detections && r.detections.length) FS.phoneAt = now;
+        let person = 0;
+        for(const d of (r && r.detections) || []){
+          if(d.categories[0].categoryName === 'person') person = Math.max(person, d.boundingBox.width);
+          else FS.phoneAt = now;
+        }
+        if(person) FS.personAt = now;
+        FS.personW = person;
+        FS.frameW = v.videoWidth || 640;
       }
       const face = readFace(FS.face.detectForVideo(v, t + 1), v.videoWidth, v.videoHeight);
-      s = classifyCam(face, now);
+      s = classifyCam(deskFace(face, now), now);
       checkPosture(face, now);
     }catch(e){}
   }
@@ -3025,8 +3071,12 @@ function renderFocus(st){
   $('fPostureSet').textContent = FS.postureCap ? L('Сиди рівно…', 'Hold still…') : L('Я сиджу рівно', 'I’m sitting straight');
   $('fPostureSet').disabled = !!FS.postureCap;
   $('fPostureSet').title = F.postureBase ? L('Правильну поставу запам’ятовано. Пересів? Натисни ще раз.', 'Good posture remembered. Moved? Press again.') : L('Сядь рівно, як треба, і натисни', 'Sit up properly and press');
-  $('fPostureNote').hidden = !F.posture || !(camWait || (!F.postureBase && !FS.postureCap));
-  $('fPostureNote').textContent = camWait ? L('Вмикаю камеру…', 'Turning on the camera…') : L('Сядь рівно, як треба, і натисни «Я сиджу рівно», щоб я запам’ятав поставу.', 'Sit up properly and press “I’m sitting straight” so I can learn your posture.');
+  // a posture learned before 2026-10-30 has no head pitch, which tells a phone in your hands from folded arms
+  const noPitch = F.postureBase && !('pitch' in F.postureBase) && !FS.postureCap;
+  $('fPostureNote').hidden = !F.posture || !(camWait || noPitch || (!F.postureBase && !FS.postureCap));
+  $('fPostureNote').textContent = camWait ? L('Вмикаю камеру…', 'Turning on the camera…')
+    : noPitch ? L('Сядь рівно й натисни «Я сиджу рівно» ще раз: тепер я запам’ятовую й нахил голови, щоб не плутати складені руки з телефоном.', 'Sit up and press “I’m sitting straight” again: now I also learn how you hold your head, so folded arms don’t pass for a phone.')
+    : L('Сядь рівно, як треба, і натисни «Я сиджу рівно», щоб я запам’ятав поставу.', 'Sit up properly and press “I’m sitting straight” so I can learn your posture.');
   $('focusErr').hidden = !FS.err;
   $('focusErr').textContent = FS.err;
   renderStats(st, now);
