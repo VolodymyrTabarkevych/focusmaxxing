@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Фокусмаксінг</title>
-<script>try{var s=JSON.parse(localStorage.getItem('dzvonyk.v1')||'{}').skin;if(['cyber','aero','dots','line','synth','pixel','orbit'].indexOf(s)>=0)document.documentElement.setAttribute('data-skin',s)}catch(e){}</script>
+<script>try{var s=JSON.parse(localStorage.getItem('dzvonyk.v1')||'{}').skin;if(['cyber','aero','dots','line','synth','pixel','orbit','toussaint'].indexOf(s)>=0)document.documentElement.setAttribute('data-skin',s)}catch(e){}</script>
 <meta name="description" content="Особистий розклад дзвінків: уроки й перерви у фіксований час, дзвінки та музика з YouTube.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2.5 -2.5 29 29'%3E%3Crect x='-2.5' y='-2.5' width='29' height='29' rx='6.6' fill='%2314201b'/%3E%3Cpath d='M12 5A3 3 0 0 0 6 5.2A3.6 3.6 0 0 0 3.6 10.8A3.6 3.6 0 0 0 4.4 17A3.4 3.4 0 0 0 12 18.5ZM12 5A3 3 0 0 1 18 5.2A3.6 3.6 0 0 1 20.4 10.8A3.6 3.6 0 0 1 19.6 17A3.4 3.4 0 0 1 12 18.5ZM12 9.5c-.6 1.6-1.8 2.6-3.4 2.9M12 9.5c.6 1.6 1.8 2.6 3.4 2.9M6.4 6.6c.5.8 1.3 1.3 2.2 1.4M17.6 6.6c-.5.8-1.3 1.3-2.2 1.4M4.6 14.6c1 .1 1.9-.2 2.6-.8M19.4 14.6c-1 .1-1.9-.2-2.6-.8' fill='none' stroke='%23f1cf5e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@400;500&family=Orbitron:wght@500;700&family=Exo+2:ital,wght@0,400;0,600;1,800&family=Russo+One&family=Onest:wght@400;500;700&family=Doto:ROND,wght@100,600;100,800&family=JetBrains+Mono:wght@400;500;700&family=Geologica:wght@200;300;400;600&family=Press+Start+2P&family=Tiny5&family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@400;500&family=Orbitron:wght@500;700&family=Exo+2:ital,wght@0,400;0,600;1,800&family=Russo+One&family=Onest:wght@400;500;700&family=Doto:ROND,wght@100,600;100,800&family=JetBrains+Mono:wght@400;500;700&family=Geologica:wght@200;300;400;600&family=Press+Start+2P&family=Tiny5&family=Dela+Gothic+One&family=Forum&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
 <style>
 /* Layout: dark-only page; live "now" card left with music under it, bell schedule right. Skins only swap tokens. */
 /* Chalkboard (default): school slate green, chalk yellow for lessons, chalk green for breaks */
@@ -159,6 +159,24 @@
   --r:10px; --chip-r:4px; --btn-r:8px;
   --card-shadow:0 0 0 1px rgba(76,194,255,.22),6px 7px 0 0 #05070f;
   --count-size:clamp(50px,8vw,84px); --count-weight:400; --digit-w:.96em; --colon-w:.36em;
+  --glow:none;
+  color-scheme:dark;
+}
+/* Toussaint: the duchy from The Witcher 3: Blood and Wine at golden hour. The page sits over a painted scene (paintToussaint):
+   Beauclair's white towers and blue roofs on a cliff with a waterfall, the Gorgon in haze, vineyards, lavender, poppies; dark game-menu
+   panels with gilded corners and a crest; gold lessons, Toussaint-blue breaks, Roman capitals (Forum) over a book serif (Alegreya) */
+:root[data-skin="toussaint"]{
+  --bg:#120d16; --grid:transparent; --margin-line:transparent; --surface:rgba(22,16,19,.93); --line:#4e3d28; --track:#2a2022;
+  --ink:#f1e6cc; --ink-2:#cdbb98; --ink-3:#998668; --accent:#e3b65e; --accent-ink:#1d1408; --accent-soft:#3b2d17;
+  --rest:#8bb6ea; --rest-soft:#1b2a44; --now:#e2566a; --warn:#ea8a6a; --warn-soft:#3b1a1a;
+  --font-display:"Forum","Georgia",serif;
+  --font-body:"Alegreya","Georgia",serif;
+  --font-hand:"Forum","Georgia",serif;
+  --bg-pattern:linear-gradient(#0f2149,#264d8a 28%,#6b7fb8 45%,#c49aab 55%,#f4bd8c 62%,#57743d 64%,#1a2210);
+  --bg-size:100% 100%;
+  --r:3px; --chip-r:2px; --btn-r:3px;
+  --card-shadow:inset 0 0 0 1px rgba(0,0,0,.55),0 22px 48px -20px rgba(0,0,0,.9);
+  --count-size:clamp(64px,10.5vw,104px); --count-weight:400; --digit-w:.54em; --colon-w:.26em;
   --glow:none;
   color-scheme:dark;
 }
@@ -333,6 +351,9 @@ button.fcal-d:hover,button.fcal-d:focus-visible{background:color-mix(in srgb,var
 :root[data-skin="orbit"]{--ok:#4cc2ff;--mid:#ffd34d;--bad:#ff3b4e}
 :root[data-skin="orbit"] .fstack{border:2px solid #05070f;border-bottom:0;border-radius:3px 3px 0 0;width:min(16px,70%)}
 :root[data-skin="orbit"] .fstack i{background-image:linear-gradient(90deg,rgba(255,255,255,.35),transparent 50%)}
+:root[data-skin="toussaint"]{--ok:#e3b65e;--mid:#b39ddb;--bad:#d9566a}
+:root[data-skin="toussaint"] .fstack{width:min(14px,64%);border-radius:7px 7px 0 0}
+:root[data-skin="toussaint"] .fstack i{background-image:linear-gradient(90deg,rgba(255,244,214,.3),transparent 55%,rgba(0,0,0,.22))}
 :root[data-skin="pixel"] .fstack{width:12px;border-radius:0}
 :root[data-skin="pixel"] .fstack i{background-image:repeating-linear-gradient(0deg,transparent 0 6px,rgba(15,5,36,.6) 6px 8px)}
 /* a lesson or a day without data keeps its place: still ahead = a dashed outline, going on now = a solid one,
@@ -528,6 +549,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
 .sw-line{background:linear-gradient(135deg,#0f0f0f 0 44%,#ff4f00 44% 56%,#0f0f0f 56%)}
 .sw-synth{background:linear-gradient(#ffd319 0 28%,#ff2975 28% 52%,#2a0a4a 52%)}
 .sw-orbit{background:linear-gradient(90deg,#3a6cff 0 30%,#ff7a2f 30% 60%,#ff3b4e 60% 75%,#59b8ff 75%)}
+.sw-toussaint{background:linear-gradient(135deg,#3a67ad 0 40%,#e3b65e 40% 62%,#7a1c30 62%)}
 .sw-pixel{border-radius:0;background:conic-gradient(#ff4fa3 0 25%,#3be8ff 0 50%,#ff4fa3 0 75%,#3be8ff 0) 0 0/6px 6px}
 
 /* skin-specific type and effects */
@@ -709,6 +731,82 @@ input[type=range]{accent-color:var(--accent);width:100%}
 :root[data-skin="orbit"] .player{border:2px solid #05070f;border-radius:10px;background:#060920}
 :root[data-skin="orbit"] .list-panel{border:2px solid #05070f;box-shadow:6px 7px 0 #05070f}
 :root[data-skin="orbit"] .fstat-v{font-family:var(--font-hand);font-weight:400}
+:root[data-skin="toussaint"] body{background-attachment:fixed;font-feature-settings:"lnum" 1}
+:root[data-skin="toussaint"] .wrap{z-index:1}
+:root[data-skin="toussaint"] ::selection{background:#7a1c30;color:#fff3d6}
+:root[data-skin="toussaint"] .card{position:relative;border-color:#5e4a2c;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26' fill='none' stroke='%23d6ad62'%3E%3Cg transform=''%3E%3Cpath d='M.75 25V8.5L8.5.75H25' stroke-width='1.1'/%3E%3Cpath d='M4 25V10L10 4H25' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M.75 15c2.6 0 4 1.6 4 4.2M15 .75c0 2.6 1.6 4 4.2 4' stroke-width='.9' stroke-opacity='.7'/%3E%3Cpath d='M3.6 1.4l2.2 2.2-2.2 2.2-2.2-2.2z' fill='%23d6ad62' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 5px top 5px/26px 26px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26' fill='none' stroke='%23d6ad62'%3E%3Cg transform='translate(26 0) scale(-1 1)'%3E%3Cpath d='M.75 25V8.5L8.5.75H25' stroke-width='1.1'/%3E%3Cpath d='M4 25V10L10 4H25' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M.75 15c2.6 0 4 1.6 4 4.2M15 .75c0 2.6 1.6 4 4.2 4' stroke-width='.9' stroke-opacity='.7'/%3E%3Cpath d='M3.6 1.4l2.2 2.2-2.2 2.2-2.2-2.2z' fill='%23d6ad62' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 5px top 5px/26px 26px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26' fill='none' stroke='%23d6ad62'%3E%3Cg transform='translate(0 26) scale(1 -1)'%3E%3Cpath d='M.75 25V8.5L8.5.75H25' stroke-width='1.1'/%3E%3Cpath d='M4 25V10L10 4H25' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M.75 15c2.6 0 4 1.6 4 4.2M15 .75c0 2.6 1.6 4 4.2 4' stroke-width='.9' stroke-opacity='.7'/%3E%3Cpath d='M3.6 1.4l2.2 2.2-2.2 2.2-2.2-2.2z' fill='%23d6ad62' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 5px bottom 5px/26px 26px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26' fill='none' stroke='%23d6ad62'%3E%3Cg transform='translate(26 26) scale(-1 -1)'%3E%3Cpath d='M.75 25V8.5L8.5.75H25' stroke-width='1.1'/%3E%3Cpath d='M4 25V10L10 4H25' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M.75 15c2.6 0 4 1.6 4 4.2M15 .75c0 2.6 1.6 4 4.2 4' stroke-width='.9' stroke-opacity='.7'/%3E%3Cpath d='M3.6 1.4l2.2 2.2-2.2 2.2-2.2-2.2z' fill='%23d6ad62' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 5px bottom 5px/26px 26px no-repeat,linear-gradient(rgba(30,22,25,.94),rgba(14,10,13,.96))}
+:root[data-skin="toussaint"] .card::before{content:"";position:absolute;left:50%;top:-9px;width:96px;height:18px;margin-left:-48px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 18' fill='none' stroke='%23d6ad62' stroke-width='1.1'%3E%3Cpath d='M36 9H6M60 9h30'/%3E%3Cpath d='M36 9c-3-5-10-5-11 0s5 5 6 1M60 9c3-5 10-5 11 0s-5 5-6 1'/%3E%3Cpath d='M48 1.5l7.5 7.5-7.5 7.5-7.5-7.5z' fill='%23e3bd6e' stroke='%235e4a2c' stroke-width='.8'/%3E%3Cpath d='M48 5.5l3.5 3.5-3.5 3.5-3.5-3.5z' fill='%237a1c30' stroke='none'/%3E%3Ccircle cx='4' cy='9' r='1.6' fill='%23d6ad62' stroke='none'/%3E%3Ccircle cx='92' cy='9' r='1.6' fill='%23d6ad62' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;pointer-events:none}
+:root[data-skin="toussaint"] .logo{font-family:var(--font-display);font-size:25px;text-transform:uppercase;letter-spacing:.12em;gap:12px;color:transparent;background:linear-gradient(#fff3cf 18%,#ebc778 52%,#a8772e 86%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))}
+:root[data-skin="toussaint"] .logo svg{width:34px;height:34px;padding:5px;border-radius:50%;color:#f0cd7e;background:radial-gradient(circle at 40% 32%,#3c2c16,#120c07 72%);box-shadow:0 0 0 1.5px #c9a25a,0 0 0 3.5px #120c07,0 0 0 4.5px #6e5530,0 3px 12px rgba(0,0,0,.7)}
+:root[data-skin="toussaint"] .today{font-style:italic;color:#e6d6b4;text-shadow:0 1px 4px #000,0 0 12px rgba(0,0,0,.6)}
+:root[data-skin="toussaint"] .clock{color:#f0d491;letter-spacing:.06em;text-shadow:0 2px 6px #000,0 0 14px rgba(0,0,0,.6)}
+:root[data-skin="toussaint"] h2,:root[data-skin="toussaint"] .settings summary{font-family:var(--font-display);font-weight:400;font-size:22px;text-transform:uppercase;letter-spacing:.14em;color:#ecd08f}
+:root[data-skin="toussaint"] .settings summary{gap:0}
+/* a gilded fleur-de-lis before each heading */
+:root[data-skin="toussaint"] h2::before,:root[data-skin="toussaint"] .settings summary::before{content:"";flex:none;display:inline-block;width:.95em;height:.95em;margin-right:.45em;vertical-align:-.1em;background:linear-gradient(#ffe9ad,#c18e3c);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5C14.6 4.2 15.4 7.6 13.4 11.2H10.6C8.6 7.6 9.4 4.2 12 1.5ZM10.4 12.2C9.6 9.4 7.4 7.6 5 7.9C2.8 8.2 2.2 10.6 3.4 12C3.8 10.6 5.2 10 6.4 10.6C7.6 11.2 8.2 12 8.4 12.2ZM13.6 12.2C14.4 9.4 16.6 7.6 19 7.9C21.2 8.2 21.8 10.6 20.6 12C20.2 10.6 18.8 10 17.6 10.6C16.4 11.2 15.8 12 15.6 12.2ZM7 12.2H17V14.2H7ZM10.8 14.2H13.2L12.6 17.6Q12 19.8 11.4 17.6ZM10.6 14.2C9.8 15.8 8.2 16.6 6.6 16.4C7.6 17.6 9.6 17.4 11 15.4ZM13.4 14.2C14.2 15.8 15.8 16.6 17.4 16.4C16.4 17.6 14.4 17.4 13 15.4Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5C14.6 4.2 15.4 7.6 13.4 11.2H10.6C8.6 7.6 9.4 4.2 12 1.5ZM10.4 12.2C9.6 9.4 7.4 7.6 5 7.9C2.8 8.2 2.2 10.6 3.4 12C3.8 10.6 5.2 10 6.4 10.6C7.6 11.2 8.2 12 8.4 12.2ZM13.6 12.2C14.4 9.4 16.6 7.6 19 7.9C21.2 8.2 21.8 10.6 20.6 12C20.2 10.6 18.8 10 17.6 10.6C16.4 11.2 15.8 12 15.6 12.2ZM7 12.2H17V14.2H7ZM10.8 14.2H13.2L12.6 17.6Q12 19.8 11.4 17.6ZM10.6 14.2C9.8 15.8 8.2 16.6 6.6 16.4C7.6 17.6 9.6 17.4 11 15.4ZM13.4 14.2C14.2 15.8 15.8 16.6 17.4 16.4C16.4 17.6 14.4 17.4 13 15.4Z'/%3E%3C/svg%3E") center/contain no-repeat}
+/* the timer card carries the same lily, large and faint, beside the count */
+:root[data-skin="toussaint"] .now{isolation:isolate}
+:root[data-skin="toussaint"] .now::after{content:"";position:absolute;z-index:-1;right:22px;top:58px;width:min(24%,140px);aspect-ratio:1;background:linear-gradient(#f1d084,#a8772e);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5C14.6 4.2 15.4 7.6 13.4 11.2H10.6C8.6 7.6 9.4 4.2 12 1.5ZM10.4 12.2C9.6 9.4 7.4 7.6 5 7.9C2.8 8.2 2.2 10.6 3.4 12C3.8 10.6 5.2 10 6.4 10.6C7.6 11.2 8.2 12 8.4 12.2ZM13.6 12.2C14.4 9.4 16.6 7.6 19 7.9C21.2 8.2 21.8 10.6 20.6 12C20.2 10.6 18.8 10 17.6 10.6C16.4 11.2 15.8 12 15.6 12.2ZM7 12.2H17V14.2H7ZM10.8 14.2H13.2L12.6 17.6Q12 19.8 11.4 17.6ZM10.6 14.2C9.8 15.8 8.2 16.6 6.6 16.4C7.6 17.6 9.6 17.4 11 15.4ZM13.4 14.2C14.2 15.8 15.8 16.6 17.4 16.4C16.4 17.6 14.4 17.4 13 15.4Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5C14.6 4.2 15.4 7.6 13.4 11.2H10.6C8.6 7.6 9.4 4.2 12 1.5ZM10.4 12.2C9.6 9.4 7.4 7.6 5 7.9C2.8 8.2 2.2 10.6 3.4 12C3.8 10.6 5.2 10 6.4 10.6C7.6 11.2 8.2 12 8.4 12.2ZM13.6 12.2C14.4 9.4 16.6 7.6 19 7.9C21.2 8.2 21.8 10.6 20.6 12C20.2 10.6 18.8 10 17.6 10.6C16.4 11.2 15.8 12 15.6 12.2ZM7 12.2H17V14.2H7ZM10.8 14.2H13.2L12.6 17.6Q12 19.8 11.4 17.6ZM10.6 14.2C9.8 15.8 8.2 16.6 6.6 16.4C7.6 17.6 9.6 17.4 11 15.4ZM13.4 14.2C14.2 15.8 15.8 16.6 17.4 16.4C16.4 17.6 14.4 17.4 13 15.4Z'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.07;pointer-events:none}
+@media (max-width:599px){:root[data-skin="toussaint"] .now::after{display:none}}
+/* the chip is a pointed plaque as on a quest label: gold for a lesson, Toussaint blue for a break */
+:root[data-skin="toussaint"] .chip{font-size:14px;letter-spacing:.16em;padding:4px 18px;border:0;border-radius:0;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 50%,calc(100% - 8px) 100%,8px 100%,0 50%);background:linear-gradient(#4a3a28,#2a2018);color:#ecd08f}
+:root[data-skin="toussaint"] .now[data-kind="lesson"] .chip{background:linear-gradient(#f6dc96,#c4923f);color:#1d1408}
+:root[data-skin="toussaint"] .now[data-kind="break"] .chip{background:linear-gradient(#4a7cc0,#26497f);color:#f6eedb}
+/* the count is struck in gold for a lesson and in silver-blue for a break */
+:root[data-skin="toussaint"] .count{filter:drop-shadow(0 2px 0 rgba(0,0,0,.65)) drop-shadow(0 0 22px rgba(227,182,94,.18))}
+:root[data-skin="toussaint"] .count .g,:root[data-skin="toussaint"] .count .c{color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(#fff5d6 12%,#f1d084 42%,#c8963c 72%,#8d6124);-webkit-background-clip:text;background-clip:text}
+:root[data-skin="toussaint"] .now[data-kind="break"] .count{filter:drop-shadow(0 2px 0 rgba(0,0,0,.65)) drop-shadow(0 0 22px rgba(139,182,234,.18))}
+:root[data-skin="toussaint"] .now[data-kind="break"] .count .g,:root[data-skin="toussaint"] .now[data-kind="break"] .count .c{background-image:linear-gradient(#f5f9ff 12%,#c3dbf6 42%,#82acdf 72%,#456ea6)}
+:root[data-skin="toussaint"] .bar{height:6px;border-radius:0;background:#0d0a0b;box-shadow:0 0 0 1px #5e4a2c,0 0 0 3px rgba(13,10,11,.9)}
+:root[data-skin="toussaint"] .bar-fill{border-radius:0;background:linear-gradient(90deg,#7a5420,#dcab50 62%,#fff0bd)}
+:root[data-skin="toussaint"] .now[data-kind="break"] .bar-fill{background:linear-gradient(90deg,#24467a,#6f9fdc 62%,#e4f0ff)}
+:root[data-skin="toussaint"] .blk{border-radius:1px}
+:root[data-skin="toussaint"] .blk.lesson{color:#d9c49a}
+:root[data-skin="toussaint"] .blk.lesson.cur{background:linear-gradient(#f6dc96,#c4923f);color:#1d1408}
+:root[data-skin="toussaint"] .blk.break.cur{background:linear-gradient(#9cc2f0,#4d7cc0)}
+:root[data-skin="toussaint"] .nowmark::before{content:"";position:absolute;left:50%;top:-4px;width:7px;height:7px;margin-left:-3.5px;background:var(--now);transform:rotate(45deg)}
+:root[data-skin="toussaint"] .btn{background:linear-gradient(#2c2222,#171213);border-color:#5e4a2c}
+:root[data-skin="toussaint"] .btn:hover{border-color:#c9a25a}
+:root[data-skin="toussaint"] .btn.primary,:root[data-skin="toussaint"] .seg button[aria-pressed="true"],:root[data-skin="toussaint"] .dt input:checked+span{background:linear-gradient(#f6dc96,#c4923f);border-color:#f3dc9c;color:#1d1408}
+:root[data-skin="toussaint"] .btn.primary{box-shadow:inset 0 1px 0 rgba(255,250,225,.55),0 0 0 1px #3b2a12}
+:root[data-skin="toussaint"] .btn.ghost{background:transparent}
+:root[data-skin="toussaint"] .seg{border-color:#5e4a2c}
+:root[data-skin="toussaint"] .seg button+button{border-left-color:#5e4a2c}
+:root[data-skin="toussaint"] .skin[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+:root[data-skin="toussaint"] th{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.16em;color:#b49a6c;border-bottom:3px double #5e4a2c}
+:root[data-skin="toussaint"] tr.cur{background:linear-gradient(90deg,rgba(227,182,94,.2),rgba(227,182,94,.03))}
+:root[data-skin="toussaint"] tr.cur td.t,:root[data-skin="toussaint"] tr.cur td.n{color:#f6dc9c}
+:root[data-skin="toussaint"] td.end{font-family:var(--font-body);font-style:italic;font-size:17px;color:#d9707a}
+:root[data-skin="toussaint"] .add input,:root[data-skin="toussaint"] .lp-head input,:root[data-skin="toussaint"] .brk,:root[data-skin="toussaint"] .form input[type=time],:root[data-skin="toussaint"] .form input[type=number],:root[data-skin="toussaint"] .form select{background:#0e0a0c;border-color:#4e3d28;border-radius:2px}
+:root[data-skin="toussaint"] .brk.custom{border-color:var(--rest)}
+:root[data-skin="toussaint"] .player{background:#0c090b;border:1px solid #3e301f;border-radius:2px}
+:root[data-skin="toussaint"] .list-panel{border-color:#5e4a2c;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 18px 40px -14px rgba(0,0,0,.9)}
+:root[data-skin="toussaint"] .trk-thumb{border-radius:1px}
+:root[data-skin="toussaint"] .fday{border-color:#4e3d28;background:linear-gradient(90deg,rgba(227,182,94,.07),transparent 70%)}
+:root[data-skin="toussaint"] .focus-pill{border-color:#4e3d28}
+:root[data-skin="toussaint"] .fstat-v{font-weight:400}
+/* a reminder comes up like a quest update: a dark band fading out at the ends, between two gilded hairlines */
+:root[data-skin="toussaint"] .toast{width:max-content;border:0;border-radius:0;padding:14px 40px 14px 44px;background:linear-gradient(90deg,transparent,rgba(12,9,11,.97) 10%,rgba(12,9,11,.97) 90%,transparent);box-shadow:none;font-family:var(--font-display);font-weight:400;font-size:17px;text-transform:uppercase;letter-spacing:.12em;color:#f0d491}
+:root[data-skin="toussaint"] .toast::before,:root[data-skin="toussaint"] .toast::after{content:"";position:absolute;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,#d6ad62 30%,#d6ad62 70%,transparent)}
+:root[data-skin="toussaint"] .toast::before{top:0}
+:root[data-skin="toussaint"] .toast::after{bottom:0}
+/* the painted scene: two still canvases (the sky, then the land) with drifting clouds between them, and pollen, butterflies and the
+   keep's pennants on top; everything that moves is a CSS transform */
+.tscene{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+:root[data-skin="toussaint"] .tscene{display:block}
+.tscene canvas{position:absolute;left:0;top:0;width:100%;height:100%}
+.ts-clouds canvas{animation:tsDrift var(--t) linear var(--d) infinite}
+@keyframes tsDrift{from{transform:translateX(-100%)}to{transform:translateX(100vw)}}
+.ts-mote{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:radial-gradient(#fff8dc,rgba(255,214,120,.7) 40%,transparent 70%);opacity:0;animation:tsMote var(--t) ease-in-out var(--d) infinite}
+@keyframes tsMote{0%{transform:translate(0,0);opacity:0}20%{opacity:.95}50%{transform:translate(22px,-70px)}80%{opacity:.7}100%{transform:translate(-12px,-150px);opacity:0}}
+.ts-fly{position:absolute;left:0;top:calc(60% + var(--y,0px));width:16px;height:13px;animation:tsFly var(--t) linear var(--d) infinite}
+.ts-fly b{position:absolute;top:0;width:8px;height:12px;background:linear-gradient(135deg,#fff6c8,#f2c25a);border-radius:70% 10% 60% 40%;transform-origin:100% 50%;animation:tsFlap .2s ease-in-out infinite alternate}
+.ts-fly b+b{left:8px;transform-origin:0 50%;border-radius:10% 70% 40% 60%}
+@keyframes tsFlap{to{transform:scaleX(.15)}}
+@keyframes tsFly{0%{transform:translate(-4vw,0)}20%{transform:translate(18vw,-7vh)}40%{transform:translate(40vw,2vh)}60%{transform:translate(62vw,-9vh)}80%{transform:translate(84vw,-1vh)}100%{transform:translate(106vw,-6vh)}}
+.ts-flag{position:absolute;transform-origin:0 50%;background:linear-gradient(#e3b65e 0 12%,#4a78c4 12% 88%,#e3b65e 88%);clip-path:polygon(0 0,100% 18%,80% 50%,100% 82%,0 100%);animation:tsWave 1.7s ease-in-out infinite alternate}
+@keyframes tsWave{from{transform:skewY(7deg) scaleX(1)}to{transform:skewY(-6deg) scaleX(.84)}}
+@media (prefers-reduced-motion:reduce){.tscene *{animation:none!important}.ts-clouds canvas{transform:translateX(var(--x))}}
 .scene{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .top-right{display:flex;align-items:center;gap:12px}
 .sun{position:absolute;left:50%;top:64%;width:min(46vmin,440px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(#ffd319 8%,#ff8c42 38%,#ff2975 72%,#b026ff);-webkit-mask-image:linear-gradient(#000 0 30%,transparent 30% 32%,#000 32% 38%,transparent 38% 41%,#000 41% 45%,transparent 45% 49%,#000 49%);mask-image:linear-gradient(#000 0 30%,transparent 30% 32%,#000 32% 38%,transparent 38% 41%,#000 41% 45%,transparent 45% 49%,#000 49%);filter:drop-shadow(0 0 40px rgba(255,41,117,.55))}
@@ -905,6 +1003,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <button class="skin" type="button" data-skin="synth" aria-pressed="false"><span class="sw sw-synth"></span>Ретро</button>
           <button class="skin" type="button" data-skin="pixel" aria-pressed="false"><span class="sw sw-pixel"></span>Піксель</button>
           <button class="skin" type="button" data-skin="orbit" aria-pressed="false"><span class="sw sw-orbit"></span>Орбіта</button>
+          <button class="skin" type="button" data-skin="toussaint" aria-pressed="false"><span class="sw sw-toussaint"></span>Туссент</button>
         </div>
         <label class="check skin-shuffle"><input type="checkbox" id="sShuffle"><span>Нова випадкова тема щодня</span></label>
       </fieldset>
@@ -1042,7 +1141,7 @@ const EN = {
   'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
   'Я сиджу рівно':'I’m sitting straight',
   'Налаштування':'Settings', 'Тема':'Theme', 'Мова':'Language',
-  'Дошка':'Chalkboard', 'Неон':'Neon', 'Аеро':'Aero', 'Точки':'Dots', 'Лінія':'Line', 'Ретро':'Retro', 'Піксель':'Pixel', 'Орбіта':'Orbit',
+  'Дошка':'Chalkboard', 'Неон':'Neon', 'Аеро':'Aero', 'Точки':'Dots', 'Лінія':'Line', 'Ретро':'Retro', 'Піксель':'Pixel', 'Орбіта':'Orbit', 'Туссент':'Toussaint',
   'Нова випадкова тема щодня':'A new random theme every day',
   'Початок першого уроку':'First lesson starts at', 'Тривалість уроку, хв':'Lesson length, min', 'Тривалість перерви, хв':'Break length, min',
   'Кількість уроків':'Number of lessons', 'Робочі дні':'Working days',
@@ -1846,6 +1945,49 @@ const VIZ = {
     g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(0,0,0,.18)';
     for(let y = 0; y < G.H; y += 3 * G.dpr) g.fillRect(0, y, G.W, Math.max(1, G.dpr));
   },
+  // Toussaint: the spectrum as a row of lancet windows in stained glass, wine-red at the sill and gold under the arch, crossed by lead bars;
+  // a gold diamond holds each peak, and golden motes drift up with the bass like dust in the sunset over Beauclair
+  toussaint(g, G, C, L, t, dt){
+    const base = G.top + G.area * .92, hMax = G.area * .84, bw = G.step * .64;
+    const glass = g.createLinearGradient(0, base, 0, base - hMax);
+    glass.addColorStop(0, '#5a0f22'); glass.addColorStop(.35, '#a3243a'); glass.addColorStop(.7, '#e09a48'); glass.addColorStop(1, '#ffe7a8');
+    g.beginPath();
+    for(let i = 0; i < G.N; i++){
+      const x = G.padX + G.step * (i + .5), top = base - Math.max(bw * 1.3, L[i] * hMax), l = x - bw / 2, r = x + bw / 2;
+      g.moveTo(l, base); g.lineTo(l, top + bw * .8);
+      g.quadraticCurveTo(l, top + bw * .2, x, top); g.quadraticCurveTo(r, top + bw * .2, r, top + bw * .8);
+      g.lineTo(r, base); g.closePath();
+    }
+    g.save(); g.shadowColor = 'rgba(240,170,80,.5)'; g.shadowBlur = 14 * G.dpr; g.fillStyle = glass; g.fill(); g.restore();
+    g.strokeStyle = '#140c0e'; g.lineWidth = Math.max(1, 1.4 * G.dpr); g.stroke();
+    g.save(); g.clip();
+    g.strokeStyle = 'rgba(20,12,14,.8)'; g.lineWidth = Math.max(1, G.dpr);
+    g.beginPath();
+    for(let y = base - hMax * .2; y > base - hMax; y -= hMax * .2){ g.moveTo(0, y); g.lineTo(G.W, y); }
+    g.stroke(); g.restore();
+    g.fillStyle = '#ffe7a8'; g.beginPath();
+    for(let i = 0; i < G.N; i++){
+      const pk = V.peaks[i] * hMax;
+      if(pk < bw * 1.5) continue;
+      const x = G.padX + G.step * (i + .5), y = base - pk - bw * .9, d = bw * .36;
+      g.moveTo(x, y - d); g.lineTo(x + d, y); g.lineTo(x, y + d); g.lineTo(x - d, y); g.closePath();
+    }
+    g.fill();
+    g.fillStyle = '#c9a25a'; g.fillRect(G.padX * .6, base + G.dpr, G.W - G.padX * 1.2, Math.max(1, G.dpr));
+    let bass = 0;
+    for(let i = 0; i < 6; i++) bass += L[i] / 6;
+    const ms = V.motes || (V.motes = []);
+    if(ms.length < 70 && Math.random() < (bass * 3 + .15) * dt * 10)
+      ms.push({x:G.padX + Math.random() * (G.W - G.padX * 2), y:base, v:(18 + Math.random() * 36) * G.dpr, s:(.8 + Math.random() * 1.4) * G.dpr, ph:Math.random() * 6.3, age:0});
+    g.globalCompositeOperation = 'lighter'; g.fillStyle = '#ffd88a';
+    for(let k = ms.length - 1; k >= 0; k--){
+      const m = ms[k];
+      m.age += dt; m.y -= m.v * dt * (1 + bass); m.x += Math.sin(t * 1.3 + m.ph) * .3 * G.dpr;
+      const a = Math.min(1, m.age * 2) * Math.max(0, (m.y - G.top) / (base - G.top));
+      if(a <= 0){ ms.splice(k, 1); continue; }
+      g.globalAlpha = a * .8; g.beginPath(); g.arc(m.x, m.y, m.s, 0, Math.PI * 2); g.fill();
+    }
+  },
   // Retro: striped sunset sun that swells with the bass, the spectrum as a neon mountain range, a rolling grid floor
   synth(g, G, C, L, t, dt){
     const hz = G.top + G.area * .64, cx = G.W / 2;
@@ -2406,13 +2548,344 @@ function pixelScene(){
   return (pixelSceneUrl = c.toDataURL('image/png'));
 }
 
-const SKINS = ['chalk', 'cyber', 'aero', 'dots', 'line', 'synth', 'pixel', 'orbit'];
+/* ---------- Toussaint: a painted scene behind the page ---------- */
+// Golden hour over the duchy, painted for the window's size on two canvases: the sky behind a few drifting clouds, and the land in
+// front of them. The Gorgon in blue haze; Beauclair's white towers and blue roofs on a cliff with a waterfall and the town's red roofs;
+// vineyard hills, a lavender field, poppies and grapevines in front. Only small things move (clouds, pollen, two butterflies, the
+// pennants), as CSS transforms, so nothing is repainted while they do.
+const TS = {el:null, w:0, h:0, timer:0, grain:null};
+function toussaintScene(on){
+  if(!on){ if(TS.el) TS.el.hidden = true; return; }
+  if(!TS.el){
+    let fx = '';
+    for(let i = 0; i < 26; i++) fx += '<i class="ts-mote" style="left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (40 + Math.random() * 55).toFixed(1) +
+      '%;--s:' + (2 + Math.random() * 3).toFixed(1) + 'px;--t:' + (9 + Math.random() * 12).toFixed(1) + 's;--d:-' + (Math.random() * 20).toFixed(1) + 's"></i>';
+    fx += '<i class="ts-fly" style="--t:41s;--d:-9s"><b></b><b></b></i><i class="ts-fly" style="--t:53s;--d:-31s;--y:9vh"><b></b><b></b></i><i class="ts-flag"></i><i class="ts-flag"></i>';
+    TS.el = document.createElement('div'); TS.el.className = 'tscene'; TS.el.setAttribute('aria-hidden', 'true');
+    TS.el.innerHTML = '<canvas class="ts-sky"></canvas><div class="ts-clouds"></div><canvas class="ts-land"></canvas><div class="ts-fx">' + fx + '</div>';
+    document.body.prepend(TS.el);
+    addEventListener('resize', () => { clearTimeout(TS.timer); TS.timer = setTimeout(() => { if(!TS.el.hidden) paintToussaint(); }, 250); });
+  }
+  TS.el.hidden = false;
+  requestAnimationFrame(paintToussaint);
+}
+function paintToussaint(){
+  const W = innerWidth, H = innerHeight;
+  // a phone's address bar coming and going changes the height a little: then the picture just stretches
+  if(!W || !H || (W === TS.w && Math.abs(H - TS.h) < 140)) return;
+  TS.w = W; TS.h = H;
+  const k = Math.min(devicePixelRatio || 1, 1.5), D = Math.hypot(W, H), el = TS.el;
+  let seed = 7;
+  const R = () => (seed = seed * 16807 % 2147483647) / 2147483647, rr = (a, b) => a + R() * (b - a);
+  const port = W < H * .8, hz = H * (port ? .6 : .63), sx = W * (port ? .4 : .62), sy = hz - H * .09;
+  const rgb = (c) => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const p = rgb(a), q = rgb(b); return 'rgb(' + p.map((v, i) => Math.round(v + (q[i] - v) * t)).join(',') + ')'; };
+  const warmth = (x) => Math.max(0, 1 - Math.abs(x - sx) / (W * .6));
+  const stops = (gr, list) => { for(const [o, c] of list) gr.addColorStop(o, c); return gr; };
+  const canvas = (cv, w, h) => { cv.width = Math.round(w * k); cv.height = Math.round(h * k); const g = cv.getContext('2d'); g.setTransform(k, 0, 0, k, 0, 0); return g; };
+
+  // ----- the sky: blue overhead, rose and gold toward the horizon, low streaks of cloud, rays and the sun's glow
+  const s = canvas(el.querySelector('.ts-sky'), W, H);
+  s.fillStyle = stops(s.createLinearGradient(0, 0, 0, hz), [[0, '#0f2149'], [.28, '#264d8a'], [.52, '#6b7fb8'], [.7, '#c49aab'], [.86, '#f4bd8c'], [1, '#ffdf9e']]);
+  s.fillRect(0, 0, W, H);
+  s.filter = 'blur(' + Math.round(3 * k) + 'px)';
+  for(let i = 0; i < 16; i++){
+    const x = rr(-.1, 1.1) * W, y = hz - H * rr(.03, .22);
+    s.globalAlpha = rr(.3, .65); s.fillStyle = mix('#a988b4', '#ffd29a', warmth(x));
+    s.beginPath(); s.ellipse(x, y, W * rr(.08, .26), H * rr(.004, .013), 0, 0, 7); s.fill();
+  }
+  s.filter = 'none'; s.globalAlpha = 1;
+  s.globalCompositeOperation = 'screen';
+  s.filter = 'blur(' + Math.round(9 * k) + 'px)';
+  for(let i = 0; i < 18; i++){
+    const a = rr(-Math.PI - .1, .1), w = rr(.012, .045), len = D * rr(.45, 1);
+    s.fillStyle = stops(s.createRadialGradient(sx, sy, 0, sx, sy, len), [[0, 'rgba(255,228,170,' + rr(.1, .2).toFixed(2) + ')'], [1, 'rgba(255,228,170,0)']]);
+    s.beginPath(); s.moveTo(sx, sy); s.arc(sx, sy, len, a - w, a + w); s.closePath(); s.fill();
+  }
+  s.filter = 'none';
+  s.fillStyle = stops(s.createRadialGradient(sx, sy, 0, sx, sy, D * .75), [[0, '#fffbe8'], [.02, '#fff3cc'], [.045, 'rgba(255,214,140,.8)'], [.14, 'rgba(255,178,110,.38)'], [.42, 'rgba(255,150,100,.12)'], [1, 'rgba(255,140,90,0)']]);
+  s.fillRect(0, 0, W, H);
+  s.globalCompositeOperation = 'source-over';
+
+  // ----- heaped clouds, lit from below, each on its own canvas so it can drift
+  const cl = el.querySelector('.ts-clouds'); cl.textContent = '';
+  for(let i = 0; i < 4; i++){
+    const w = Math.max(200, W * rr(.16, .28)), h = w * rr(.28, .36), c = document.createElement('canvas'), warm = rr(.3, .7);
+    c.style.cssText = 'width:' + w.toFixed(0) + 'px;height:' + h.toFixed(0) + 'px;top:' + (H * rr(.1, .34)).toFixed(0) + 'px;--x:' + rr(-10, 90).toFixed(0) +
+      'vw;--t:' + rr(240, 420).toFixed(0) + 's;--d:-' + rr(0, 420).toFixed(0) + 's;opacity:' + rr(.7, .92).toFixed(2);
+    const g = canvas(c, w, h);
+    g.filter = 'blur(' + Math.round(1.5 * k) + 'px)';
+    g.fillStyle = stops(g.createLinearGradient(0, 0, 0, h), [[0, mix('#9da3d0', '#e9cfd2', warm * .5)], [.55, mix('#d3b3c8', '#ffd1aa', warm)], [1, mix('#eeae98', '#ffb26e', warm)]]);
+    for(let j = 0; j < 20; j++){
+      const u = R(), r = h * rr(.16, .34), x = w * (.14 + .72 * u), top = h * (.08 + .52 * Math.pow(Math.abs(u - .5) * 2, 1.3));
+      g.beginPath(); g.arc(x, Math.min(h - r - 2, top + r), r, 0, 7); g.fill();
+    }
+    cl.append(c);
+  }
+
+  // ----- the land
+  const g = canvas(el.querySelector('.ts-land'), W, H);
+  const f1 = 6.283 / Math.max(500, W * .45);
+  // colours that warm toward the sun along the width
+  const warmGrad = (cool, warm) => { const gr = g.createLinearGradient(0, 0, W, 0); for(let i = 0; i <= 12; i++) gr.addColorStop(i / 12, mix(cool, warm, warmth(W * i / 12))); return gr; };
+  // a ridge: its height every 8 px
+  const ridge = (base, amp, f, ph) => { const ys = []; for(let x = 0; x <= W + 8; x += 8) ys.push(base - amp * (.55 * Math.sin(x * f + ph) + .3 * Math.sin(x * f * 2.7 + ph * 1.9) + .15 * Math.sin(x * f * 6.1 + ph * 3.3))); return ys; };
+  const trace = (ys, dy = 0) => ys.forEach((y, i) => i ? g.lineTo(i * 8, y + dy) : g.moveTo(0, y + dy));
+  const shape = (ys) => { g.beginPath(); trace(ys); g.lineTo(W + 8, H + 4); g.lineTo(0, H + 4); g.closePath(); };
+  const at = (ys, x) => ys[Math.max(0, Math.min(ys.length - 1, Math.round(x / 8)))];
+  const poly = (pts) => { g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); };
+
+  // the Gorgon: a crooked crag in blue haze, its sunward face warm
+  const gx = W * (port ? .17 : .1), gh = H * (port ? .36 : .46), gw = Math.min(W * (port ? .32 : .2), gh * .72);
+  const GP = [[-1, 1], [-.82, .86], [-.7, .8], [-.58, .66], [-.47, .6], [-.38, .46], [-.3, .4], [-.22, .27], [-.15, .2], [-.1, .1], [-.05, .04], [.02, 0],
+    [.09, .03], [.08, .08], [.12, .12], [.18, .22], [.26, .3], [.34, .42], [.45, .5], [.58, .6], [.7, .7], [.84, .82], [1, 1]];
+  const gp = ([u, v]) => [gx + u * gw, hz - gh * (1 - v)];
+  poly(GP.map(gp)); g.fillStyle = stops(g.createLinearGradient(0, hz - gh, 0, hz), [[0, '#47507f'], [1, '#9b95bd']]); g.fill();
+  g.save(); g.clip();
+  // the shaded side in darker buttresses, the sunward face warm and broken by spurs running down to the right
+  for(const [a, b, c] of [[[-.05, .04], [-.3, .5], [-.12, .55]], [[-.15, .2], [-.55, .75], [-.3, .8]], [[-.3, .4], [-.8, 1], [-.5, 1]]]){ poly([a, b, c].map(gp)); g.fillStyle = 'rgba(28,26,66,.22)'; g.fill(); }
+  poly([...GP.slice(11).map(gp), ...[[.12, 1], [.05, .74], [.11, .52], [.04, .3], [.07, .16]].map(gp)]);
+  g.fillStyle = stops(g.createLinearGradient(0, hz - gh, 0, hz), [[0, 'rgba(255,206,160,.6)'], [1, 'rgba(255,214,176,.14)']]); g.fill();
+  for(const [a, b, c] of [[[.07, .16], [.3, .36], [.12, .3]], [[.04, .3], [.5, .56], [.11, .52]], [[.11, .52], [.72, .76], [.05, .74]]]){
+    poly([a, b, c].map(gp)); g.fillStyle = 'rgba(255,224,186,.22)'; g.fill();
+    g.strokeStyle = 'rgba(70,52,96,.35)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(...gp(a)); g.lineTo(...gp(b)); g.stroke();
+  }
+  g.strokeStyle = 'rgba(40,40,80,.2)'; g.lineWidth = 1.2;
+  for(let i = 0; i < 12; i++){ const u0 = rr(-.4, .4), v0 = rr(.1, .5); g.beginPath(); g.moveTo(...gp([u0, v0])); g.lineTo(...gp([u0 + rr(-.15, .1), v0 + rr(.2, .4)])); g.stroke(); }
+  g.fillStyle = stops(g.createLinearGradient(0, hz - gh * .45, 0, hz), [[0, 'rgba(222,204,232,0)'], [1, 'rgba(232,206,222,.55)']]); g.fillRect(gx - gw, hz - gh * .45, gw * 2, gh * .45);
+  g.restore();
+  // two far ranges, hazier and warmer near the sun
+  shape(ridge(hz - H * .045, H * .035, f1, 1.3)); g.fillStyle = warmGrad('#9a98c4', '#f1c4a4'); g.fill();
+  shape(ridge(hz - H * .012, H * .028, f1 * 1.4, 4.1)); g.fillStyle = warmGrad('#827db0', '#dba495'); g.fill();
+
+  // Beauclair: the cliff with its falls, the town's roofs down its slope, the palace on top
+  const px = W * (port ? .7 : .86), u = Math.min(W * (port ? .2 : .1), H * .18), cy = hz - u * .55, c0 = px - u * 1.3;
+  const cliff = [[c0 - u * 1.2, hz + H * .14], [c0 - u * .7, hz + H * .02], [c0 - u * .45, cy + u * .5], [c0 - u * .2, cy + u * .3], [c0 - u * .12, cy + u * .08], [c0, cy],
+    [W + 10, cy - u * .06], [W + 10, hz + H * .14]];
+  poly(cliff); g.fillStyle = stops(g.createLinearGradient(0, cy, 0, hz + H * .14), [[0, '#dcaa84'], [.45, '#9c7d8e'], [1, '#5e4f74']]); g.fill();
+  g.save(); g.clip();
+  // rock in upright columns, each lit on its sunward edge with a crevice on the other, broken by ledges with a little green on them
+  for(let x = c0 - u * 1.1; x < W; x += u * rr(.05, .13)){
+    const y0 = cy + rr(-u * .05, u * .25), lean = rr(-u * .04, u * .04), y1 = hz + H * .14;
+    g.fillStyle = 'rgba(255,224,182,' + rr(.12, .3).toFixed(2) + ')'; g.beginPath(); g.moveTo(x, y0); g.lineTo(x + rr(2, 5), y0); g.lineTo(x + lean + rr(2, 6), y1); g.lineTo(x + lean, y1); g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(58,40,86,' + rr(.2, .45).toFixed(2) + ')'; g.lineWidth = rr(.8, 2); g.beginPath(); g.moveTo(x - rr(1, 4), y0); g.lineTo(x - 2 + lean, y1); g.stroke();
+  }
+  for(let i = 0; i < 26; i++){
+    const x = rr(c0 - u * .6, W), y = rr(cy + u * .15, hz + H * .1), w = u * rr(.12, .35);
+    g.fillStyle = 'rgba(255,226,186,.35)'; g.fillRect(x, y, w, 1.5);
+    g.fillStyle = 'rgba(58,40,86,.3)'; g.fillRect(x, y + 1.5, w, 2.5);
+    g.fillStyle = 'rgba(96,120,58,.8)';
+    for(let j = 0; j < w / 5; j++){ g.beginPath(); g.arc(x + rr(0, w), y - 1, rr(1, 2.6), 0, 7); g.fill(); }
+  }
+  const wx = c0 + u * .3, wy = cy + u * .04, wb = hz + H * .13;
+  g.strokeStyle = stops(g.createLinearGradient(0, wy, 0, wb), [[0, 'rgba(255,255,255,.95)'], [1, 'rgba(205,228,255,.45)']]);
+  for(let i = 0; i < 30; i++){
+    const x0 = rr(-u * .07, u * .07);
+    g.lineWidth = rr(.8, 3); g.beginPath(); g.moveTo(wx + x0, wy);
+    for(let y = wy; y < wb; y += 10) g.lineTo(wx + x0 * (1 + (y - wy) / u * .5) + Math.sin(y * .05 + i) * 1.2, y);
+    g.stroke();
+  }
+  g.fillStyle = stops(g.createRadialGradient(wx, wb - u * .1, 0, wx, wb - u * .1, u * .55), [[0, 'rgba(255,255,255,.6)'], [1, 'rgba(255,255,255,0)']]);
+  g.fillRect(wx - u * .6, wb - u * .7, u * 1.2, u * 1.2);
+  g.restore();
+  const houses = [];
+  for(let i = 0; i < 46; i++){
+    const t = R();
+    houses.push([c0 - u * (.08 + t * 1.25) + rr(-u * .12, u * .12), cy + u * .3 + t * (hz + H * .05 - cy - u * .3) + rr(-u * .08, u * .08), u * rr(.08, .13) * (.85 + t * .3)]);
+  }
+  houses.sort((a, b) => a[1] - b[1]);
+  for(const [x, y, w] of houses){
+    const h = w * rr(.55, .85), roof = R() < .78 ? ['#ec8f5e', '#a9493a'] : ['#82a4dc', '#3c5b98'];
+    g.fillStyle = '#f5e3c6'; g.fillRect(x - w / 2, y - h, w * .55, h);
+    g.fillStyle = '#c3aeb8'; g.fillRect(x + w * .05, y - h, w * .45, h);
+    g.fillStyle = R() < .3 ? '#ffd07c' : '#6a586c'; g.fillRect(x - w * .32, y - h * .62, w * .1, h * .24);
+    g.fillStyle = roof[0]; g.beginPath(); g.moveTo(x - w * .58, y - h); g.lineTo(x, y - h - w * .42); g.lineTo(x, y - h); g.closePath(); g.fill();
+    g.fillStyle = roof[1]; g.beginPath(); g.moveTo(x, y - h - w * .42); g.lineTo(x + w * .58, y - h); g.lineTo(x, y - h); g.closePath(); g.fill();
+  }
+  // slate roofs: blue, lit on the sun's side with a warm edge, the slates' courses fanning down from the tip
+  const roofTri = (l, r, base, rh) => {
+    const m = (l + r) / 2;
+    g.fillStyle = stops(g.createLinearGradient(l, 0, r, 0), [[0, '#a9c6f2'], [.3, '#6189cc'], [.7, '#33548f'], [1, '#1c2c5a']]);
+    g.beginPath(); g.moveTo(l, base); g.lineTo(m, base - rh); g.lineTo(r, base); g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(20,30,70,.22)'; g.lineWidth = .8; g.beginPath();
+    for(let j = 1; j < 9; j++){ const x = l + (r - l) * j / 9; g.moveTo(m, base - rh); g.lineTo(x, base); }
+    for(let j = 1; j < 6; j++){ const t = j / 6; g.moveTo(m - (m - l) * t, base - rh * (1 - t)); g.lineTo(m + (r - m) * t, base - rh * (1 - t)); }
+    g.stroke();
+    g.strokeStyle = 'rgba(255,226,176,.75)'; g.lineWidth = 1; g.beginPath(); g.moveTo(l, base); g.lineTo(m, base - rh); g.stroke();
+  };
+  const stone = (l, r) => stops(g.createLinearGradient(l, 0, r, 0), [[0, '#fff2d8'], [.35, '#f4ddb9'], [.75, '#cdb8c3'], [1, '#9b8db4']]);
+  const wall = (l, r, top) => { g.fillStyle = stone(l, r); g.fillRect(l, top, r - l, cy - top + 2); };
+  const haze = (l, t, w, h, a) => { if(a){ g.fillStyle = 'rgba(214,200,232,' + a + ')'; g.fillRect(l, t, w, h); } };
+  // a round tower: warm white stone in courses, a machicolated parapet, lancet windows (a few lit), a tall slate cone and a gold
+  // finial; a tower further back is veiled in haze. Returns the finial's tip.
+  const tower = (dx, w, hw, rh, hz2 = 0) => {
+    const x = px + dx * u, ww = w * u, l = x - ww / 2, top = cy - hw * u, cap = ww * .2;
+    g.fillStyle = stone(l, l + ww); g.fillRect(l, top, ww, cy - top + 2);
+    g.fillStyle = 'rgba(110,90,140,.28)';
+    for(let y = top + cap + ww * .5; y < cy; y += u * .16) g.fillRect(l, y, ww, 1);
+    for(let y = top + cap + ww * .45; y < cy - u * .42; y += ww * .8){
+      const lit = R() < .3, wx0 = x - ww * .22, w0 = Math.max(1.6, ww * .11), h0 = Math.max(3.5, ww * .26);
+      g.fillStyle = lit ? '#ffd07c' : '#4c4268'; g.beginPath(); g.moveTo(wx0, y + h0); g.lineTo(wx0, y + w0 * .6); g.lineTo(wx0 + w0 / 2, y); g.lineTo(wx0 + w0, y + w0 * .6); g.lineTo(wx0 + w0, y + h0); g.fill();
+      g.fillStyle = 'rgba(255,240,214,.7)'; g.fillRect(wx0 - .5, y + h0, w0 + 1, 1);
+    }
+    // the parapet sticks out a little over a row of corbels
+    g.fillStyle = stone(l - ww * .06, l + ww * 1.06); g.fillRect(l - ww * .06, top, ww * 1.12, cap);
+    g.fillStyle = 'rgba(70,56,100,.45)';
+    for(let j = 0; j < 6; j++) g.fillRect(l + ww * (j + .25) / 6, top + cap, ww * .07, cap * .45);
+    g.fillRect(l - ww * .06, top + cap - 1, ww * 1.12, 1);
+    roofTri(l - ww * .14, l + ww * 1.14, top + 1, rh * u);
+    const fy = top - rh * u - ww * .45;
+    g.strokeStyle = '#ffd47a'; g.lineWidth = Math.max(1, ww * .05); g.beginPath(); g.moveTo(x, top - rh * u); g.lineTo(x, fy); g.stroke();
+    g.fillStyle = '#ffe29a'; g.beginPath(); g.arc(x, top - rh * u - ww * .16, Math.max(1.2, ww * .06), 0, 7); g.fill();
+    if(hz2){ g.save(); g.beginPath(); g.rect(l - ww * .2, top, ww * 1.4, cy - top + 2); g.moveTo(l - ww * .14, top + 1); g.lineTo(x, fy); g.lineTo(l + ww * 1.14, top + 1); g.clip(); haze(l - ww * .2, fy, ww * 1.4, cy - fy + 2, hz2); g.restore(); }
+    return [x, fy];
+  };
+  // a row of towers further back, hazier
+  for(const [dx, w, hw, rh] of [[-.9, .13, .78, .4], [-.52, .15, 1.0, .5], [-.02, .14, 1.12, .52], [.5, .15, 1.0, .48], [.95, .12, .74, .38]]) tower(dx, w, hw, rh, .38);
+  wall(px - u * 1.12, px + u * 1.16, cy - u * .34);
+  g.fillStyle = '#efe0c8';
+  for(let x = px - u * 1.12; x < px + u * 1.14; x += u * .07) g.fillRect(x, cy - u * .39, u * .035, u * .06);
+  wall(px - u * .66, px - u * .33, cy - u * .56);
+  g.fillStyle = '#ffcf7a';
+  for(let x = px - u * .62; x < px - u * .36; x += u * .06) g.fillRect(x, cy - u * .46, Math.max(1.5, u * .022), u * .1);
+  roofTri(px - u * .69, px - u * .3, cy - u * .56, u * .3);
+  const tips = [[-1.02, .15, .5, .34], [-.78, .19, .72, .46], [.38, .22, .95, .5], [.6, .18, .72, .42], [.84, .15, .56, .36], [1.04, .13, .44, .3],
+    [-.16, .3, 1.3, .72], [-.34, .1, 1.05, .4], [.03, .1, 1.05, .4], [.17, .12, 1.5, .62]].map(t => tower(...t));
+  el.querySelectorAll('.ts-flag').forEach((f, i) => {
+    const [x, y] = tips[i ? 1 : 6], w = u * (i ? .16 : .24);
+    Object.assign(f.style, {left:(x / W * 100).toFixed(2) + '%', top:(y / H * 100).toFixed(2) + '%', width:w.toFixed(1) + 'px', height:(w * .55).toFixed(1) + 'px'});
+  });
+
+  // vineyard hills: rows of vines follow each hill's line, sunlit along their tops
+  const vineyard = (base, amp, f, ph, cool, warm, rows, gap, row) => {
+    const ys = ridge(base, amp, f, ph);
+    shape(ys); g.fillStyle = warmGrad(cool, warm); g.fill();
+    g.save(); g.clip(); g.lineCap = 'round';
+    // light on the crest, shade further down, and patches where the sun catches the slope
+    g.fillStyle = stops(g.createLinearGradient(0, base - amp, 0, base + H * .12), [[0, 'rgba(255,232,150,.22)'], [.5, 'rgba(0,0,0,0)'], [1, 'rgba(18,34,10,.3)']]); g.fillRect(0, base - amp * 1.2, W, H);
+    for(let i = 0; i < 6; i++){
+      const x = rr(0, W), y = at(ys, x) + rr(0, H * .04), r = W * rr(.05, .12);
+      g.fillStyle = stops(g.createRadialGradient(x, y, 0, x, y, r), [[0, 'rgba(255,226,140,' + (.12 + warmth(x) * .18).toFixed(2) + ')'], [1, 'rgba(255,226,140,0)']]); g.fillRect(x - r, y - r, r * 2, r * 2);
+    }
+    for(let r = 1; r <= rows; r++){
+      const off = gap * Math.pow(r, 1.45);
+      g.setLineDash([Math.max(2, off * .3), Math.max(1.5, off * .12)]);
+      g.beginPath(); trace(ys, off); g.strokeStyle = row; g.lineWidth = Math.max(1, off * .12); g.globalAlpha = .6; g.stroke();
+      g.setLineDash([]);
+      g.beginPath(); trace(ys, off - Math.max(1, off * .07)); g.strokeStyle = '#ffe08c'; g.lineWidth = Math.max(.6, off * .035); g.globalAlpha = .35; g.stroke();
+    }
+    g.restore();
+    g.beginPath(); trace(ys); g.strokeStyle = 'rgba(255,222,150,.6)'; g.lineWidth = 1.3; g.stroke();
+    return ys;
+  };
+  // an Italian cypress, with a sliver of light on its sunward side
+  const cypress = (x, base, h, dark) => {
+    const w = h * .22, d = x < sx ? 1 : -1;
+    // the low sun throws a long shadow away from itself
+    g.fillStyle = 'rgba(28,40,18,.32)'; g.beginPath(); g.moveTo(x - w * .3, base); g.quadraticCurveTo(x - d * h * .6, base + h * .05, x - d * h * 1.3, base + h * .02);
+    g.quadraticCurveTo(x - d * h * .6, base + h * .1, x + w * .3, base); g.fill();
+    g.fillStyle = dark; g.beginPath(); g.moveTo(x, base - h); g.quadraticCurveTo(x + w * .62, base - h * .5, x + w * .32, base);
+    g.lineTo(x - w * .32, base); g.quadraticCurveTo(x - w * .62, base - h * .5, x, base - h); g.fill();
+    g.fillStyle = 'rgba(255,214,140,.32)'; g.beginPath(); g.moveTo(x, base - h); g.quadraticCurveTo(x + d * w * .62, base - h * .5, x + d * w * .32, base);
+    g.lineTo(x + d * w * .06, base); g.quadraticCurveTo(x + d * w * .22, base - h * .5, x, base - h); g.fill();
+  };
+  const hA = vineyard(hz + H * .035, H * .03, f1 * 1.2, 2.2, '#6e8a55', '#c8bb62', 8, H * .005, '#3e5a2f');
+  for(let x = W * (port ? .04 : .27); x < W * (port ? .45 : .5); x += Math.max(9, W * .011)) cypress(x, at(hA, x) + 3 + rr(0, 3), H * rr(.035, .055), '#2b3f22');
+  const hB = vineyard(hz + H * .1, H * .045, f1 * .8, 5.1, '#57743d', '#a9a64a', 9, H * .008, '#2f4728');
+  for(const x0 of [W * .04, W * .62, W * .78]) for(let j = 0; j < 4; j++){ const x = x0 + j * W * .012 + rr(-4, 4); cypress(x, at(hB, x) + 4, H * rr(.06, .1), '#22341c'); }
+  for(let i = 0; i < 14; i++){
+    const x = rr(0, W), y = at(hB, x) + rr(H * .01, H * .05), r = H * rr(.008, .014);
+    g.fillStyle = '#34502a'; g.beginPath(); g.arc(x, y, r, 0, 7); g.arc(x + r * .9, y + r * .2, r * .8, 0, 7); g.arc(x - r * .8, y + r * .3, r * .7, 0, 7); g.fill();
+    g.fillStyle = 'rgba(214,214,120,.35)'; g.beginPath(); g.arc(x + (x < sx ? r * .3 : -r * .3), y - r * .3, r * .55, 0, 7); g.fill();
+  }
+
+  // a lavender field on the near left: its rows run to the horizon, so they fan out as they come near
+  const lav = ridge(hz + H * .19, H * .035, f1 * 1.1, .7), lavEnd = W * (port ? .7 : .5);
+  g.save();
+  g.beginPath(); trace(lav.slice(0, Math.round(lavEnd / 8) + 1)); g.quadraticCurveTo(lavEnd + W * .08, at(lav, lavEnd), lavEnd + W * .16, H + 4); g.lineTo(0, H + 4); g.closePath();
+  g.fillStyle = '#3a2a5e'; g.fill(); g.clip();
+  const vx = W * (port ? .45 : .3), sp = W * .05;
+  g.fillStyle = warmGrad('#7a5fb4', '#b293d8');
+  for(let i = -40; i <= 40; i++){ const b = vx + i * sp; g.beginPath(); g.moveTo(vx, hz); g.lineTo(b - sp * .32, H * 1.3); g.lineTo(b + sp * .32, H * 1.3); g.closePath(); g.fill(); }
+  for(let i = 0; i < 1600; i++){
+    const t = Math.pow(R(), .7), y = hz + H * .12 + t * (H - hz - H * .12), x = rr(0, lavEnd + W * .16);
+    g.fillStyle = R() < .5 ? 'rgba(214,190,255,.55)' : 'rgba(120,90,180,.5)'; g.fillRect(x, y, 1 + t * 2, 1 + t * 2.5);
+  }
+  g.restore();
+
+  // the near ground: grass, poppies
+  const gr0 = ridge(H - H * .06, H * .025, f1 * 2.2, 1.7);
+  shape(gr0); g.fillStyle = stops(g.createLinearGradient(0, H * .88, 0, H), [[0, '#34461f'], [1, '#151b0c']]); g.fill();
+  g.lineCap = 'round'; g.lineWidth = 1;
+  for(let i = 0; i < W * 1.4; i++){
+    const x = rr(0, W), y = at(gr0, x) + rr(-2, H * .06), h = rr(5, 16) * (y / H);
+    g.strokeStyle = mix('#3b5524', '#b3b552', R() * (.3 + warmth(x) * .6));
+    g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + rr(-3, 3), y - h * .6, x + rr(-6, 6), y - h); g.stroke();
+  }
+  for(let i = 0; i < W * .16; i++){
+    const x = R() < .5 ? rr(0, W * .32) : rr(W * .68, W), y = at(gr0, x) + rr(-H * .02, H * .06), r = rr(2, 4.5) * (.6 + y / H * .5);
+    g.strokeStyle = '#3d5a22'; g.beginPath(); g.moveTo(x, y + r * 3); g.lineTo(x, y); g.stroke();
+    g.fillStyle = '#d7322a'; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+    g.fillStyle = '#ff7a52'; g.beginPath(); g.arc(x - r * .3, y - r * .3, r * .45, 0, 7); g.fill();
+    g.fillStyle = '#2a0f10'; g.beginPath(); g.arc(x, y, r * .25, 0, 7); g.fill();
+  }
+
+  // grapevines on a post and a wire at each lower corner: five-lobed leaves and dark grapes
+  const vs = Math.min(H * .032, W * .05);
+  const leaf = (x, y, r, a) => {
+    g.save(); g.translate(x, y); g.rotate(a);
+    g.fillStyle = stops(g.createLinearGradient(-r, -r, r, r), [[0, '#9cb04c'], [.5, '#4f6f2c'], [1, '#273a17']]);
+    g.beginPath();
+    for(let t = 0; t <= 6.3; t += .12){ const q = r * (.6 + .4 * Math.pow(Math.abs(Math.cos(t * 2.5)), .7)); t ? g.lineTo(q * Math.sin(t), -q * Math.cos(t)) : g.moveTo(0, -q); }
+    g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(30,45,15,.45)'; g.lineWidth = 1; g.beginPath();
+    for(const t of [0, 1.2, -1.2, 2.4, -2.4]){ g.moveTo(0, r * .3); g.lineTo(r * .8 * Math.sin(t), -r * .8 * Math.cos(t)); }
+    g.stroke(); g.restore();
+  };
+  const grapes = (x, y, r) => {
+    for(let row = 0; row < 6; row++) for(let j = 0; j < 5 - Math.floor(row * .8); j++){
+      const n = 5 - Math.floor(row * .8), gx0 = x + (j - (n - 1) / 2) * r * 1.6 + rr(-r * .2, r * .2), gy0 = y + row * r * 1.35;
+      g.fillStyle = stops(g.createRadialGradient(gx0 - r * .35, gy0 - r * .35, 0, gx0, gy0, r), [[0, '#b49ae0'], [.35, '#5e3a86'], [1, '#26123a']]);
+      g.beginPath(); g.arc(gx0, gy0, r, 0, 7); g.fill();
+    }
+  };
+  for(const d of [1, -1]){
+    const x0 = d > 0 ? W * .035 : W * .965, top = H - H * .3, x1 = x0 + d * W * (port ? .45 : .26), yw = top + vs * .6;
+    g.fillStyle = stops(g.createLinearGradient(x0 - vs * .35, 0, x0 + vs * .35, 0), [[0, '#7a5638'], [.5, '#4b3322'], [1, '#24170e']]);
+    g.fillRect(x0 - vs * .35, top, vs * .7, H - top);
+    g.strokeStyle = 'rgba(40,30,25,.8)'; g.lineWidth = 1; g.beginPath(); g.moveTo(x0, yw); g.quadraticCurveTo((x0 + x1) / 2, yw + vs * .5, x1, yw); g.stroke();
+    g.strokeStyle = '#4a3322'; g.lineWidth = Math.max(2, vs * .12); g.beginPath(); g.moveTo(x0, H);
+    for(let x = x0, j = 0; d > 0 ? x < x1 : x > x1; x += d * vs * .9, j++) g.quadraticCurveTo(x + d * vs * .45, yw + Math.sin(j) * vs * .4, x + d * vs * .9, yw + vs * .1 + (j % 2) * vs * .25);
+    g.stroke();
+    for(let x = x0 + d * vs, j = 0; d > 0 ? x < x1 : x > x1; x += d * vs * 1.15, j++){
+      if(j % 3 === 1) grapes(x + d * vs * .2, yw + vs * .35, vs * .19);
+      leaf(x, yw - vs * .2 + (j % 2) * vs * .7, vs * rr(.75, 1), rr(-.6, .6) + (j % 2 ? 2.6 : 0));
+    }
+  }
+
+  // warm light over everything near the sun, a vignette, a darker band under the header, a little grain
+  g.globalCompositeOperation = 'source-atop';
+  g.fillStyle = stops(g.createRadialGradient(sx, sy, 0, sx, sy, D * .55), [[0, 'rgba(255,196,120,.32)'], [1, 'rgba(255,180,110,0)']]); g.fillRect(0, 0, W, H);
+  g.globalCompositeOperation = 'source-over';
+  g.fillStyle = stops(g.createRadialGradient(W / 2, H * .5, D * .3, W / 2, H * .5, D * .62), [[0, 'rgba(12,8,24,0)'], [1, 'rgba(12,8,24,.5)']]); g.fillRect(0, 0, W, H);
+  g.fillStyle = stops(g.createLinearGradient(0, 0, 0, 110), [[0, 'rgba(8,12,34,.45)'], [1, 'rgba(8,12,34,0)']]); g.fillRect(0, 0, W, 110);
+  if(!TS.grain){
+    const c = document.createElement('canvas'); c.width = c.height = 120;
+    const x = c.getContext('2d'), img = x.createImageData(120, 120);
+    for(let i = 0; i < img.data.length; i += 4){ img.data[i] = img.data[i + 1] = img.data[i + 2] = Math.random() * 255; img.data[i + 3] = 13; }
+    x.putImageData(img, 0, 0); TS.grain = c;
+  }
+  g.fillStyle = g.createPattern(TS.grain, 'repeat'); g.fillRect(0, 0, W, H);
+}
+
+const SKINS = ['chalk', 'cyber', 'aero', 'dots', 'line', 'synth', 'pixel', 'orbit', 'toussaint'];
 function applySkin(){
   const s = SKINS.includes(S.skin) ? S.skin : 'chalk';
   if(s === 'chalk') delete document.documentElement.dataset.skin;
   else document.documentElement.dataset.skin = s;
   document.querySelectorAll('.skin').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skin === s)));
   if(s === 'pixel') document.documentElement.style.setProperty('--pixel-scene', 'url(' + pixelScene() + ')');
+  toussaintScene(s === 'toussaint');
 }
 $('skins').addEventListener('click', (e) => {
   const b = e.target.closest('.skin');
