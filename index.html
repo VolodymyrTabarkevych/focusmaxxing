@@ -234,10 +234,14 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 /* the result: what period it is; the time at work, at rest and on the phone; the get-ups, the longest sitting and the posture */
 .fday{display:flex;flex-direction:column;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:calc(var(--r) * .5)}
 .fday-l{min-width:0;font-size:12px;color:var(--ink-3)}
-/* the first row's dots are the legend for the colours in the charts; the longest sitting's and the posture's dots
-   take the colour of how it went */
-.fnums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
-.fnum{display:flex;flex-direction:column;gap:2px;min-width:0}
+/* two columns, each label on one line: where the time went on the left (its dots are the legend for the colours in
+   the charts), the body on the right (the longest sitting's and the posture's dots take the colour of how it went;
+   the get-ups' dot is empty, so the labels line up) */
+.fnums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,auto);grid-auto-flow:column;gap:12px 10px}
+.fnum{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fnum:nth-child(n+4){padding-left:10px;border-left:1px solid var(--line)}
+.fnums .fstat-v{font-size:min(24px,6.4cqi)}
+.fnums .fstat-l{white-space:nowrap}
 [data-tone="ok"]{--c:var(--ok)}
 [data-tone="mid"]{--c:var(--mid)}
 [data-tone="bad"]{--c:var(--bad)}
@@ -866,7 +870,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <div class="fnum"><div class="fstat-v" id="fnumW"></div><div class="fstat-l"><i class="f"></i>робота</div></div>
           <div class="fnum" title="Тебе немає за столом"><div class="fstat-v" id="fnumR"></div><div class="fstat-l"><i class="r"></i>відпочинок</div></div>
           <div class="fnum" title="Телефон у руках: ні робота, ні відпочинок"><div class="fstat-v" id="fnumP"></div><div class="fstat-l"><i class="d"></i>телефон</div></div>
-          <div class="fnum" id="fUps" title="Скільки разів ти вставав з-за столу хоча б на хвилину" hidden><div class="fstat-v" id="fnumU"></div><div class="fstat-l">підйоми<span id="fUpsAvg"></span></div></div>
+          <div class="fnum" id="fUps" title="Скільки разів ти вставав з-за столу хоча б на хвилину" hidden><div class="fstat-v"><span id="fnumU"></span><small id="fUpsAvg"></small></div><div class="fstat-l"><i></i>підйоми</div></div>
           <div class="fnum" id="fSit" title="Найдовше, скільки ти просидів без підйому" hidden><div class="fstat-v" id="fnumS"></div><div class="fstat-l"><i id="fSitDot"></i>найдовше сидів</div></div>
           <div class="fnum" id="fPos" hidden><div class="fstat-v" id="fnumPos"></div><div class="fstat-l"><i id="fPostureDot"></i>сидів рівно</div></div>
         </div>
