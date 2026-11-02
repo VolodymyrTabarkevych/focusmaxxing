@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Фокусмаксінг</title>
-<script>try{var s=JSON.parse(localStorage.getItem('dzvonyk.v1')||'{}').skin;if(['cyber','aero','dots','line','synth','pixel','orbit','toussaint'].indexOf(s)>=0)document.documentElement.setAttribute('data-skin',s)}catch(e){}</script>
+<script>try{var s=JSON.parse(localStorage.getItem('dzvonyk.v1')||'{}').skin;if(['cyber','aero','dots','line','synth','pixel','orbit','toussaint','skellige'].indexOf(s)>=0)document.documentElement.setAttribute('data-skin',s)}catch(e){}</script>
 <meta name="description" content="Особистий розклад дзвінків: уроки й перерви у фіксований час, дзвінки та музика з YouTube.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2.5 -2.5 29 29'%3E%3Crect x='-2.5' y='-2.5' width='29' height='29' rx='6.6' fill='%2314201b'/%3E%3Cpath d='M12 5A3 3 0 0 0 6 5.2A3.6 3.6 0 0 0 3.6 10.8A3.6 3.6 0 0 0 4.4 17A3.4 3.4 0 0 0 12 18.5ZM12 5A3 3 0 0 1 18 5.2A3.6 3.6 0 0 1 20.4 10.8A3.6 3.6 0 0 1 19.6 17A3.4 3.4 0 0 1 12 18.5ZM12 9.5c-.6 1.6-1.8 2.6-3.4 2.9M12 9.5c.6 1.6 1.8 2.6 3.4 2.9M6.4 6.6c.5.8 1.3 1.3 2.2 1.4M17.6 6.6c-.5.8-1.3 1.3-2.2 1.4M4.6 14.6c1 .1 1.9-.2 2.6-.8M19.4 14.6c-1 .1-1.9-.2-2.6-.8' fill='none' stroke='%23f1cf5e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@400;500&family=Orbitron:wght@500;700&family=Exo+2:ital,wght@0,400;0,600;1,800&family=Russo+One&family=Onest:wght@400;500;700&family=Doto:ROND,wght@100,600;100,800&family=JetBrains+Mono:wght@400;500;700&family=Geologica:wght@200;300;400;600&family=Press+Start+2P&family=Tiny5&family=Dela+Gothic+One&family=Forum&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600&family=Oswald:wght@400;500&family=Orbitron:wght@500;700&family=Exo+2:ital,wght@0,400;0,600;1,800&family=Russo+One&family=Onest:wght@400;500;700&family=Doto:ROND,wght@100,600;100,800&family=JetBrains+Mono:wght@400;500;700&family=Geologica:wght@200;300;400;600&family=Press+Start+2P&family=Tiny5&family=Dela+Gothic+One&family=Forum&family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&family=Kelly+Slab&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap">
 <style>
 /* Layout: dark-only page; live "now" card left with music under it, bell schedule right. Skins only swap tokens. */
 /* Chalkboard (default): school slate green, chalk yellow for lessons, chalk green for breaks */
@@ -177,6 +177,24 @@
   --r:3px; --chip-r:2px; --btn-r:3px;
   --card-shadow:0 0 0 1px #0b0806,0 24px 50px -22px rgba(0,0,0,.95);
   --count-size:clamp(64px,10.5vw,104px); --count-weight:400; --digit-w:.54em; --colon-w:.26em;
+  --glow:none;
+  color-scheme:dark;
+}
+/* Skellige: the isles from The Witcher 3 under a breaking storm. The page sits over a painted scene (paintSkellige): a cold sea under
+   heavy cloud with a gap of light, snow-capped islands, a fjord wall with pines, a clan keep on a sea stack, a runestone on the shore;
+   panels of weathered planks in forged iron with rivets and a round shield on top; clan-red lessons, sea-green breaks, Kelly Slab capitals */
+:root[data-skin="skellige"]{
+  --bg:#0d1418; --grid:transparent; --margin-line:transparent; --surface:rgba(18,24,28,.94); --line:#3a4950; --track:#1e282d;
+  --ink:#e9eff1; --ink-2:#b6c4ca; --ink-3:#86979e; --accent:#e0603f; --accent-ink:#1a0c08; --accent-soft:#3a1d16;
+  --rest:#6fc9c3; --rest-soft:#123331; --now:#f0c75e; --warn:#e8805e; --warn-soft:#3a1d16;
+  --font-display:"Kelly Slab","Georgia",serif;
+  --font-body:"Alegreya Sans","Segoe UI",sans-serif;
+  --font-hand:"Kelly Slab","Georgia",serif;
+  --bg-pattern:linear-gradient(#121b24,#2a3844 30%,#5a6973 48%,#a2aaa4 58%,#566f79 60%,#0c1d23);
+  --bg-size:100% 100%;
+  --r:2px; --chip-r:0px; --btn-r:2px;
+  --card-shadow:0 0 0 1px #05080a,0 24px 50px -22px rgba(0,0,0,.95);
+  --count-size:clamp(60px,10vw,100px); --count-weight:400; --digit-w:.56em; --colon-w:.26em;
   --glow:none;
   color-scheme:dark;
 }
@@ -354,6 +372,9 @@ button.fcal-d:hover,button.fcal-d:focus-visible{background:color-mix(in srgb,var
 :root[data-skin="toussaint"]{--ok:#e3b65e;--mid:#b39ddb;--bad:#d9566a}
 :root[data-skin="toussaint"] .fstack{width:min(14px,64%);border-radius:7px 7px 0 0}
 :root[data-skin="toussaint"] .fstack i{background-image:linear-gradient(90deg,rgba(255,244,214,.3),transparent 55%,rgba(0,0,0,.22))}
+:root[data-skin="skellige"]{--ok:#7fd0c8;--mid:#e6b75a;--bad:#d8573e}
+:root[data-skin="skellige"] .fstack{width:min(14px,64%);border-radius:0;box-shadow:0 0 0 1px #05080a}
+:root[data-skin="skellige"] .fstack i{background-image:linear-gradient(90deg,rgba(255,255,255,.22),transparent 50%,rgba(0,0,0,.25))}
 :root[data-skin="pixel"] .fstack{width:12px;border-radius:0}
 :root[data-skin="pixel"] .fstack i{background-image:repeating-linear-gradient(0deg,transparent 0 6px,rgba(15,5,36,.6) 6px 8px)}
 /* a lesson or a day without data keeps its place: still ahead = a dashed outline, going on now = a solid one,
@@ -550,6 +571,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
 .sw-synth{background:linear-gradient(#ffd319 0 28%,#ff2975 28% 52%,#2a0a4a 52%)}
 .sw-orbit{background:linear-gradient(90deg,#3a6cff 0 30%,#ff7a2f 30% 60%,#ff3b4e 60% 75%,#59b8ff 75%)}
 .sw-toussaint{background:linear-gradient(135deg,#3a67ad 0 40%,#e3b65e 40% 62%,#7a1c30 62%)}
+.sw-skellige{background:linear-gradient(135deg,#2b3a42 0 40%,#b8402c 40% 60%,#6fc9c3 60%)}
 .sw-pixel{border-radius:0;background:conic-gradient(#ff4fa3 0 25%,#3be8ff 0 50%,#ff4fa3 0 75%,#3be8ff 0) 0 0/6px 6px}
 
 /* skin-specific type and effects */
@@ -826,6 +848,94 @@ input[type=range]{accent-color:var(--accent);width:100%}
 .ts-flag{position:absolute;transform-origin:0 50%;background:linear-gradient(#e3b65e 0 12%,#4a78c4 12% 88%,#e3b65e 88%);clip-path:polygon(0 0,100% 18%,80% 50%,100% 82%,0 100%);animation:tsWave 1.7s ease-in-out infinite alternate}
 @keyframes tsWave{from{transform:skewY(7deg) scaleX(1)}to{transform:skewY(-6deg) scaleX(.84)}}
 @media (prefers-reduced-motion:reduce){.tscene *{animation:none!important}.ts-clouds canvas{transform:translateX(var(--x))}}
+:root[data-skin="skellige"] body{background-attachment:fixed}
+:root[data-skin="skellige"] .wrap{z-index:1}
+:root[data-skin="skellige"] ::selection{background:#b8402c;color:#fff6f0}
+/* a panel is weathered planks in a forged-iron frame: a bevelled pewter border, riveted corner plates over it, the round shield on top */
+:root[data-skin="skellige"] .card{position:relative;border:2px solid transparent;padding:18px 20px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23dfe6e9'/%3E%3Cstop offset='.4' stop-color='%237d8a90'/%3E%3Cstop offset='1' stop-color='%23262e32'/%3E%3C/linearGradient%3E%3CradialGradient id='r' cx='.35' cy='.35'%3E%3Cstop offset='0' stop-color='%23f4f7f8'/%3E%3Cstop offset='.5' stop-color='%238a979d'/%3E%3Cstop offset='1' stop-color='%231e2528'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform=''%3E%3Cpath d='M0 0H30L34 3.5L30 7H10L7 10V30L3.5 34L0 30Z' fill='url(%23i)' stroke='%230b0f11' stroke-width='.8'/%3E%3Ccircle cx='3.7' cy='3.7' r='2.1' fill='url(%23r)'/%3E%3Ccircle cx='21' cy='3.5' r='1.6' fill='url(%23r)'/%3E%3Ccircle cx='3.5' cy='21' r='1.6' fill='url(%23r)'/%3E%3C/g%3E%3C/svg%3E") left top/34px 34px no-repeat border-box,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23dfe6e9'/%3E%3Cstop offset='.4' stop-color='%237d8a90'/%3E%3Cstop offset='1' stop-color='%23262e32'/%3E%3C/linearGradient%3E%3CradialGradient id='r' cx='.35' cy='.35'%3E%3Cstop offset='0' stop-color='%23f4f7f8'/%3E%3Cstop offset='.5' stop-color='%238a979d'/%3E%3Cstop offset='1' stop-color='%231e2528'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(34 0) scale(-1 1)'%3E%3Cpath d='M0 0H30L34 3.5L30 7H10L7 10V30L3.5 34L0 30Z' fill='url(%23i)' stroke='%230b0f11' stroke-width='.8'/%3E%3Ccircle cx='3.7' cy='3.7' r='2.1' fill='url(%23r)'/%3E%3Ccircle cx='21' cy='3.5' r='1.6' fill='url(%23r)'/%3E%3Ccircle cx='3.5' cy='21' r='1.6' fill='url(%23r)'/%3E%3C/g%3E%3C/svg%3E") right top/34px 34px no-repeat border-box,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23dfe6e9'/%3E%3Cstop offset='.4' stop-color='%237d8a90'/%3E%3Cstop offset='1' stop-color='%23262e32'/%3E%3C/linearGradient%3E%3CradialGradient id='r' cx='.35' cy='.35'%3E%3Cstop offset='0' stop-color='%23f4f7f8'/%3E%3Cstop offset='.5' stop-color='%238a979d'/%3E%3Cstop offset='1' stop-color='%231e2528'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(0 34) scale(1 -1)'%3E%3Cpath d='M0 0H30L34 3.5L30 7H10L7 10V30L3.5 34L0 30Z' fill='url(%23i)' stroke='%230b0f11' stroke-width='.8'/%3E%3Ccircle cx='3.7' cy='3.7' r='2.1' fill='url(%23r)'/%3E%3Ccircle cx='21' cy='3.5' r='1.6' fill='url(%23r)'/%3E%3Ccircle cx='3.5' cy='21' r='1.6' fill='url(%23r)'/%3E%3C/g%3E%3C/svg%3E") left bottom/34px 34px no-repeat border-box,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23dfe6e9'/%3E%3Cstop offset='.4' stop-color='%237d8a90'/%3E%3Cstop offset='1' stop-color='%23262e32'/%3E%3C/linearGradient%3E%3CradialGradient id='r' cx='.35' cy='.35'%3E%3Cstop offset='0' stop-color='%23f4f7f8'/%3E%3Cstop offset='.5' stop-color='%238a979d'/%3E%3Cstop offset='1' stop-color='%231e2528'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg transform='translate(34 34) scale(-1 -1)'%3E%3Cpath d='M0 0H30L34 3.5L30 7H10L7 10V30L3.5 34L0 30Z' fill='url(%23i)' stroke='%230b0f11' stroke-width='.8'/%3E%3Ccircle cx='3.7' cy='3.7' r='2.1' fill='url(%23r)'/%3E%3Ccircle cx='21' cy='3.5' r='1.6' fill='url(%23r)'/%3E%3Ccircle cx='3.5' cy='21' r='1.6' fill='url(%23r)'/%3E%3C/g%3E%3C/svg%3E") right bottom/34px 34px no-repeat border-box,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .45' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .8  0 0 0 0 .88  0 0 0 0 .92  0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='320' height='120' filter='url(%23n)'/%3E%3C/svg%3E") 0 0/320px 120px padding-box,repeating-linear-gradient(transparent 0 62px,rgba(0,0,0,.2) 62px 64px) padding-box,linear-gradient(rgba(30,37,41,.95),rgba(14,19,22,.97)) padding-box,linear-gradient(160deg,#d5dde0,#6d7b82 30%,#252d31 55%,#56636a 75%,#aab6bb) border-box}
+:root[data-skin="skellige"] .card::before{content:"";position:absolute;left:50%;top:-15px;width:30px;height:30px;margin-left:-15px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cdefs%3E%3ClinearGradient id='i' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23dfe6e9'/%3E%3Cstop offset='.4' stop-color='%237d8a90'/%3E%3Cstop offset='1' stop-color='%23262e32'/%3E%3C/linearGradient%3E%3CradialGradient id='r' cx='.35' cy='.35'%3E%3Cstop offset='0' stop-color='%23f4f7f8'/%3E%3Cstop offset='.5' stop-color='%238a979d'/%3E%3Cstop offset='1' stop-color='%231e2528'/%3E%3C/radialGradient%3E%3CradialGradient id='s' cx='.4' cy='.35'%3E%3Cstop offset='0' stop-color='%23fff' stop-opacity='.25'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='.35'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M15 15L27 15A12 12 0 0 1 23.49 23.49Z' fill='%23e6dcc6'/%3E%3Cpath d='M15 15L23.49 23.49A12 12 0 0 1 15 27Z' fill='%23b8402c'/%3E%3Cpath d='M15 15L15 27A12 12 0 0 1 6.51 23.49Z' fill='%23e6dcc6'/%3E%3Cpath d='M15 15L6.51 23.49A12 12 0 0 1 3 15Z' fill='%23b8402c'/%3E%3Cpath d='M15 15L3 15A12 12 0 0 1 6.51 6.51Z' fill='%23e6dcc6'/%3E%3Cpath d='M15 15L6.51 6.51A12 12 0 0 1 15 3Z' fill='%23b8402c'/%3E%3Cpath d='M15 15L15 3A12 12 0 0 1 23.49 6.51Z' fill='%23e6dcc6'/%3E%3Cpath d='M15 15L23.49 6.51A12 12 0 0 1 27 15Z' fill='%23b8402c'/%3E%3Ccircle cx='15' cy='15' r='12' fill='url(%23s)'/%3E%3Ccircle cx='15' cy='15' r='12.6' fill='none' stroke='url(%23i)' stroke-width='2.2'/%3E%3Ccircle cx='26.65' cy='19.79' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='19.85' cy='26.63' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='10.21' cy='26.65' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='3.37' cy='19.85' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='3.35' cy='10.21' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='10.15' cy='3.37' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='19.79' cy='3.35' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='26.63' cy='10.15' r='.9' fill='url(%23r)'/%3E%3Ccircle cx='15' cy='15' r='4' fill='url(%23r)' stroke='%230b0f11' stroke-width='.6'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 2px 3px rgba(0,0,0,.7));pointer-events:none}
+:root[data-skin="skellige"] .sec-head,:root[data-skin="skellige"] .now-top{padding-bottom:12px;margin-bottom:6px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Ccircle cx='6' cy='6' r='4' fill='%23aab6bb' stroke='%230b0f11' stroke-width='.8'/%3E%3Ccircle cx='4.8' cy='4.8' r='1.2' fill='%23f4f7f8'/%3E%3C/svg%3E") left bottom/12px 12px no-repeat,linear-gradient(90deg,#8a979d,rgba(138,151,157,.18) 70%,transparent) 15px calc(100% - 5.5px)/calc(100% - 15px) 1px no-repeat}
+:root[data-skin="skellige"] .settings[open] summary{padding-bottom:12px;border-bottom:1px solid;border-image:linear-gradient(90deg,#8a979d,rgba(138,151,157,.18) 70%,transparent) 1}
+:root[data-skin="skellige"] .logo{font-family:var(--font-display);font-size:25px;text-transform:uppercase;letter-spacing:.1em;gap:12px;color:transparent;background:linear-gradient(#ffffff 20%,#c9d6db 55%,#7f9096 90%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 2px 4px rgba(0,0,0,.8))}
+:root[data-skin="skellige"] .logo svg{width:34px;height:34px;padding:5px;border-radius:50%;color:#dff3f2;background:radial-gradient(circle at 40% 32%,#4a565c,#12181b 72%);box-shadow:0 0 0 1.5px #aab6bb,0 0 0 3.5px #12181b,0 0 0 4.5px #56636a,0 3px 12px rgba(0,0,0,.7)}
+:root[data-skin="skellige"] .today{font-style:italic;color:#d8e2e5;text-shadow:0 1px 4px #000,0 0 12px rgba(0,0,0,.6)}
+:root[data-skin="skellige"] .clock{color:#e9eff1;letter-spacing:.04em;text-shadow:0 2px 6px #000,0 0 14px rgba(0,0,0,.6)}
+/* headings struck in cold iron, a knot before each */
+:root[data-skin="skellige"] h2,:root[data-skin="skellige"] .settings summary{font-family:var(--font-display);font-weight:400;font-size:23px;text-transform:uppercase;letter-spacing:.12em;color:transparent;background:linear-gradient(#ffffff 15%,#c9d6db 55%,#7f9096 95%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 1px rgba(0,0,0,.9))}
+:root[data-skin="skellige"] .settings summary{gap:0}
+:root[data-skin="skellige"] .settings summary::after{font-family:var(--font-display);color:#aab6bb}
+:root[data-skin="skellige"] h2::before,:root[data-skin="skellige"] .settings summary::before{content:"";flex:none;display:inline-block;width:1em;height:1em;margin-right:.45em;vertical-align:-.12em;background:linear-gradient(#bff0ea,#5fb3ad);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 13Q15.6 8 12 3Q8.4 8 12 13Z'/%3E%3Cpath d='M12 13Q14.53 18.62 20.66 18Q18.13 12.38 12 13Z'/%3E%3Cpath d='M12 13Q5.87 12.38 3.34 18Q9.47 18.62 12 13Z'/%3E%3Ccircle cx='12' cy='13' r='5.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 13Q15.6 8 12 3Q8.4 8 12 13Z'/%3E%3Cpath d='M12 13Q14.53 18.62 20.66 18Q18.13 12.38 12 13Z'/%3E%3Cpath d='M12 13Q5.87 12.38 3.34 18Q9.47 18.62 12 13Z'/%3E%3Ccircle cx='12' cy='13' r='5.6'/%3E%3C/svg%3E") center/contain no-repeat}
+:root[data-skin="skellige"] .now{isolation:isolate}
+:root[data-skin="skellige"] .now::after{content:"";position:absolute;z-index:-1;right:22px;top:58px;width:min(24%,140px);aspect-ratio:1;background:linear-gradient(#cfe6e8,#6d8a90);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 13Q15.6 8 12 3Q8.4 8 12 13Z'/%3E%3Cpath d='M12 13Q14.53 18.62 20.66 18Q18.13 12.38 12 13Z'/%3E%3Cpath d='M12 13Q5.87 12.38 3.34 18Q9.47 18.62 12 13Z'/%3E%3Ccircle cx='12' cy='13' r='5.6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 13Q15.6 8 12 3Q8.4 8 12 13Z'/%3E%3Cpath d='M12 13Q14.53 18.62 20.66 18Q18.13 12.38 12 13Z'/%3E%3Cpath d='M12 13Q5.87 12.38 3.34 18Q9.47 18.62 12 13Z'/%3E%3Ccircle cx='12' cy='13' r='5.6'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.08;pointer-events:none}
+@media (max-width:599px){:root[data-skin="skellige"] .now::after{display:none}}
+/* the chip is an iron-bound board with clipped corners: clan red for a lesson, sea green for a break */
+:root[data-skin="skellige"] .chip{font-size:14px;letter-spacing:.14em;padding:4px 14px;border:0;border-radius:0;clip-path:polygon(6px 0,calc(100% - 6px) 0,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0 calc(100% - 6px),0 6px);background:linear-gradient(#3a464c,#1d2427);color:#d6e0e4;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.4)}
+:root[data-skin="skellige"] .now[data-kind="lesson"] .chip{background:linear-gradient(#e0704f,#b8402c 55%,#7e2a1c);color:#fff6f0;text-shadow:0 1px 0 rgba(60,10,0,.5)}
+:root[data-skin="skellige"] .now[data-kind="break"] .chip{background:linear-gradient(#7fd3cc,#3f9e98 55%,#1f5f5c);color:#05201f}
+/* the count glows like iron from the forge on a lesson and is cut from ice on a break */
+:root[data-skin="skellige"] .count{filter:drop-shadow(0 2px 0 rgba(0,0,0,.7)) drop-shadow(0 0 20px rgba(232,102,63,.28))}
+:root[data-skin="skellige"] .count .g,:root[data-skin="skellige"] .count .c{color:transparent;-webkit-text-fill-color:transparent;background:linear-gradient(#fff3dc 10%,#ffc27a 38%,#e8663f 68%,#8e2f20);-webkit-background-clip:text;background-clip:text}
+:root[data-skin="skellige"] .now[data-kind="break"] .count{filter:drop-shadow(0 2px 0 rgba(0,0,0,.7)) drop-shadow(0 0 20px rgba(127,208,200,.28))}
+:root[data-skin="skellige"] .now[data-kind="break"] .count .g,:root[data-skin="skellige"] .now[data-kind="break"] .count .c{background-image:linear-gradient(#ffffff 10%,#d4f1f2 40%,#7fd0c8 70%,#2f7f7b)}
+:root[data-skin="skellige"] .bar{height:8px;margin-block:4px;border-radius:0;overflow:visible;background:linear-gradient(#070a0c,#151c20);box-shadow:inset 0 1px 2px rgba(0,0,0,.9),0 0 0 1px #56636a,0 0 0 2px #05080a}
+:root[data-skin="skellige"] .bar-fill{position:relative;border-radius:0;background:linear-gradient(#ffd7a8,#e8663f 50%,#8e2f20);box-shadow:0 0 10px rgba(232,102,63,.5)}
+:root[data-skin="skellige"] .bar-fill::after{content:"";position:absolute;right:-6px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f4f7f8,#8a979d 50%,#1e2528);box-shadow:0 0 0 1px #05080a,0 0 8px rgba(0,0,0,.6)}
+:root[data-skin="skellige"] .now[data-kind="break"] .bar-fill{background:linear-gradient(#dff6f4,#6fc9c3 50%,#245f5c);box-shadow:0 0 10px rgba(111,201,195,.5)}
+:root[data-skin="skellige"] .track{border-bottom:0;border-radius:1px;background:linear-gradient(#090d0f,#151c20);box-shadow:inset 0 1px 3px rgba(0,0,0,.85),0 0 0 1px #3a4950}
+:root[data-skin="skellige"] .blk{border-radius:0}
+:root[data-skin="skellige"] .blk.lesson{color:#e6c9bf}
+:root[data-skin="skellige"] .blk.lesson.cur{background:linear-gradient(#e0704f,#b8402c 55%,#7e2a1c);color:#fff6f0}
+:root[data-skin="skellige"] .blk.break.cur{background:linear-gradient(#7fd3cc,#3f9e98 55%,#1f5f5c)}
+:root[data-skin="skellige"] .nowmark::before{content:"";position:absolute;left:50%;top:-5px;width:9px;height:7px;margin-left:-4.5px;background:var(--now);clip-path:polygon(0 0,100% 0,50% 100%)}
+/* buttons are iron plates with slab capitals; the main one is painted clan red */
+:root[data-skin="skellige"] .btn{font-family:var(--font-display);font-weight:400;font-size:14px;text-transform:uppercase;letter-spacing:.06em;background:linear-gradient(#36434a,#1a2125);border-color:#6d7b82;color:#e9eff1;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.4),0 2px 4px rgba(0,0,0,.5)}
+:root[data-skin="skellige"] .btn.sm{font-size:13px}
+:root[data-skin="skellige"] .btn:hover{border-color:#c9d3d8;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -2px 0 rgba(0,0,0,.4),0 0 12px rgba(111,201,195,.3)}
+:root[data-skin="skellige"] .btn:active{transform:translateY(1px)}
+:root[data-skin="skellige"] .btn.primary,:root[data-skin="skellige"] .seg button[aria-pressed="true"],:root[data-skin="skellige"] .dt input:checked+span{background:linear-gradient(#e0704f,#b8402c 55%,#7e2a1c);border-color:#f2a68c;color:#fff6f0;text-shadow:0 1px 0 rgba(60,10,0,.5)}
+:root[data-skin="skellige"] .btn.primary{box-shadow:inset 0 1px 0 rgba(255,220,200,.5),inset 0 -2px 0 rgba(60,10,0,.4),0 0 0 1px #2a0e08,0 3px 8px rgba(0,0,0,.55)}
+:root[data-skin="skellige"] .btn.primary:hover{filter:none;box-shadow:inset 0 1px 0 rgba(255,220,200,.5),inset 0 -2px 0 rgba(60,10,0,.4),0 0 0 1px #2a0e08,0 0 16px rgba(232,102,63,.5)}
+:root[data-skin="skellige"] .btn.ghost{background:transparent;box-shadow:none}
+:root[data-skin="skellige"] .seg{border-color:#6d7b82;background:linear-gradient(#232c31,#13191c);box-shadow:0 2px 4px rgba(0,0,0,.5)}
+:root[data-skin="skellige"] .seg button{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.05em;text-transform:uppercase}
+:root[data-skin="skellige"] .seg button+button{border-left-color:#3a4950}
+:root[data-skin="skellige"] .seg button[aria-pressed="true"]{box-shadow:inset 0 1px 0 rgba(255,220,200,.45),inset 0 -1px 0 rgba(60,10,0,.4)}
+:root[data-skin="skellige"] .skin{background:linear-gradient(#252e33,#151b1e);border-color:#3a4950}
+:root[data-skin="skellige"] .skin[aria-pressed="true"]{background:linear-gradient(#4a2a22,#2a1612);border-color:var(--accent);box-shadow:0 0 10px rgba(224,96,63,.25)}
+:root[data-skin="skellige"] th{font-family:var(--font-display);font-weight:400;font-size:13px;letter-spacing:.12em;color:#9aaab0;border-bottom:3px double #4a5960}
+:root[data-skin="skellige"] tr.cur{background:linear-gradient(90deg,rgba(224,96,63,.22),rgba(224,96,63,.03))}
+:root[data-skin="skellige"] tr.cur td.t,:root[data-skin="skellige"] tr.cur td.n{color:#ffd2c2}
+:root[data-skin="skellige"] td.end{font-family:var(--font-display);font-size:17px;letter-spacing:.06em;color:#f0c75e}
+:root[data-skin="skellige"] .add input,:root[data-skin="skellige"] .lp-head input,:root[data-skin="skellige"] .brk,:root[data-skin="skellige"] .form input[type=time],:root[data-skin="skellige"] .form input[type=number],:root[data-skin="skellige"] .form select{background:#080c0e;border-color:#4a5960;border-radius:1px;box-shadow:inset 0 2px 4px rgba(0,0,0,.7)}
+:root[data-skin="skellige"] .brk.custom{border-color:var(--rest)}
+:root[data-skin="skellige"] .player{background:#080c0e;border:1px solid #4a5960;border-radius:1px;box-shadow:inset 0 0 0 1px #05080a,inset 0 2px 12px rgba(0,0,0,.7)}
+:root[data-skin="skellige"] .list-panel{border-color:#56636a;border-radius:2px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 18px 40px -14px rgba(0,0,0,.9)}
+:root[data-skin="skellige"] .trk-thumb{border-radius:0}
+:root[data-skin="skellige"] .fday{border-color:#3a4950;background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.14));box-shadow:inset 0 1px 3px rgba(0,0,0,.55)}
+:root[data-skin="skellige"] .focus-pill{border-color:#3a4950}
+:root[data-skin="skellige"] .fstat-v{font-weight:400}
+/* a reminder comes in on a dark band between two iron hairlines */
+:root[data-skin="skellige"] .toast{width:max-content;border:0;border-radius:0;padding:14px 40px 14px 44px;background:linear-gradient(90deg,transparent,rgba(8,12,14,.97) 10%,rgba(8,12,14,.97) 90%,transparent);box-shadow:none;font-family:var(--font-display);font-weight:400;font-size:17px;text-transform:uppercase;letter-spacing:.1em;color:#e9eff1}
+:root[data-skin="skellige"] .toast::before,:root[data-skin="skellige"] .toast::after{content:"";position:absolute;left:6%;right:6%;height:1px;background:linear-gradient(90deg,transparent,#aab6bb 30%,#aab6bb 70%,transparent)}
+:root[data-skin="skellige"] .toast::before{top:0}
+:root[data-skin="skellige"] .toast::after{bottom:0}
+/* the painted scene: the sky canvas, wisps of mist blowing across, the land and sea canvas, then gulls and the longship on top;
+   everything that moves is a CSS transform */
+.sscene{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+:root[data-skin="skellige"] .sscene{display:block}
+.sscene canvas{position:absolute;left:0;top:0;width:100%;height:100%}
+.sk-mist canvas{animation:skDrift var(--t) linear var(--d) infinite}
+@keyframes skDrift{from{transform:translateX(-100%)}to{transform:translateX(100vw)}}
+.sk-gull{position:absolute;left:0;top:var(--y);width:26px;animation:skGull var(--t) linear var(--d) infinite}
+.sk-gull svg{display:block;width:100%;fill:#e6ecee;animation:skFlap .45s ease-in-out infinite alternate}
+@keyframes skFlap{to{transform:scaleY(.35)}}
+@keyframes skGull{0%{transform:translate(-6vw,0) scale(var(--s))}30%{transform:translate(28vw,-4vh) scale(var(--s))}60%{transform:translate(60vw,2vh) scale(var(--s))}100%{transform:translate(106vw,-3vh) scale(var(--s))}}
+.sk-ship{position:absolute;animation:skSail 150s ease-in-out infinite alternate}
+.sk-ship svg{display:block;width:100%;height:auto;transform-origin:50% 85%;animation:skBob 4.5s ease-in-out infinite alternate}
+.sk-ship::after{content:"";position:absolute;left:4%;right:0;bottom:-2%;height:14%;border-radius:50%;background:radial-gradient(rgba(226,238,238,.55),transparent 70%)}
+@keyframes skSail{to{transform:translateX(var(--run))}}
+@keyframes skBob{from{transform:rotate(-2.5deg)}to{transform:rotate(2deg) translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.sscene *{animation:none!important}.sk-mist canvas{transform:translateX(var(--x))}}
 .scene{display:none;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .top-right{display:flex;align-items:center;gap:12px}
 .sun{position:absolute;left:50%;top:64%;width:min(46vmin,440px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(#ffd319 8%,#ff8c42 38%,#ff2975 72%,#b026ff);-webkit-mask-image:linear-gradient(#000 0 30%,transparent 30% 32%,#000 32% 38%,transparent 38% 41%,#000 41% 45%,transparent 45% 49%,#000 49%);mask-image:linear-gradient(#000 0 30%,transparent 30% 32%,#000 32% 38%,transparent 38% 41%,#000 41% 45%,transparent 45% 49%,#000 49%);filter:drop-shadow(0 0 40px rgba(255,41,117,.55))}
@@ -1023,6 +1133,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <button class="skin" type="button" data-skin="pixel" aria-pressed="false"><span class="sw sw-pixel"></span>Піксель</button>
           <button class="skin" type="button" data-skin="orbit" aria-pressed="false"><span class="sw sw-orbit"></span>Орбіта</button>
           <button class="skin" type="button" data-skin="toussaint" aria-pressed="false"><span class="sw sw-toussaint"></span>Туссент</button>
+          <button class="skin" type="button" data-skin="skellige" aria-pressed="false"><span class="sw sw-skellige"></span>Скеліге</button>
         </div>
         <label class="check skin-shuffle"><input type="checkbox" id="sShuffle"><span>Нова випадкова тема щодня</span></label>
       </fieldset>
@@ -1160,7 +1271,7 @@ const EN = {
   'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
   'Я сиджу рівно':'I’m sitting straight',
   'Налаштування':'Settings', 'Тема':'Theme', 'Мова':'Language',
-  'Дошка':'Chalkboard', 'Неон':'Neon', 'Аеро':'Aero', 'Точки':'Dots', 'Лінія':'Line', 'Ретро':'Retro', 'Піксель':'Pixel', 'Орбіта':'Orbit', 'Туссент':'Toussaint',
+  'Дошка':'Chalkboard', 'Неон':'Neon', 'Аеро':'Aero', 'Точки':'Dots', 'Лінія':'Line', 'Ретро':'Retro', 'Піксель':'Pixel', 'Орбіта':'Orbit', 'Туссент':'Toussaint', 'Скеліге':'Skellige',
   'Нова випадкова тема щодня':'A new random theme every day',
   'Початок першого уроку':'First lesson starts at', 'Тривалість уроку, хв':'Lesson length, min', 'Тривалість перерви, хв':'Break length, min',
   'Кількість уроків':'Number of lessons', 'Робочі дні':'Working days',
@@ -2005,6 +2116,37 @@ const VIZ = {
       const a = Math.min(1, m.age * 2) * Math.max(0, (m.y - G.top) / (base - G.top));
       if(a <= 0){ ms.splice(k, 1); continue; }
       g.globalAlpha = a * .8; g.beginPath(); g.arc(m.x, m.y, m.s, 0, Math.PI * 2); g.fill();
+    }
+  },
+  // Skellige: the music as a swell, three ranks of waves from deep sea-green to foam, taller where the band is louder; spray flies off the
+  // loudest crests and a longship rides the front wave, rocking with its slope
+  skellige(g, G, C, L, t){
+    const base = G.top + G.area * .98, M = 96, at = (j) => L[Math.max(0, Math.min(G.N - 1, j))];
+    const lv = (u) => { const f = u * G.N - .5, j = Math.floor(f), fr = f - j; return at(j) * (1 - fr) + at(j + 1) * fr; };
+    const waveY = (r, x) => { const u = x / G.W; return base - G.area * (.34 - r * .1 + lv(u) * (.6 - r * .15)) - Math.sin(u * 9 + t * (1.2 + r * .5) + r * 2) * G.area * .035; };
+    const crest = (r) => { g.beginPath(); for(let j = 0; j <= M; j++){ const x = G.W * j / M; j ? g.lineTo(x, waveY(r, x)) : g.moveTo(x, waveY(r, x)); } };
+    ['#123a42', '#1d5a62', '#2f8288'].forEach((col, r) => {
+      if(r === 2){
+        // the longship, between the middle rank and the front one, so the front wave hides its keel
+        const x = G.W * (.5 + .22 * Math.sin(t * .07)), y = waveY(2, x), a = Math.atan2(waveY(2, x + 8 * G.dpr) - waveY(2, x - 8 * G.dpr), 16 * G.dpr), sc = G.area * .0048;
+        g.save(); g.translate(x, y); g.rotate(a); g.scale(sc, sc); g.translate(-60, -68);
+        g.strokeStyle = '#1e140c'; g.lineWidth = 2.5; g.beginPath(); g.moveTo(60, 8); g.lineTo(60, 62); g.moveTo(33, 14); g.lineTo(87, 14); g.stroke();
+        const sail = new Path2D(SKSHIP.sail);
+        g.save(); g.clip(sail); for(let i = 0; i < 9; i++){ g.fillStyle = i % 2 ? '#e6dcc6' : '#b8402c'; g.fillRect(28 + i * 7, 14, 7, 42); } g.restore();
+        g.fillStyle = '#3a2a1e'; g.fill(new Path2D(SKSHIP.hull + SKSHIP.prow + SKSHIP.stern));
+        for(let i = 0; i < 8; i++){ g.fillStyle = i % 2 ? '#e6dcc6' : '#b8402c'; g.beginPath(); g.arc(30 + i * 8.5, 65, 3.6, 0, 7); g.fill(); }
+        g.restore();
+      }
+      const sea = g.createLinearGradient(0, base - G.area * (.5 - r * .12), 0, G.H);
+      sea.addColorStop(0, col); sea.addColorStop(1, '#061519');
+      crest(r); g.lineTo(G.W, G.H); g.lineTo(0, G.H); g.closePath(); g.fillStyle = sea; g.fill();
+      crest(r); g.strokeStyle = r === 2 ? 'rgba(226,246,244,.9)' : 'rgba(120,190,195,.45)'; g.lineWidth = Math.max(1, G.dpr * (r === 2 ? 2 : 1.2)); g.stroke();
+    });
+    g.fillStyle = 'rgba(236,248,246,.85)';
+    for(let i = 0; i < G.N; i++){
+      if(L[i] < .62) continue;
+      const x = G.W * (i + .5) / G.N, y = waveY(2, x);
+      for(let j = 0; j < 4; j++){ const s = Math.sin(i * 7.1 + j * 3.3 + t * 3); g.beginPath(); g.arc(x + s * G.step, y - (L[i] - .55) * G.area * (.3 + .2 * j) * Math.abs(s), Math.max(1, G.dpr * 1.4), 0, 7); g.fill(); }
     }
   },
   // Retro: striped sunset sun that swells with the bass, the spectrum as a neon mountain range, a rolling grid floor
@@ -2897,7 +3039,292 @@ function paintToussaint(){
   g.fillStyle = g.createPattern(TS.grain, 'repeat'); g.fillRect(0, 0, W, H);
 }
 
-const SKINS = ['chalk', 'cyber', 'aero', 'dots', 'line', 'synth', 'pixel', 'orbit', 'toussaint'];
+/* ---------- Skellige: a painted scene behind the page ---------- */
+// The isles under a storm breaking up, painted for the window's size on two canvases: heavy cloud with a gap of cold gold light over
+// the sea and rain hanging far off; snow-capped islands in the mist, rays falling on the water, a fjord wall with pines on the left, a
+// clan keep on a sea stack on the right with fires in its windows, a rocky shore with heather, a runestone and a shield in front.
+// Moving: wisps of mist, gulls, a longship riding the swell, all as CSS transforms.
+const SK = {el:null, w:0, h:0, timer:0, grain:null};
+// the longship, shared by the scene and the music visual
+const SKSHIP = {sail:'M36 15H84Q92 34 88 54H32Q28 34 36 15Z', hull:'M8 60Q14 74 30 76H92Q106 74 112 62Q100 66 92 64H28Q16 64 8 60Z',
+  prow:'M106 66Q114 56 112 44Q116 40 118 44Q116 48 114 47Q116 58 110 68Z', stern:'M12 64Q4 56 8 46Q10 42 13 45Q10 52 16 62Z'};
+function skelligeScene(on){
+  if(!on){ if(SK.el) SK.el.hidden = true; return; }
+  if(!SK.el){
+    const gull = '<svg viewBox="0 0 24 10"><path d="M1 6Q6 0 12 6Q18 0 23 6Q18 3 12 8Q6 3 1 6Z"/></svg>';
+    let fx = '', shields = '';
+    for(let i = 0; i < 4; i++) fx += '<i class="sk-gull" style="--t:' + (38 + i * 11) + 's;--d:-' + (i * 13) + 's;--y:' + (8 + i * 7) + 'vh;--s:' + (.7 + (i % 2) * .4) + '">' + gull + '</i>';
+    for(let i = 0; i < 8; i++) shields += '<circle cx="' + (30 + i * 8.5) + '" cy="65" r="3.6" fill="' + (i % 2 ? '#e6dcc6' : '#b8402c') + '" stroke="#1e140c" stroke-width=".8"/>';
+    fx += '<i class="sk-ship"><svg viewBox="0 0 120 80"><defs><pattern id="skSail" width="14" height="10" patternUnits="userSpaceOnUse"><rect width="7" height="10" fill="#b8402c"/>' +
+      '<rect x="7" width="7" height="10" fill="#e6dcc6"/></pattern></defs><path d="M60 8V62" stroke="#1e140c" stroke-width="2.5"/><path d="M33 14H87" stroke="#1e140c" stroke-width="2"/>' +
+      '<path d="' + SKSHIP.sail + '" fill="url(#skSail)" stroke="#5a4636" stroke-width=".8"/><path d="' + SKSHIP.hull + SKSHIP.prow + SKSHIP.stern + '" fill="#3a2a1e"/>' +
+      '<path d="M28 70H94" stroke="#6b5038" stroke-width="1.2"/>' + shields + '</svg></i>';
+    SK.el = document.createElement('div'); SK.el.className = 'sscene'; SK.el.setAttribute('aria-hidden', 'true');
+    SK.el.innerHTML = '<canvas class="sk-sky"></canvas><div class="sk-mist"></div><canvas class="sk-land"></canvas><div class="sk-fx">' + fx + '</div>';
+    document.body.prepend(SK.el);
+    addEventListener('resize', () => { clearTimeout(SK.timer); SK.timer = setTimeout(() => { if(!SK.el.hidden) paintSkellige(); }, 250); });
+  }
+  SK.el.hidden = false;
+  requestAnimationFrame(paintSkellige);
+}
+function paintSkellige(){
+  const W = innerWidth, H = innerHeight;
+  // a phone's address bar coming and going changes the height a little: then the picture just stretches
+  if(!W || !H || (W === SK.w && Math.abs(H - SK.h) < 140)) return;
+  SK.w = W; SK.h = H;
+  const k = Math.min(devicePixelRatio || 1, 1.5), D = Math.hypot(W, H), el = SK.el;
+  let seed = 3;
+  const R = () => (seed = seed * 16807 % 2147483647) / 2147483647, rr = (a, b) => a + R() * (b - a);
+  const port = W < H * .8, hz = H * (port ? .58 : .6), lx = W * (port ? .5 : .56), ly = hz - H * .1;
+  const rgb = (c) => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const p = rgb(a), q = rgb(b); return 'rgb(' + p.map((v, i) => Math.round(v + (q[i] - v) * t)).join(',') + ')'; };
+  const lit = (x, y) => Math.max(0, 1 - Math.hypot(x - lx, (y - ly) * 1.6) / (W * .5));
+  const stops = (gr, list) => { for(const [o, c] of list) gr.addColorStop(o, c); return gr; };
+  const canvas = (cv, w, h) => { cv.width = Math.round(w * k); cv.height = Math.round(h * k); const g = cv.getContext('2d'); g.setTransform(k, 0, 0, k, 0, 0); return g; };
+
+  // ----- the sky: dark overhead, pale toward the horizon, the light low in a gap under the cloud
+  const s = canvas(el.querySelector('.sk-sky'), W, H);
+  s.fillStyle = stops(s.createLinearGradient(0, 0, 0, hz), [[0, '#121b24'], [.35, '#2a3844'], [.66, '#5a6973'], [.88, '#a2aaa4'], [1, '#d8d0b2']]); s.fillRect(0, 0, W, H);
+  s.globalCompositeOperation = 'screen';
+  s.fillStyle = stops(s.createRadialGradient(lx, ly, 0, lx, ly, D * .55), [[0, 'rgba(255,248,226,1)'], [.03, 'rgba(255,240,206,.8)'], [.12, 'rgba(236,224,192,.35)'], [.4, 'rgba(200,204,196,.1)'], [1, 'rgba(200,204,196,0)']]);
+  s.fillRect(0, 0, W, H);
+  s.globalCompositeOperation = 'source-over';
+  // rain hanging from the clouds far off
+  s.filter = 'blur(' + Math.round(8 * k) + 'px)';
+  for(const x of [W * .1, W * .3, W * .86]){ s.fillStyle = 'rgba(48,60,70,.38)'; s.beginPath(); s.moveTo(x, H * .3); s.lineTo(x + W * .07, H * .3); s.lineTo(x + W * .03, hz); s.lineTo(x - W * .04, hz); s.closePath(); s.fill(); }
+  // storm clouds in four banks, heavier overhead, built of soft lumps that are paler on top; only near the gap does light spill round
+  // their edges, as a glow drawn under the mass
+  s.filter = 'blur(' + Math.round(6 * k) + 'px)';
+  for(const [y0, r0, dark] of [[-H * .02, H * .12, '#1c262e'], [H * .12, H * .09, '#26323b'], [H * .25, H * .075, '#323f49'], [H * .36, H * .055, '#46535c']]){
+    const blobs = [];
+    for(let x = -r0; x < W + r0; x += r0 * rr(.45, .8)){
+      const y = y0 + rr(-r0 * .45, r0 * .45);
+      if(R() < (1 - Math.min(1, Math.hypot((x - lx) / (W * .2), (y - ly) / (H * .22)))) * 1.3) continue;
+      blobs.push([x, y, r0 * rr(.6, 1.25)]);
+    }
+    for(const [x, y, r] of blobs){
+      const dx = lx - x, dy = ly - y, d = Math.hypot(dx, dy) || 1, near = Math.max(0, 1 - d / (W * .3));
+      if(!near) continue;
+      s.fillStyle = 'rgba(248,236,206,' + (near * .85).toFixed(2) + ')';
+      s.beginPath(); s.arc(x + dx / d * r * .1, y + dy / d * r * .1, r, 0, 7); s.fill();
+    }
+    for(const [x, y, r] of blobs){
+      const t = lit(x, y);
+      s.fillStyle = stops(s.createRadialGradient(x, y - r * .45, 0, x, y, r), [[0, mix(dark, '#8d979c', .3 + t * .45)], [.7, mix(dark, '#5d6870', t * .4)], [1, dark]]);
+      s.beginPath(); s.arc(x, y, r * .96, 0, 7); s.fill();
+    }
+  }
+  s.filter = 'none';
+
+  // ----- wisps of mist, each on its own canvas so the wind can carry it
+  const mist = el.querySelector('.sk-mist'); mist.textContent = '';
+  for(let i = 0; i < 5; i++){
+    const w = Math.max(260, W * rr(.25, .45)), h = Math.max(36, H * rr(.04, .07)), c = document.createElement('canvas');
+    c.style.cssText = 'width:' + w.toFixed(0) + 'px;height:' + h.toFixed(0) + 'px;top:' + (H * rr(.32, .62)).toFixed(0) + 'px;--x:' + rr(-10, 90).toFixed(0) +
+      'vw;--t:' + rr(80, 160).toFixed(0) + 's;--d:-' + rr(0, 160).toFixed(0) + 's;opacity:' + rr(.35, .6).toFixed(2);
+    const g = canvas(c, w, h);
+    g.filter = 'blur(' + Math.round(h * .16 * k) + 'px)'; g.fillStyle = 'rgba(222,228,230,.8)';
+    for(let j = 0; j < 9; j++){ g.beginPath(); g.ellipse(w * rr(.25, .75), h * rr(.42, .58), w * rr(.08, .16), h * rr(.12, .2), 0, 0, 7); g.fill(); }
+    mist.append(c);
+  }
+
+  // ----- the land and the sea
+  const g = canvas(el.querySelector('.sk-land'), W, H);
+  const f1 = 6.283 / Math.max(500, W * .42);
+  const trace = (ys) => ys.forEach((y, i) => i ? g.lineTo(i * 8, y) : g.moveTo(0, y));
+  const line = (fn) => { const ys = []; for(let x = 0; x <= W + 8; x += 8) ys.push(fn(x)); return ys; };
+  const poly = (pts) => { g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); };
+  const peak = (v) => 1 - Math.abs(Math.sin(v));
+
+  g.fillStyle = stops(g.createLinearGradient(0, hz, 0, H), [[0, '#8796a0'], [.06, '#566f79'], [.35, '#27454e'], [1, '#0c1d23']]); g.fillRect(0, hz, W, H - hz);
+  // islands on the horizon: snow on their peaks, mist at their feet
+  for(const [amp, f, ph, col, snow] of [[H * .14, f1 * .8, 1.1, '#7e8c94', .8], [H * .085, f1 * 1.3, 4.2, '#55636b', .55]]){
+    const ys = line(x => hz - amp * Math.max(0, Math.sin(x * f * .33 + ph)) * (.55 * peak(x * f + ph) + .3 * peak(x * f * 2.3 + ph * 1.7) + .15 * peak(x * f * 5.1)));
+    g.beginPath(); trace(ys); g.lineTo(W + 8, hz + 1); g.lineTo(0, hz + 1); g.closePath();
+    g.fillStyle = stops(g.createLinearGradient(0, hz - amp, 0, hz), [[0, col], [1, mix(col, '#b9c2c4', .55)]]); g.fill();
+    g.save(); g.clip();
+    g.beginPath(); g.moveTo(0, 0);
+    for(let x = 0; x <= W + 8; x += 8) g.lineTo(x, hz - amp * (.48 + .08 * Math.sin(x * .09) + .05 * Math.sin(x * .23)));
+    g.lineTo(W + 8, 0); g.closePath(); g.fillStyle = 'rgba(238,243,245,' + snow + ')'; g.fill();
+    g.fillStyle = stops(g.createLinearGradient(lx - W * .4, 0, lx + W * .4, 0), [[0, 'rgba(255,240,210,0)'], [.5, 'rgba(255,240,210,.22)'], [1, 'rgba(255,240,210,0)']]); g.fillRect(0, hz - amp, W, amp);
+    g.restore();
+  }
+  g.fillStyle = stops(g.createLinearGradient(0, hz - H * .05, 0, hz + H * .02), [[0, 'rgba(206,212,210,0)'], [.7, 'rgba(206,212,210,.45)'], [1, 'rgba(206,212,210,0)']]); g.fillRect(0, hz - H * .05, W, H * .07);
+  // the light's path on the water, the chop and a few whitecaps
+  for(let i = 0; i < 1100; i++){
+    const t = Math.pow(R(), 1.7), y = hz + 2 + t * (H * .9 - hz), cw = W * .015 + t * W * .22, x = lx + (R() + R() + R() - 1.5) * cw;
+    const a = Math.max(0, 1 - Math.abs(x - lx) / (cw * 1.2)) * (.3 + .6 * (1 - t));
+    g.fillStyle = 'rgba(255,242,212,' + a.toFixed(2) + ')'; g.fillRect(x, y, 2 + t * 20, 1 + t * 1.6);
+  }
+  g.lineCap = 'round';
+  for(let i = 0; i < W * 1.3; i++){
+    const t = Math.pow(R(), 1.4), y = hz + 3 + t * (H - hz), x = rr(0, W), w = 3 + t * 26;
+    g.strokeStyle = 'rgba(8,24,30,' + (.25 + t * .25).toFixed(2) + ')'; g.lineWidth = .8 + t * 1.6;
+    g.beginPath(); g.moveTo(x - w / 2, y); g.quadraticCurveTo(x, y + w * .12, x + w / 2, y); g.stroke();
+    g.strokeStyle = 'rgba(176,206,212,' + (.12 + lit(x, y) * .3).toFixed(2) + ')'; g.lineWidth = .6 + t;
+    g.beginPath(); g.moveTo(x - w / 2, y - 1); g.quadraticCurveTo(x, y - 1 - w * .12, x + w / 2, y - 1); g.stroke();
+  }
+  for(let i = 0; i < 140; i++){
+    const t = Math.pow(R(), 1.2), y = hz + 4 + t * (H - hz), x = rr(0, W);
+    g.fillStyle = 'rgba(236,244,244,' + rr(.35, .8).toFixed(2) + ')'; g.beginPath(); g.ellipse(x, y, 1 + t * 6, .6 + t * 1.6, 0, 0, 7); g.fill();
+  }
+  // shafts of light falling through the gap onto the sea
+  g.globalCompositeOperation = 'screen'; g.filter = 'blur(' + Math.round(10 * k) + 'px)';
+  for(let i = 0; i < 9; i++){
+    const a = rr(.2, .8) * Math.PI, w = rr(.02, .05), len = H * rr(.5, .9);
+    g.fillStyle = stops(g.createRadialGradient(lx, ly, 0, lx, ly, len), [[0, 'rgba(255,240,206,' + rr(.1, .2).toFixed(2) + ')'], [1, 'rgba(255,240,206,0)']]);
+    g.beginPath(); g.moveTo(lx, ly); g.arc(lx, ly, len, a - w, a + w); g.closePath(); g.fill();
+  }
+  g.globalCompositeOperation = 'source-over'; g.filter = 'none';
+  // surf: broken white along a waterline
+  const surf = (x0, y0, x1, y1) => {
+    for(let i = 0; i < 40; i++){ const t = R(), x = x0 + (x1 - x0) * t, y = y0 + (y1 - y0) * t + rr(-3, 3); g.fillStyle = 'rgba(236,244,244,' + rr(.4, .85).toFixed(2) + ')'; g.beginPath(); g.ellipse(x, y, rr(3, 12), rr(1, 2.5), 0, 0, 7); g.fill(); }
+  };
+  const strata = (x0, x1, y0, y1, toRight) => {
+    for(let i = 0; i < 50; i++){
+      const x = rr(x0, x1), y = rr(y0, y1), l = rr(H * .03, H * .12), a = rr(.5, .95), sun = toRight ? (x - x0) / (x1 - x0) : 1 - (x - x0) / (x1 - x0);
+      g.strokeStyle = R() < .5 ? 'rgba(150,166,170,' + (.1 + sun * .28).toFixed(2) + ')' : 'rgba(8,12,14,.42)';
+      g.lineWidth = rr(1, 3); g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l * (toRight ? 1 : -1), y + Math.sin(a) * l); g.stroke();
+    }
+  };
+  const pine = (x, base, h) => {
+    for(let j = 0; j < 4; j++){
+      const t = j / 4, w = h * (.42 - t * .26), y = base - h * t * .78;
+      g.fillStyle = '#14211c'; g.beginPath(); g.moveTo(x - w / 2, y); g.lineTo(x, y - h * .38); g.lineTo(x + w / 2, y); g.closePath(); g.fill();
+      g.fillStyle = 'rgba(170,190,170,.18)'; g.beginPath(); g.moveTo(x, y - h * .38); g.lineTo(x + w / 2, y); g.lineTo(x + w * .12, y); g.closePath(); g.fill();
+    }
+  };
+
+  // the fjord wall on the left: dark rock lit on the side facing the light, turf and pines along the top, surf at its foot
+  const cw = W * (port ? .34 : .22), ctop = H * (port ? .3 : .2);
+  const cliffTop = (x) => ctop + Math.pow(x / cw, 1.7) * (hz + H * .03 - ctop) + Math.sin(x * .07) * H * .01 + Math.sin(x * .21) * H * .006;
+  const top = []; for(let x = 0; x <= cw; x += 6) top.push([x, cliffTop(x)]);
+  poly([...top, [cw + W * .03, hz + H * .05], [0, hz + H * .09]]);
+  g.fillStyle = stops(g.createLinearGradient(0, 0, cw, 0), [[0, '#182126'], [.6, '#2c383e'], [1, '#56646a']]); g.fill();
+  g.save(); g.clip(); strata(-cw * .1, cw, ctop, hz + H * .08, true); g.restore();
+  g.beginPath(); top.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.strokeStyle = '#4b6340'; g.lineWidth = Math.max(4, H * .012); g.stroke();
+  for(let x = 6; x < cw * .8; x += rr(8, 18)) pine(x, cliffTop(x) + 4, H * rr(.05, .09) * (1 - x / cw * .5));
+  surf(0, hz + H * .09, cw + W * .03, hz + H * .05);
+
+  // the clan keep on its sea stack: massive grey stone, a great hall under a steep timber roof, a drum tower and a square one,
+  // red banners and fires in the windows, smoke going off with the wind
+  const px = W * (port ? .74 : .85), u = Math.min(W * (port ? .21 : .11), H * .19), st = hz - u * .5;
+  const stack = [[px - u * 1.3, hz + H * .06], [px - u * 1.15, hz - u * .05], [px - u * 1.05, st + u * .22], [px - u * .97, st], [W + 10, st - u * .04], [W + 10, hz + H * .07]];
+  poly(stack); g.fillStyle = stops(g.createLinearGradient(px - u * 1.3, 0, px + u, 0), [[0, '#6c797f'], [.25, '#3d494f'], [1, '#222b30']]); g.fill();
+  g.save(); g.clip(); strata(px - u * 1.3, W, st, hz + H * .06, false); g.restore();
+  surf(px - u * 1.3, hz + H * .06, W, hz + H * .07);
+  const stone = (l, r) => stops(g.createLinearGradient(l, 0, r, 0), [[0, '#8e999d'], [.4, '#5b666b'], [1, '#2a3236']]);
+  // rough-cut stone: courses, and blocks a shade lighter or darker here and there
+  const block = (l, r, top) => {
+    g.fillStyle = stone(l, r); g.fillRect(l, top, r - l, st - top + 2);
+    g.fillStyle = 'rgba(12,16,19,.3)'; for(let y = top + u * .08; y < st; y += u * .085) g.fillRect(l, y, r - l, 1);
+    for(let i = 0; i < (r - l) * (st - top) / (u * u) * 18; i++){
+      g.fillStyle = R() < .5 ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.14)'; g.fillRect(rr(l, r - u * .08), rr(top, st - u * .05), u * rr(.05, .11), u * .07);
+    }
+  };
+  const crenels = (l, r, top) => { g.fillStyle = stone(l, r); for(let x = l; x < r - u * .03; x += u * .08) g.fillRect(x, top - u * .06, u * .045, u * .062); };
+  // a steep timber roof of boards, the gable boards crossed at the top as on a longhouse
+  const timber = (l, r, base, h) => {
+    const m = (l + r) / 2;
+    g.fillStyle = stops(g.createLinearGradient(l, 0, r, 0), [[0, '#7a6450'], [.45, '#4a3b2e'], [1, '#241c16']]);
+    g.beginPath(); g.moveTo(l, base); g.lineTo(m, base - h); g.lineTo(r, base); g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(0,0,0,.28)'; g.lineWidth = 1; g.beginPath();
+    for(let j = 1; j < 8; j++){ g.moveTo(m, base - h); g.lineTo(l + (r - l) * j / 8, base); }
+    g.stroke();
+    g.strokeStyle = '#2a1f17'; g.lineWidth = Math.max(1.5, u * .028); g.lineCap = 'round'; g.beginPath();
+    g.moveTo(m - h * .2, base - h * 1.14); g.lineTo(m + h * .1, base - h * .86); g.moveTo(m + h * .2, base - h * 1.14); g.lineTo(m - h * .1, base - h * .86); g.stroke();
+  };
+  // a covered timber gallery along a wall top
+  const gallery = (l, r, top) => {
+    g.fillStyle = '#3a2d23'; g.fillRect(l, top - u * .1, r - l, u * .1);
+    g.fillStyle = 'rgba(0,0,0,.35)'; for(let x = l; x < r; x += u * .06) g.fillRect(x, top - u * .1, 1, u * .1);
+    g.fillStyle = '#5a4636'; g.fillRect(l - u * .02, top - u * .13, r - l + u * .04, u * .035);
+  };
+  const fire = (x, y, w, h) => {
+    g.fillStyle = stops(g.createRadialGradient(x + w / 2, y + h / 2, 0, x + w / 2, y + h / 2, w * 3), [[0, 'rgba(255,170,80,.4)'], [1, 'rgba(255,170,80,0)']]);
+    g.fillRect(x - w * 3, y - w * 3, w * 7, h + w * 6);
+    g.fillStyle = '#ffb35c'; g.beginPath(); g.moveTo(x, y + h); g.lineTo(x, y + w / 2); g.arc(x + w / 2, y + w / 2, w / 2, Math.PI, 0); g.lineTo(x + w, y + h); g.closePath(); g.fill();
+  };
+  const banner = (x, top, w, h) => {
+    g.fillStyle = '#a8362a'; g.beginPath(); g.moveTo(x, top); g.lineTo(x + w, top); g.lineTo(x + w, top + h); g.lineTo(x + w / 2, top + h * .82); g.lineTo(x, top + h); g.closePath(); g.fill();
+    g.fillStyle = '#e6dcc6'; g.fillRect(x, top + h * .3, w, h * .12);
+    g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x + w * .6, top, w * .4, h * .85);
+  };
+  block(px - u * 1.05, W + 4, st - u * .38); gallery(px - u * 1.05, W + 4, st - u * .38);
+  block(px - u * .45, px + u * .55, st - u * .8); timber(px - u * .54, px + u * .64, st - u * .8, u * .62);
+  block(px - u * 1.0, px - u * .5, st - u * 1.4); crenels(px - u * 1.0, px - u * .5, st - u * 1.4);
+  block(px - u * .86, px - u * .64, st - u * 1.62); timber(px - u * .9, px - u * .6, st - u * 1.62, u * .3);
+  block(px + u * .62, px + u * .96, st - u * 1.08); crenels(px + u * .62, px + u * .96, st - u * 1.08); timber(px + u * .58, px + u * 1.0, st - u * 1.14, u * .42);
+  block(px + u * 1.05, px + u * 1.45, st - u * .62); timber(px + u * 1.0, px + u * 1.5, st - u * .62, u * .36);
+  g.fillStyle = '#0e1417'; g.beginPath(); g.moveTo(px - u * .13, st + 1); g.lineTo(px - u * .13, st - u * .22); g.arc(px, st - u * .22, u * .13, Math.PI, 0); g.lineTo(px + u * .13, st + 1); g.closePath(); g.fill();
+  for(const [dx, dy] of [[-.9, -1.2], [-.66, -1.2], [-.8, -.95], [-.6, -.7], [-.3, -.62], [.3, -.62], [.72, -.9], [.84, -.62], [1.18, -.42], [1.32, -.42]]) fire(px + dx * u, st + dy * u, u * .055, u * .1);
+  banner(px - u * .42, st - u * .76, u * .1, u * .32); banner(px + u * .42, st - u * .76, u * .1, u * .32); banner(px - u * .58, st - u * 1.36, u * .08, u * .26); banner(px + u * .7, st - u * 1.04, u * .09, u * .26);
+  g.filter = 'blur(' + Math.round(4 * k) + 'px)';
+  for(let i = 0; i < 9; i++){ g.fillStyle = 'rgba(160,168,170,' + (.28 - i * .025).toFixed(2) + ')'; g.beginPath(); g.arc(px + u * .2 - i * u * .14, st - u * 1.48 - i * u * .1, u * (.07 + i * .02), 0, 7); g.fill(); }
+  g.filter = 'none';
+
+  // the near shore: boulders lit from the gap, moss on their backs, heather and grass between them
+  const shore = H - H * (port ? .08 : .1);
+  g.fillStyle = '#121a1d'; g.beginPath(); g.moveTo(0, shore + H * .03);
+  for(let x = 0; x <= W + 8; x += 8) g.lineTo(x, shore + H * .03 - Math.abs(Math.sin(x * .013)) * H * .025);
+  g.lineTo(W + 8, H + 4); g.lineTo(0, H + 4); g.closePath(); g.fill();
+  const rocks = [];
+  for(let i = 0; i < W / 26; i++) rocks.push([rr(-20, W + 20), shore + rr(0, H * .1), H * rr(.025, .065)]);
+  rocks.sort((a, b) => a[1] - b[1]);
+  for(const [x, y, r] of rocks){
+    g.fillStyle = stops(g.createLinearGradient(x, y - r, x, y + r), [[0, mix('#4a575d', '#a8b0b0', lit(x, y) * .7)], [.5, '#283136'], [1, '#101619']]);
+    g.beginPath(); g.ellipse(x, y, r * 1.4, r, rr(-.2, .2), 0, 7); g.fill();
+    g.fillStyle = 'rgba(78,102,62,.6)'; g.beginPath(); g.ellipse(x - r * .25, y - r * .72, r * .7, r * .2, 0, 0, 7); g.fill();
+  }
+  for(let i = 0; i < W * .9; i++){
+    const x = rr(0, W), y = shore + rr(-H * .015, H * .1);
+    g.fillStyle = ['#b46aa1', '#8a4f86', '#d38dbd', '#5d7149'][Math.floor(R() * 4)]; g.beginPath(); g.arc(x, y, rr(.8, 2.4), 0, 7); g.fill();
+  }
+  // a runestone, its carving lit faintly green
+  const rx = W * (port ? .12 : .065), rb = H - H * .035, rh = H * (port ? .2 : .26), rw = rh * .34;
+  poly([[rx - rw * .5, rb], [rx - rw * .56, rb - rh * .55], [rx - rw * .4, rb - rh * .92], [rx - rw * .05, rb - rh], [rx + rw * .42, rb - rh * .9], [rx + rw * .52, rb - rh * .5], [rx + rw * .48, rb]]);
+  g.fillStyle = stops(g.createLinearGradient(rx - rw * .6, 0, rx + rw * .6, 0), [[0, '#353f44'], [.65, '#7f8a8e'], [1, '#4a5459']]); g.fill();
+  g.lineCap = 'round';
+  for(const pass of [0, 1]){
+    g.strokeStyle = pass ? 'rgba(130,232,220,.75)' : 'rgba(18,24,26,.8)'; g.lineWidth = pass ? 1 : 2.4;
+    g.shadowColor = 'rgba(111,220,210,.9)'; g.shadowBlur = pass ? 6 : 0;
+    seed = 21;
+    for(let j = 0; j < 7; j++){
+      const y = rb - rh * .82 + j * rh * .1, x = rx + rw * .02, h = rh * .075;
+      g.beginPath(); g.moveTo(x, y); g.lineTo(x, y + h);
+      if(R() < .7){ g.moveTo(x, y + h * rr(0, .4)); g.lineTo(x + h * .45 * (R() < .5 ? 1 : -1), y + h * rr(.3, .7)); }
+      if(R() < .5){ g.moveTo(x, y + h * rr(.3, .7)); g.lineTo(x - h * .4, y + h * rr(0, .3)); }
+      g.stroke();
+    }
+  }
+  g.shadowBlur = 0;
+  // a round shield hung on a post
+  const hx = W * (port ? .88 : .95), hy = H - H * .14, hr = H * .045;
+  g.fillStyle = '#3a2a1e'; g.fillRect(hx - hr * .12, hy - hr * .6, hr * .24, H - hy + hr);
+  for(let j = 0; j < 8; j++){ g.fillStyle = j % 2 ? '#e6dcc6' : '#b8402c'; g.beginPath(); g.moveTo(hx, hy); g.arc(hx, hy, hr, j * Math.PI / 4, (j + 1) * Math.PI / 4); g.closePath(); g.fill(); }
+  g.fillStyle = stops(g.createRadialGradient(hx - hr * .3, hy - hr * .3, 0, hx, hy, hr), [[0, 'rgba(255,255,255,.2)'], [1, 'rgba(0,0,0,.4)']]); g.beginPath(); g.arc(hx, hy, hr, 0, 7); g.fill();
+  g.strokeStyle = '#6d7b82'; g.lineWidth = hr * .14; g.beginPath(); g.arc(hx, hy, hr, 0, 7); g.stroke();
+  g.fillStyle = stops(g.createRadialGradient(hx - hr * .08, hy - hr * .08, 0, hx, hy, hr * .26), [[0, '#f4f7f8'], [.5, '#8a979d'], [1, '#1e2528']]); g.beginPath(); g.arc(hx, hy, hr * .26, 0, 7); g.fill();
+
+  // a cold vignette, a darker band under the header, grain
+  g.fillStyle = stops(g.createRadialGradient(W / 2, H * .5, D * .3, W / 2, H * .5, D * .62), [[0, 'rgba(4,8,12,0)'], [1, 'rgba(4,8,12,.55)']]); g.fillRect(0, 0, W, H);
+  g.fillStyle = stops(g.createLinearGradient(0, 0, 0, 110), [[0, 'rgba(4,8,12,.45)'], [1, 'rgba(4,8,12,0)']]); g.fillRect(0, 0, W, 110);
+  if(!SK.grain){
+    const c = document.createElement('canvas'); c.width = c.height = 120;
+    const x = c.getContext('2d'), img = x.createImageData(120, 120);
+    for(let i = 0; i < img.data.length; i += 4){ img.data[i] = img.data[i + 1] = img.data[i + 2] = Math.random() * 255; img.data[i + 3] = 13; }
+    x.putImageData(img, 0, 0); SK.grain = c;
+  }
+  g.fillStyle = g.createPattern(SK.grain, 'repeat'); g.fillRect(0, 0, W, H);
+
+  // the longship sits on the water near the fjord and drifts a little way along it
+  const sw = Math.max(70, Math.min(150, H * .12)), sea = hz + H * (port ? .06 : .05);
+  const ship = el.querySelector('.sk-ship').style;
+  Object.assign(ship, {width:sw.toFixed(0) + 'px', left:(W * (port ? .3 : .04)).toFixed(0) + 'px', top:(sea - sw * .6).toFixed(0) + 'px'});
+  ship.setProperty('--run', (W * (port ? .25 : .12)).toFixed(0) + 'px');
+}
+
+const SKINS = ['chalk', 'cyber', 'aero', 'dots', 'line', 'synth', 'pixel', 'orbit', 'toussaint', 'skellige'];
 function applySkin(){
   const s = SKINS.includes(S.skin) ? S.skin : 'chalk';
   if(s === 'chalk') delete document.documentElement.dataset.skin;
@@ -2905,6 +3332,7 @@ function applySkin(){
   document.querySelectorAll('.skin').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skin === s)));
   if(s === 'pixel') document.documentElement.style.setProperty('--pixel-scene', 'url(' + pixelScene() + ')');
   toussaintScene(s === 'toussaint');
+  skelligeScene(s === 'skellige');
 }
 $('skins').addEventListener('click', (e) => {
   const b = e.target.closest('.skin');
