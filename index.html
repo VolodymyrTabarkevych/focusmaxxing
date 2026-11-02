@@ -222,18 +222,21 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 .focus{display:flex;flex-direction:column;gap:10px}
 .focus-src{font-size:12px;color:var(--ink-3)}
 .focus-sum{margin:0;font-size:14px;color:var(--ink-2)}
-.fstack .f,.fstat-l .f{--c:var(--ok)}
-.fstack .d,.fstat-l .d{--c:var(--mid)}
+.fstack .f,.fstat-l .f,.ftl-track .f{--c:var(--ok)}
+.fstack .d,.fstat-l .d,.ftl-track .d{--c:var(--mid)}
 .fstack .a,.fstat-l .a{--c:var(--bad)}
-.fstack .r,.fstat-l .r{--c:color-mix(in srgb,var(--ok) 45%,var(--track))}
-.fstack i,.fstat-l i{background:var(--c)}
-/* the result: what period it is, the time at work, at rest and on the phone, then the get-ups and the posture */
+.fstack .r,.fstat-l .r,.ftl-track .r{--c:color-mix(in srgb,var(--ok) 45%,var(--track))}
+/* the longest sitting by day: plain within the reminder's minutes, marked past them */
+.fstack .sn{--c:color-mix(in srgb,var(--ink-3) 55%,var(--track))}
+.fstack .smid{--c:var(--mid)}
+.fstack .sbad{--c:var(--bad)}
+.fstack i,.fstat-l i,.ftl-track i{background:var(--c)}
+/* the result: what period it is; the time at work, at rest and on the phone; the get-ups, the longest sitting and the posture */
 .fday{display:flex;flex-direction:column;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:calc(var(--r) * .5)}
 .fday-l{min-width:0;font-size:12px;color:var(--ink-3)}
-/* the posture dot takes the colour of how straight you sat */
-.fday-line{color:var(--ink-2)}
-/* the dots are the legend for the colours in the bars */
-.fnums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+/* the first row's dots are the legend for the colours in the charts; the longest sitting's and the posture's dots
+   take the colour of how it went */
+.fnums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
 .fnum{display:flex;flex-direction:column;gap:2px;min-width:0}
 [data-tone="ok"]{--c:var(--ok)}
 [data-tone="mid"]{--c:var(--mid)}
@@ -246,7 +249,25 @@ body::before{content:"";position:fixed;top:0;bottom:0;left:max(6px,calc(50% - 61
 .fcols{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
 .fwd{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;font-size:11px;color:var(--ink-3)}
 .fwd b{height:14px;font-size:11px;font-weight:600;color:var(--ink-2);font-variant-numeric:lining-nums tabular-nums}
-.fwd-bar{display:flex;align-items:flex-end;justify-content:center;width:100%;height:40px;border-bottom:1px solid var(--line)}
+.fwd-bar{display:flex;align-items:flex-end;justify-content:center;width:100%;height:56px;border-bottom:1px solid var(--line)}
+/* the day by the hour: the long sittings marked above, the track of the day's states, the hours below; each stretch at
+   the desk and each get-up is a hover target over the track */
+.ftl{display:flex;flex-direction:column;gap:3px}
+.ftl-marks{position:relative;height:20px}
+.ftl-marks i{position:absolute;bottom:0;height:3px;border-radius:2px;background:var(--c)}
+.ftl-marks span{position:absolute;bottom:6px;font-size:11px;font-weight:600;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ftl-track,.ftl-key .gap{background:repeating-linear-gradient(135deg,var(--track) 0 2px,transparent 2px 5px)}
+.ftl-track{position:relative;height:24px;border-radius:4px;overflow:hidden}
+.ftl-track i{position:absolute;top:0;bottom:0}
+.ftl-hit{position:absolute;top:0;bottom:0}
+.ftl-hit:hover{background:color-mix(in srgb,var(--ink) 22%,transparent)}
+.ftl-axis{position:relative;height:14px;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.ftl-axis span{position:absolute;top:0;transform:translateX(-50%)}
+.ftl-axis span:first-child{transform:none}
+.ftl-axis span:last-child{transform:translateX(-100%)}
+.ftl-key{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px;font-size:12px;color:var(--ink-3)}
+.ftl-key i{display:inline-block;width:14px;height:3px;margin-right:6px;border-radius:2px;vertical-align:middle;background:var(--c)}
+.ftl-key i.gap{height:8px;border-radius:1px}
 .fstack{display:flex;flex-direction:column-reverse;width:min(18px,70%);border-radius:3px 3px 0 0;overflow:hidden;background:var(--track)}
 .fstack i{display:block;flex:none;width:100%}
 .fwd.cur span{color:var(--ink);font-weight:700}
@@ -822,7 +843,6 @@ input[type=range]{accent-color:var(--accent);width:100%}
         <h2>Фокус</h2>
         <span class="sec-right">
           <span class="focus-src" id="focusSrc"></span>
-          <button class="btn sm" id="fPostureSet" type="button" hidden>Я сиджу рівно</button>
           <button class="fold" id="focusFold" type="button" aria-expanded="false" aria-controls="focusSetup"><span id="focusFoldText">Налаштувати</span><svg class="chev" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </span>
       </div>
@@ -846,18 +866,21 @@ input[type=range]{accent-color:var(--accent);width:100%}
           <div class="fnum"><div class="fstat-v" id="fnumW"></div><div class="fstat-l"><i class="f"></i>робота</div></div>
           <div class="fnum" title="Тебе немає за столом"><div class="fstat-v" id="fnumR"></div><div class="fstat-l"><i class="r"></i>відпочинок</div></div>
           <div class="fnum" title="Телефон у руках: ні робота, ні відпочинок"><div class="fstat-v" id="fnumP"></div><div class="fstat-l"><i class="d"></i>телефон</div></div>
+          <div class="fnum" id="fUps" title="Скільки разів ти вставав з-за столу хоча б на хвилину" hidden><div class="fstat-v" id="fnumU"></div><div class="fstat-l">підйоми<span id="fUpsAvg"></span></div></div>
+          <div class="fnum" id="fSit" title="Найдовше, скільки ти просидів без підйому" hidden><div class="fstat-v" id="fnumS"></div><div class="fstat-l"><i id="fSitDot"></i>найдовше сидів</div></div>
+          <div class="fnum" id="fPos" hidden><div class="fstat-v" id="fnumPos"></div><div class="fstat-l"><i id="fPostureDot"></i>сидів рівно</div></div>
         </div>
-        <span class="fstat-l fday-line" id="fUpsRow" title="Скільки разів ти вставав з-за столу хоча б на хвилину, і найдовше, скільки ти просидів без цього" hidden><i id="fUpsDot"></i><span id="fUpsTxt"></span></span>
-        <span class="fstat-l fday-line" id="fPostureRow" hidden><i id="fPostureDot"></i><span id="fPostureTxt"></span></span>
       </div>
       <p class="focus-sum" id="focusSum"></p>
       <div class="fcharts" id="focusCharts" hidden>
         <div class="fchart" id="focusChartBox"><span class="fchart-h" id="focusChartH">Сьогодні</span><div class="fcols" id="focusChart"></div></div>
+        <div class="fchart" id="focusSitBox" hidden><span class="fchart-h" id="focusSitH"></span><div class="fcols" id="focusSit"></div></div>
       </div>
       <p class="err" id="focusErr" hidden></p>
       <video class="cam" id="cam" playsinline muted></video>
       <div class="focus-setup" id="focusSetup" hidden>
       <div class="focus-tools" id="camTools" hidden>
+        <button class="btn sm" id="fPostureSet" type="button" hidden>Я сиджу рівно</button>
         <label class="check"><input type="checkbox" id="fPreview"><span>Показати камеру</span></label>
         <button class="link" id="fReset" type="button">Скинути сьогодні</button>
       </div>
@@ -1009,7 +1032,9 @@ const EN = {
   'Раніше':'Earlier', 'Пізніше':'Later', 'Сьогодні':'Today', 'підсумок дня':'day summary',
   'робота':'work', 'відпочинок':'rest', 'телефон':'phone',
   'Тебе немає за столом':'You’re away from the desk', 'Телефон у руках: ні робота, ні відпочинок':'A phone in your hands: neither work nor rest',
-  'Скільки разів ти вставав з-за столу хоча б на хвилину, і найдовше, скільки ти просидів без цього':'How many times you left the desk for at least a minute, and the longest you sat without doing so',
+  'підйоми':'get-ups', 'найдовше сидів':'longest sitting', 'сидів рівно':'sat straight',
+  'Скільки разів ти вставав з-за столу хоча б на хвилину':'How many times you left the desk for at least a minute',
+  'Найдовше, скільки ти просидів без підйому':'The longest you sat without getting up',
   'Показати камеру':'Show camera', 'Скинути сьогодні':'Reset today', 'Почати зараз':'Start now',
   'Я сиджу рівно':'I’m sitting straight',
   'Налаштування':'Settings', 'Тема':'Theme', 'Мова':'Language',
@@ -2679,22 +2704,22 @@ function checkStand(now){
 /* ---------- get-ups: how often you leave the desk, and how long you sit in between ---------- */
 // A get-up is time away from the desk of at least UP_MIN; shorter exits don't break your sitting.
 const UP_MIN = 60;
-// A day's get-ups and sitting, from its timeline: how many times you got up (ups), the longest stretch at the desk
-// between two get-ups, shorter exits inside it included (sit), and the last stretch, from a to b. Time the app
-// recorded nothing for (the tab closed, the computer asleep) counts as away.
+// A day's get-ups and sitting, from its timeline: the stretches at the desk between get-ups, shorter exits inside them
+// included ([from, to] in runs), how many times you got up (ups, the time away at the end too, as far as it was
+// recorded), the longest stretch (sit), and the last one, from a to b. Time the app recorded nothing for (the tab
+// closed, the computer asleep) counts as away.
 function sitOf(seg){
-  const r = {ups:0, sit:0, a:null, b:0};
+  const runs = [];
+  let cur = null;
   for(const [s0, s1, c] of seg){
     if(c === 'a') continue;
-    if(r.a !== null && s0 - r.b >= UP_MIN){ r.ups++; r.sit = Math.max(r.sit, r.b - r.a); r.a = null; }
-    if(r.a === null) r.a = s0;
-    r.b = s1;
+    if(cur && s0 - cur[1] >= UP_MIN){ runs.push(cur); cur = null; }
+    if(cur) cur[1] = s1; else cur = [s0, s1];
   }
-  if(r.a !== null){
-    r.sit = Math.max(r.sit, r.b - r.a);
-    if(seg[seg.length - 1][1] - r.b >= UP_MIN) r.ups++; // away at the end, as far as it was recorded
-  }
-  return r;
+  if(cur) runs.push(cur);
+  const last = runs[runs.length - 1], end = seg.length ? seg[seg.length - 1][1] : 0;
+  return {runs, ups:Math.max(0, runs.length - 1) + (last && end - last[1] >= UP_MIN ? 1 : 0),
+    sit:runs.reduce((m, [a, b]) => Math.max(m, b - a), 0), a:last ? last[0] : null, b:last ? last[1] : 0};
 }
 // Today as of now: how long you have sat since you last got up (0 once you are up), and how long ago you were last
 // at the desk.
@@ -2948,6 +2973,66 @@ function dayCol(d, cur, now, s, max){
     ? chartCol(name, hmDur(s.w), splitOf(s, t), {cls:cur ? ' cur' : '', h:Math.max(8, t / max * 100), go:'day:' + key, title:when + ': ' + sumTxt(s)})
     : emptyCol(name, dayState(d, now), cur, when, L('сьогодні, даних ще немає', 'today, no data yet'));
 }
+// a day's longest sitting as a column: its length on top, plain within the reminder's minutes and marked past them
+function sitCol(d, cur, now, s, top){
+  const name = L(WD[d.getDay()], WD_EN[d.getDay()]), when = dayTxt(d), cls = cur ? ' cur' : '';
+  if(!s.ud) return recOf(s) >= 60
+    ? chartCol(name, '', [], {cls, h:4, title:when + L(': підйоми тоді ще не рахувались', ': get-ups weren’t counted yet')})
+    : emptyCol(name, dayState(d, now), cur, when, L('сьогодні, даних ще немає', 'today, no data yet'));
+  const tone = sitTone(s.sit);
+  return chartCol(name, hmDur(s.sit), [[tone === 'ok' ? 'sn' : 's' + tone, 1]], {cls, h:Math.max(8, s.sit / top * 100), go:'day:' + dayKey(d),
+    title:when + ': ' + L('найдовше сидів ', 'longest sitting ') + durTxt(s.sit) + L(', встав ', ', got up ') + timesTxt(s.ups)});
+}
+// The day by the hour, from the first hour with data to the last: at work, on the phone or away along a track (it
+// shows through where nothing was recorded). Each stretch at the desk and each get-up tells itself on hover; a
+// stretch longer than the reminder's minutes is marked above the track, the longest of them with its length.
+function dayLine(seg){
+  const t0 = Math.floor(seg[0][0] / 3600) * 3600, t1 = Math.max(t0 + 3600, Math.ceil(seg[seg.length - 1][1] / 3600) * 3600);
+  // positions rounded to a tenth of a percent, so a live day's track stays put between refreshes
+  const pc = (x) => +((x - t0) / (t1 - t0) * 100).toFixed(1);
+  const bar = (tag, cls, a, b, title) => {
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    e.style.left = pc(a) + '%'; e.style.width = Math.max(.1, pc(b) - pc(a)).toFixed(1) + '%';
+    if(title) e.title = title;
+    return e;
+  };
+  const track = document.createElement('div'); track.className = 'ftl-track';
+  for(const [a, b, c] of seg) track.append(bar('i', c === 'a' ? 'r' : c, a, b));
+  const {runs} = sitOf(seg), end = seg[seg.length - 1][1], lim = F.standMin * 60;
+  const marks = document.createElement('div'); marks.className = 'ftl-marks';
+  const tones = new Set();
+  let long = null;
+  runs.forEach(([a, b], i) => {
+    track.append(bar('b', 'ftl-hit', a, b, L('сидів ', 'sat ') + hmSod(a) + '–' + hmSod(b) + ' · ' + durTxt(b - a) + L(' без підйому', ' without getting up')));
+    const up = i + 1 < runs.length ? runs[i + 1][0] : end;
+    if(up - b >= UP_MIN) track.append(bar('b', 'ftl-hit', b, up, L('встав ', 'got up ') + hmSod(b) + '–' + hmSod(up) + ' · ' + durTxt(up - b)));
+    if(b - a <= lim) return;
+    const m = bar('i', '', a, b); m.dataset.tone = sitTone(b - a); marks.append(m); tones.add(m.dataset.tone);
+    if(!long || b - a > long[1] - long[0]) long = [a, b];
+  });
+  if(long){
+    // the length over the middle of the longest stretch, kept inside the card near its edges
+    const t = document.createElement('span'), mid = (pc(long[0]) + pc(long[1])) / 2;
+    t.textContent = durTxt(long[1] - long[0]);
+    t.style.left = mid + '%'; t.style.transform = mid < 10 ? 'none' : mid > 90 ? 'translateX(-100%)' : 'translateX(-50%)';
+    marks.append(t);
+  }
+  const axis = document.createElement('div'); axis.className = 'ftl-axis';
+  const n = (t1 - t0) / 3600, step = n <= 8 ? 1 : n <= 16 ? 2 : 3;
+  for(let t = t0; t <= t1; t += step * 3600){ const h = document.createElement('span'); h.style.left = pc(t) + '%'; h.textContent = String(t / 3600); axis.append(h); }
+  // the key for what the tiles' dots don't explain: the marks above, and the track where nothing was recorded
+  const key = document.createElement('div'); key.className = 'ftl-key';
+  const item = (txt, cls, tone) => { const k = document.createElement('span'), i = document.createElement('i'); if(cls) i.className = cls; if(tone) i.dataset.tone = tone; k.append(i, txt); key.append(k); };
+  for(const [tone, over] of [['mid', lim], ['bad', lim * 1.5]])
+    if(tones.has(tone)) item(L('сидів понад ' + durTxt(over) + ' без підйому', 'sat over ' + durTxt(over) + ' without getting up'), '', tone);
+  let t = seg[0][1], gap = false;
+  for(const [a, b] of seg){ if(a - t >= UP_MIN) gap = true; t = b; }
+  if(gap) item(L('апка не записувала', 'the app wasn’t recording'), 'gap');
+  const box = document.createElement('div'); box.className = 'ftl';
+  box.append(...(long ? [marks] : []), track, axis, ...(key.childNodes.length ? [key] : []));
+  return [box];
+}
 // a month as a calendar, Monday first; days with data are squares with the hours at work, coloured by the longest
 // sitting (plain for a day without the timeline); school days without data are outlined (ahead) or
 // hatched (missed), days off are dimmed
@@ -2984,47 +3069,44 @@ function renderStats(st, now){
     const n = span === 'day' ? 0 : keys.filter(k => dayHas(F.days[k])).length;
     $('fdayParts').textContent = whatTxt(span) + (work.length ? ' · ' + hmSod(work[0][0]) + '–' + hmSod(work[work.length - 1][1]) : n ? ' · ' + daysTxt(n) : '');
     durInto($('fnumW'), sum.w); durInto($('fnumR'), sum.r); durInto($('fnumP'), sum.p);
-    // get-ups: how many (and a day's average over a longer period), and the longest sitting; days from before the
-    // timeline (2026-11-01) don't have them
-    $('fUpsRow').hidden = !sum.ud;
-    $('fUpsTxt').textContent = L('встав ', 'got up ') + timesTxt(sum.ups) + (sum.ud > 1 ? L(', ' + Math.round(sum.ups / sum.ud) + ' на день', ', ' + Math.round(sum.ups / sum.ud) + ' a day') : '')
-      + L(' · найдовше сидів ', ' · longest sitting ') + durTxt(sum.sit);
-    $('fUpsDot').dataset.tone = sitTone(sum.sit);
-    // posture: all the time at the desk, straight or slouched
+    // get-ups (and a day's average over a longer period) and the longest sitting; days from before the timeline
+    // (2026-11-01) don't have them. Then the posture: all the time at the desk, straight or slouched.
+    $('fUps').hidden = $('fSit').hidden = !sum.ud;
+    $('fnumU').textContent = String(sum.ups);
+    $('fUpsAvg').textContent = sum.ud > 1 ? L('· ' + Math.round(sum.ups / sum.ud) + ' на день', '· ' + Math.round(sum.ups / sum.ud) + ' a day') : '';
+    durInto($('fnumS'), sum.sit);
+    $('fSitDot').dataset.tone = sitTone(sum.sit);
     const pt = sum.pg + sum.pb, ps = pt ? sum.pg / pt : 0;
-    $('fPostureRow').hidden = pt < 60;
-    $('fPostureTxt').textContent = L('постава: рівно ', 'posture: straight ') + durTxt(sum.pg) + L(' · згорблено ', ' · slouched ') + durTxt(sum.pb) + ' · ' + pctTxt(ps);
+    $('fPos').hidden = pt < 60;
+    $('fnumPos').textContent = pctTxt(ps);
+    $('fPos').title = L('рівно ', 'straight ') + durTxt(sum.pg) + L(' · згорблено ', ' · slouched ') + durTxt(sum.pb);
     $('fPostureDot').dataset.tone = toneOf(ps);
   }
 
-  // the chart: a week's days, a month's calendar, or all the months; a day has the numbers only
-  const chart = $('focusChart'), cols = [];
-  let head = L('Робота по днях', 'Work by day'), any = span !== 'day';
-  if(span === 'week'){
+  // the chart: the day by the hour, a week's days (and their longest sitting), a month's calendar, or all the months
+  const chart = $('focusChart'), cols = [], sits = [];
+  let head = L('Робота по днях', 'Work by day'), any = span !== 'day', kind = span === 'month' ? 'fcal' : 'fcols';
+  if(span === 'day'){
+    const day = F.days[keys[0]];
+    if(has && day && day.seg && day.seg.length){ cols.push(...dayLine(day.seg)); any = true; kind = 'ftl'; head = L('День по годинах', 'The day by the hour'); }
+  }else if(span === 'week'){
     // every day of the week keeps its column: with data, still ahead, missed, or a day off
     const ss = keys.map(k => sumDays([F.days[k]])), max = Math.max(60, ...ss.map(recOf));
     keys.forEach((k, i) => cols.push(dayCol(keyDate(k), k === today, now, ss[i], max)));
-  }else if(span === 'month'){
-    cols.push(...monthCal(a, b, today, now));
-  }else if(span === 'all'){
-    // one column per month, the last twelve at most, with its hours at work on top
-    const months = [];
-    for(let m = new Date(a.getFullYear(), a.getMonth(), 1, 12); m <= b; m = new Date(m.getFullYear(), m.getMonth() + 1, 1, 12)) months.push(m);
-    head = months.length > 12 ? L('Години роботи за останні 12 місяців', 'Hours of work, last 12 months') : L('Години роботи по місяцях', 'Hours of work by month');
-    const ms = months.slice(-12).map(m => { const [ma, mb] = periodOf('month', m); return {m, ma, mb, s:sumDays(keysIn(ma, mb).map(k => F.days[k]))}; });
-    const max = Math.max(60, ...ms.map(x => recOf(x.s)));
-    for(const {m, ma, mb, s} of ms){
-      const name = L(MON_NAME[m.getMonth()], MON_EN[m.getMonth()]) + ' ' + m.getFullYear(), mon = L(MON_SHORT[m.getMonth()], MON_SHORT_EN[m.getMonth()]), cls = mb >= noon(new Date(now)) ? ' cur' : '', t = recOf(s);
-      cols.push(t >= 60
-        ? chartCol(mon, String(Math.round(s.w / 3600)), splitOf(s, t), {cls, h:Math.max(8, t / max * 100), go:'month:' + dayKey(ma), title:name + ': ' + sumTxt(s)})
-        : chartCol(mon, '', [], {cls, h:4, title:name + L(': немає даних', ': no data')}));
+    if(ss.some(x => x.ud)){
+      const top = Math.max(F.standMin * 90, ...ss.map(x => x.sit));
+      keys.forEach((k, i) => sits.push(sitCol(keyDate(k), k === today, now, ss[i], top)));
     }
   }
-  chart.className = span === 'month' ? 'fcal' : 'fcols';
-  chart.style.gridTemplateColumns = span === 'month' ? '' : 'repeat(' + Math.max(7, cols.length) + ',minmax(0,1fr))';
+  chart.className = kind;
+  chart.style.gridTemplateColumns = kind === 'fcols' ? 'repeat(' + Math.max(7, cols.length) + ',minmax(0,1fr))' : '';
   fill(chart, any ? cols : []);
   $('focusChartH').textContent = head;
   $('focusChartBox').hidden = !any;
+  $('focusSitBox').hidden = !sits.length;
+  $('focusSitH').textContent = L('Найдовше сидіння по днях · межа ' + F.standMin + ' хв', 'Longest sitting by day · limit ' + F.standMin + ' min');
+  $('focusSit').style.gridTemplateColumns = 'repeat(7,minmax(0,1fr))';
+  fill($('focusSit'), sits);
   $('focusCharts').hidden = !any;
 }
 // the camera stays rendered (just invisible) when folded, otherwise its frames stop updating
@@ -3075,10 +3157,12 @@ function renderFocus(st){
   $('fPostureSet').title = F.postureBase ? L('Правильну поставу запам’ятовано. Пересів? Натисни ще раз.', 'Good posture remembered. Moved? Press again.') : L('Сядь рівно, як треба, і натисни', 'Sit up properly and press');
   // a posture learned before 2026-10-30 has no head pitch, which tells a phone in your hands from folded arms
   const noPitch = F.postureBase && !('pitch' in F.postureBase) && !FS.postureCap;
+  // the button lives under "Налаштувати", so the note says where to find it while that is folded
+  const open = FS.setupOpen ? ['', ''] : ['в «Налаштувати» ', 'in “Set up” '];
   $('fPostureNote').hidden = !F.posture || !(camWait || noPitch || (!F.postureBase && !FS.postureCap));
   $('fPostureNote').textContent = camWait ? L('Вмикаю камеру…', 'Turning on the camera…')
-    : noPitch ? L('Сядь рівно й натисни «Я сиджу рівно» ще раз: тепер я запам’ятовую й нахил голови, щоб не плутати складені руки з телефоном.', 'Sit up and press “I’m sitting straight” again: now I also learn how you hold your head, so folded arms don’t pass for a phone.')
-    : L('Сядь рівно, як треба, і натисни «Я сиджу рівно», щоб я запам’ятав поставу.', 'Sit up properly and press “I’m sitting straight” so I can learn your posture.');
+    : noPitch ? L('Сядь рівно й натисни ' + open[0] + '«Я сиджу рівно» ще раз: тепер я запам’ятовую й нахил голови, щоб не плутати складені руки з телефоном.', 'Sit up and press ' + open[1] + '“I’m sitting straight” again: now I also learn how you hold your head, so folded arms don’t pass for a phone.')
+    : L('Сядь рівно, як треба, і натисни ' + open[0] + '«Я сиджу рівно», щоб я запам’ятав поставу.', 'Sit up properly and press ' + open[1] + '“I’m sitting straight” so I can learn your posture.');
   $('focusErr').hidden = !FS.err;
   $('focusErr').textContent = FS.err;
   renderStats(st, now);
