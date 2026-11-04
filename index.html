@@ -504,10 +504,16 @@ td.b.cur{background:var(--rest-soft);color:var(--rest)}
 .btn.sm.icon{padding:6px 8px}
 .player-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;color:var(--ink-2);font-size:14px}
 .player-wrap{position:relative}
-/* the track list opens over the player, so choosing a song never needs the page scrolled */
-.list-panel{position:absolute;z-index:5;left:0;right:0;top:0;min-height:100%;max-height:min(460px,72vh,var(--list-max,460px));display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(var(--surface),var(--surface)),var(--bg);box-shadow:0 18px 40px -14px rgba(0,0,0,.75)}
+/* the track list opens as a big window over the dimmed page (a modal dialog), the whole screen on a phone, so there
+   is room to find, play, drag and remove songs */
+.list-panel{position:fixed;inset:0;margin:auto;width:min(820px,calc(100vw - 32px));height:min(900px,calc(100vh - 32px));height:min(900px,calc(100dvh - 32px));max-width:none;max-height:none;display:flex;flex-direction:column;gap:12px;padding:16px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(var(--surface),var(--surface)),var(--bg);color:var(--ink);box-shadow:0 24px 60px -18px rgba(0,0,0,.85)}
+.list-panel:not([open]){display:none}
+.list-panel::backdrop{background:rgba(0,0,0,.6)}
 .list-panel .tracks{flex:1;min-height:0;max-height:none}
-.lp-head{display:flex;align-items:center;gap:8px}
+@media (min-width:601px){.list-panel .trk-thumb{width:112px}.list-panel .trk-play{padding:8px 10px;gap:12px}}
+@media (max-width:600px){.list-panel{width:100vw;height:100vh;height:100dvh;border:0;border-radius:0;padding:12px}}
+.lp-head{display:flex;align-items:center;gap:12px}
+.lp-head h2{flex:none}
 .lp-head input{flex:1;min-width:0}
 .lp-head .btn{margin-left:auto}
 .lcount{min-width:1.7em;padding:1px 6px;border-radius:999px;background:var(--accent-soft);color:var(--ink);font-size:11px;font-weight:700;text-align:center}
@@ -1053,8 +1059,9 @@ input[type=range]{accent-color:var(--accent);width:100%}
               <div class="cover-info"><span class="cover-title" id="coverTitle">Нічого не вибрано</span><button class="btn sm" id="coverPlay" type="button">Грати</button></div>
             </div>
           </div>
-          <div class="list-panel" id="listPanel" hidden>
+          <dialog class="list-panel" id="listPanel" aria-labelledby="lpTitle">
             <div class="lp-head">
+              <h2 id="lpTitle">Список</h2>
               <input type="search" id="listFind" placeholder="Знайти в списку" autocomplete="off" aria-label="Знайти в списку">
               <button class="btn sm icon" id="listClose" type="button" aria-label="Закрити список"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
             </div>
@@ -1069,7 +1076,7 @@ input[type=range]{accent-color:var(--accent);width:100%}
               </div>
               <p class="err" id="addErr" hidden></p>
             </form>
-          </div>
+          </dialog>
           <p class="err" id="ytErr" hidden></p>
         </div>
       </div>
@@ -1879,10 +1886,11 @@ function dragEnd(){
   moveItem(d.from, [...$('tracks').children].indexOf(d.li));
 }
 function setListOpen(open){
-  if(open === !$('listPanel').hidden) return;
-  $('listPanel').hidden = !open;
-  $('listBtn').setAttribute('aria-expanded', String(open));
-  if(!open) return;
+  const p = $('listPanel');
+  if(open === p.open) return;
+  if(!open){ p.close(); return; } // the close event resets the button
+  p.showModal();
+  $('listBtn').setAttribute('aria-expanded', 'true');
   const long = M.items.length >= 7;
   $('listFind').value = ''; $('listFind').hidden = !long; filterTracks();
   const cur = $('tracks').querySelector('.cur');
@@ -2714,7 +2722,13 @@ $('tracks').addEventListener('keydown', (e) => {
   moveItem(+grip.dataset.move, to);
   $('tracks').children[to].querySelector('.trk-grip').focus();
 });
-$('listBtn').addEventListener('click', () => setListOpen($('listPanel').hidden));
+$('listBtn').addEventListener('click', () => setListOpen(!$('listPanel').open));
+// Esc closes the dialog by itself; so does a click on the dimmed page around it
+$('listPanel').addEventListener('close', () => $('listBtn').setAttribute('aria-expanded', String($('listPanel').open))); // fires a moment later
+$('listPanel').addEventListener('click', (e) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  if(e.target === e.currentTarget && (e.clientX < r.left || e.clientX >= r.right || e.clientY < r.top || e.clientY >= r.bottom)) setListOpen(false);
+});
 $('listClose').addEventListener('click', () => { setListOpen(false); $('listBtn').focus(); });
 $('emptyAdd').addEventListener('click', () => setListOpen(true));
 $('listFind').addEventListener('input', filterTracks);
@@ -2723,8 +2737,6 @@ $('listFind').addEventListener('keydown', (e) => {
   const li = [...$('tracks').children].find(x => !x.hidden);
   if(li){ playItem(+li.querySelector('[data-play]').dataset.play, true); setListOpen(false); }
 });
-document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && !$('listPanel').hidden){ setListOpen(false); $('listBtn').focus(); } });
-document.addEventListener('pointerdown', (e) => { if(!$('listPanel').hidden && !e.target.closest('#listPanel, #listBtn')) setListOpen(false); });
 $('prevBtn').addEventListener('click', () => stepTrack(-1));
 $('nextBtn').addEventListener('click', () => stepTrack(1));
 $('sDuck').checked = M.duck;
@@ -2739,16 +2751,14 @@ new ResizeObserver(() => { if(M.view === 'viz') sizeViz(); }).observe($('playerB
 applyView();
 // Wide screens: the player takes all the room left under the lesson card, so the left column (the lesson card,
 // then music) ends with the screen, without a scroll; it never gets below 200 px, YouTube's smallest player,
-// and the hidden view keeps its strip. The track list that opens over it keeps to the same space.
-// It is re-measured whenever anything above changes size.
+// and the hidden view keeps its strip. It is re-measured whenever anything above changes size.
 function fitLeft(){
   const box = $('playerBox'), card = $('music');
-  box.style.height = ''; card.style.removeProperty('--list-max');
+  box.style.height = '';
   if(!matchMedia('(min-width:900px)').matches) return;
   const cs = getComputedStyle(card), below = parseFloat(cs.paddingBottom) + parseFloat(cs.borderBottomWidth) + parseFloat(getComputedStyle(document.querySelector('.wrap')).paddingBottom);
   const free = Math.floor(innerHeight - (box.getBoundingClientRect().top + scrollY) - below);
   if(M.view !== 'hide') box.style.height = Math.max(200, free) + 'px';
-  card.style.setProperty('--list-max', Math.max(300, free) + 'px');
 }
 // fitLeft resizes the lesson card it watches, so it runs in the next frame, outside the observer's own loop
 const fitRO = new ResizeObserver(() => requestAnimationFrame(fitLeft));
