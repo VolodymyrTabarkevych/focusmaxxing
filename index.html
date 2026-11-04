@@ -530,6 +530,13 @@ td.b.cur{background:var(--rest-soft);color:var(--rest)}
 .ts{font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .trk-del{background:none;border:0;color:var(--ink-3);font-size:20px;line-height:1;padding:0 12px;cursor:pointer}
 .trk-del:hover{color:var(--warn)}
+/* the grip drags a song to a new place in the list (↑/↓ on it from the keyboard); not while searching, where rows are hidden */
+.trk-grip{flex:none;display:flex;align-items:center;padding:0 2px 0 8px;background:none;border:0;color:var(--ink-3);cursor:grab;touch-action:none}
+.trk-grip:hover{color:var(--ink)}
+.tracks.finding .trk-grip{visibility:hidden}
+.tracks.dragging{user-select:none}
+.tracks.dragging *{cursor:grabbing}
+.trk.drag{position:relative;z-index:1;background:linear-gradient(var(--accent-soft),var(--accent-soft)),linear-gradient(var(--surface),var(--surface)),var(--bg);box-shadow:0 10px 24px -10px rgba(0,0,0,.8)}
 .empty{margin:0;font-size:14px;color:var(--ink-3)}
 
 /* settings */
@@ -1681,6 +1688,7 @@ function parseYt(s){
 const sameItem = (a, b) => a.type === b.type && (a.type === 'video' ? a.id === b.id : a.list === b.list);
 
 const yt = {player:null, ready:false, pending:null, state:-1};
+let drag = null; // a song being dragged to a new place in the list (dragFrame)
 function withPlayer(cb){
   yt.pending = cb;
   if(!window.YT || !window.YT.Player) return;        // runs from onYouTubeIframeAPIReady
@@ -1743,6 +1751,16 @@ function onYtState(e){
     playItem(M.cur + 1, true);
   }
 }
+// Inside a YouTube playlist the arrows step through its songs; past its first or last they go on to the list's
+// previous or next item (a list of one playlist starts it over).
+function stepTrack(dir){
+  const it = M.items[M.cur];
+  if(it && it.type === 'playlist' && yt.ready){
+    const pl = yt.player.getPlaylist() || [], at = yt.player.getPlaylistIndex();
+    if(at >= 0 && at + dir >= 0 && at + dir < pl.length){ dir > 0 ? yt.player.nextVideo() : yt.player.previousVideo(); return; }
+  }
+  playItem(M.cur + dir, true);
+}
 function onYtError(e){
   const c = e.data;
   showYtErr(c === 101 || c === 150
@@ -1775,6 +1793,7 @@ function fetchMeta(){
 }
 
 function renderTracks(){
+  if(drag) return; // the rows being dragged stay put; the drop renders them again
   const ol = $('tracks'), top = ol.scrollTop; ol.textContent = '';
   $('tracksEmpty').hidden = M.items.length > 0;
   $('listCount').textContent = M.items.length;
@@ -1803,7 +1822,12 @@ function renderTracks(){
     const del = document.createElement('button');
     del.type = 'button'; del.className = 'trk-del'; del.dataset.del = i; del.textContent = '×';
     del.setAttribute('aria-label', L('Видалити зі списку', 'Remove from the list'));
-    li.append(b, del); ol.append(li);
+    const grip = document.createElement('button');
+    grip.type = 'button'; grip.className = 'trk-grip'; grip.dataset.move = i;
+    grip.title = L('Перетягни, щоб перемістити (або стрілки ↑↓)', 'Drag to move (or the ↑↓ keys)');
+    grip.setAttribute('aria-label', L('Перемістити: стрілки вгору й вниз', 'Move: up and down arrow keys'));
+    grip.innerHTML = '<svg viewBox="0 0 10 16" width="10" height="16" aria-hidden="true"><g fill="currentColor"><circle cx="2.5" cy="3" r="1.4"/><circle cx="7.5" cy="3" r="1.4"/><circle cx="2.5" cy="8" r="1.4"/><circle cx="7.5" cy="8" r="1.4"/><circle cx="2.5" cy="13" r="1.4"/><circle cx="7.5" cy="13" r="1.4"/></g></svg>';
+    li.append(grip, b, del); ol.append(li);
   });
   ol.scrollTop = top;
   filterTracks();
@@ -1817,7 +1841,42 @@ function filterTracks(){
     li.hidden = !!q && !li.textContent.toLowerCase().includes(q);
     if(!li.hidden) shown++;
   }
+  $('tracks').classList.toggle('finding', !!q);
   $('tracksNone').hidden = !q || shown > 0;
+}
+// A song moves to another place; the one playing keeps playing, wherever it ends up.
+function moveItem(from, to){
+  if(to < 0 || to >= M.items.length || to === from){ renderTracks(); return; }
+  M.items.splice(to, 0, M.items.splice(from, 1)[0]);
+  if(M.cur === from) M.cur = to;
+  else if(from < M.cur && to >= M.cur) M.cur--;
+  else if(from > M.cur && to <= M.cur) M.cur++;
+  saveMusic(); renderTracks();
+}
+// Dragging a grip: the row follows the pointer and the others make way as its middle passes theirs; near the
+// list's top or bottom edge the list scrolls. The new order is only saved on release.
+function dragFrame(){
+  const d = drag, ol = $('tracks'), r = ol.getBoundingClientRect(), edge = 40;
+  if(d.y < r.top + edge) ol.scrollTop -= Math.ceil((r.top + edge - d.y) / 4);
+  else if(d.y > r.bottom - edge) ol.scrollTop += Math.ceil((d.y - r.bottom + edge) / 4);
+  const mid = d.y - d.grab + d.h / 2;
+  let before = null;
+  for(const li of ol.children){
+    if(li === d.li) continue;
+    const b = li.getBoundingClientRect();
+    if(mid < b.top + b.height / 2){ before = li; break; }
+  }
+  if(d.li.nextElementSibling !== before) ol.insertBefore(d.li, before);
+  d.li.style.transform = '';
+  d.li.style.transform = 'translateY(' + (d.y - d.grab - d.li.getBoundingClientRect().top) + 'px)';
+  d.raf = requestAnimationFrame(dragFrame);
+}
+function dragEnd(){
+  const d = drag;
+  if(!d) return;
+  cancelAnimationFrame(d.raf); drag = null;
+  $('tracks').classList.remove('dragging');
+  moveItem(d.from, [...$('tracks').children].indexOf(d.li));
 }
 function setListOpen(open){
   if(open === !$('listPanel').hidden) return;
@@ -1849,7 +1908,13 @@ function applyView(){
 }
 function updateCover(){
   const it = M.items[M.cur];
-  $('coverTitle').textContent = it ? (it.title || (it.type === 'playlist' ? L('Плейлист', 'Playlist') : L('Відео', 'Video'))) : L('Нічого не вибрано', 'Nothing selected');
+  let name = it ? (it.title || (it.type === 'playlist' ? L('Плейлист', 'Playlist') : L('Відео', 'Video'))) : L('Нічого не вибрано', 'Nothing selected');
+  // in a playlist, the song on and its place in it, so a step of the arrows shows with the video hidden too
+  if(it && it.type === 'playlist' && yt.ready){
+    const pl = yt.player.getPlaylist(), d = yt.player.getVideoData();
+    if(pl && pl.length && d && d.title) name = d.title + ' · ' + (yt.player.getPlaylistIndex() + 1) + '/' + pl.length;
+  }
+  $('coverTitle').textContent = name;
   $('coverPlay').textContent = yt.state === 1 ? L('Пауза', 'Pause') : L('Грати', 'Play');
   $('coverPlay').disabled = !M.items.length;
   $('vizConnect').hidden = !(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia);
@@ -2627,6 +2692,28 @@ $('tracks').addEventListener('click', (e) => {
     saveMusic(); renderTracks();
   }
 });
+$('tracks').addEventListener('pointerdown', (e) => {
+  const grip = e.target.closest('.trk-grip');
+  if(!grip || e.button !== 0 || drag) return;
+  e.preventDefault();
+  $('tracks').setPointerCapture(e.pointerId); // on the list, not the grip: moving the row would release it
+  const li = grip.closest('.trk'), r = li.getBoundingClientRect();
+  drag = {li, from:+grip.dataset.move, y:e.clientY, grab:e.clientY - r.top, h:r.height};
+  li.classList.add('drag'); $('tracks').classList.add('dragging');
+  drag.raf = requestAnimationFrame(dragFrame);
+});
+$('tracks').addEventListener('pointermove', (e) => { if(drag) drag.y = e.clientY; });
+$('tracks').addEventListener('pointerup', dragEnd);
+$('tracks').addEventListener('lostpointercapture', dragEnd);
+$('tracks').addEventListener('keydown', (e) => {
+  const grip = e.target.closest('.trk-grip');
+  if(!grip || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return;
+  e.preventDefault();
+  const to = +grip.dataset.move + (e.key === 'ArrowUp' ? -1 : 1);
+  if(to < 0 || to >= M.items.length) return;
+  moveItem(+grip.dataset.move, to);
+  $('tracks').children[to].querySelector('.trk-grip').focus();
+});
 $('listBtn').addEventListener('click', () => setListOpen($('listPanel').hidden));
 $('listClose').addEventListener('click', () => { setListOpen(false); $('listBtn').focus(); });
 $('emptyAdd').addEventListener('click', () => setListOpen(true));
@@ -2638,8 +2725,8 @@ $('listFind').addEventListener('keydown', (e) => {
 });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && !$('listPanel').hidden){ setListOpen(false); $('listBtn').focus(); } });
 document.addEventListener('pointerdown', (e) => { if(!$('listPanel').hidden && !e.target.closest('#listPanel, #listBtn')) setListOpen(false); });
-$('prevBtn').addEventListener('click', () => playItem(M.cur - 1, true));
-$('nextBtn').addEventListener('click', () => playItem(M.cur + 1, true));
+$('prevBtn').addEventListener('click', () => stepTrack(-1));
+$('nextBtn').addEventListener('click', () => stepTrack(1));
 $('sDuck').checked = M.duck;
 $('sDuck').addEventListener('change', () => { M.duck = $('sDuck').checked; saveMusic(); });
 window.addEventListener('pagehide', () => { if(duckBase !== null && yt.ready) yt.player.setVolume(duckBase); });
